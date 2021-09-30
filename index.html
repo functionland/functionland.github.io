@@ -51,7 +51,16 @@
     <!-- Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
-
+    <script src='https://8x8.vc/external_api.js' async></script>
+        <style>html, body, #jaas-container { height: 100%; }</style>
+        <script type="text/javascript">
+          window.onload = () => {
+            const api = new JitsiMeetExternalAPI("8x8.vc", {
+              roomName: "vpaas-magic-cookie-142ab97a73fb44afaffa06bb96bbb244/SampleAppHurtInsidersTalkFortunately",
+              parentNode: document.querySelector('#jaas-container')
+            });
+          }
+        </script>
   </head>
   <body>
     <header role="banner">
@@ -530,6 +539,8 @@
               <p>Feel free to send us an email with any questions you have. We are also accepting investments.</p> 
               <p>info@fx.land.</p>
             </div>
+            <div id="jaas-container" />
+  
             <!-- .end .content-right -->
           </div>
           <!-- .end .wrap -->
