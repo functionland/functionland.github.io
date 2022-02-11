@@ -2,7 +2,7 @@
   "name": "functionland",
   "version": "0.0.1",
   "scripts": {
-    "dev": "svelte-kit dev",
+    "dev": "svelte-kit dev --port 8080 --host",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
@@ -19,5 +19,13 @@
     "prettier-plugin-svelte": "^2.4.0",
     "svelte": "^3.44.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@fontsource/montserrat": "^4.5.4",
+    "@fontsource/roboto": "^4.5.3",
+    "@lukeed/uuid": "github:lukeed/uuid",
+    "cookie": "^0.4.2",
+    "svelte-match-media": "^1.2.1",
+    "the-new-css-reset": "^1.4.7"
+  }
 }

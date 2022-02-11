@@ -1,2 +1,17 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script context="module">
+	export const prerender = true;
+</script>
+
+<script>
+</script>
+
+<svelte:head>
+	<title>FunctionLand</title>
+</svelte:head>
+
+<section>
+	FXLAND
+</section>
+
+<style>
+</style>
