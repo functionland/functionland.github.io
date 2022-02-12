@@ -1,6 +1,7 @@
 {
     "name": "FunctionLand",
     "short_name": "FunctionLand",
+    "start_url": "/",
     "icons": [
         {
             "src": "/images/fav-pack/android-chrome-36x36.png",
@@ -50,5 +51,6 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "standalone",
+    "scope": "/"
 }

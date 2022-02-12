@@ -1,31 +1,18 @@
 <script>
 	import Header from '$lib/header/Header.svelte';
+	import Footer from '$lib/footer/Footer.svelte';
 	import '../app.css';
+	import '../main.js';
 </script>
-
-<header>
 <Header />
-</header>
 <main>
 	<slot />
 </main>
-
-<footer>
-</footer>
-
+<Footer />
 <style>
-	header {
-		z-index: 1;
-		display: flex;
-		justify-content: space-between;
-        height: 60px;
-        align-items: center;
-        align-content: center;
-        background: var(--header-bg);
-		position: relative;
-	}
 	main {
-		position: relative;
-		z-index: 0;
+		width: 100%;
+    	max-width: 100vw;
+		grid-row: 2/3;
 	}
 </style>
