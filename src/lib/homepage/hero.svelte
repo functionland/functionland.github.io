@@ -63,5 +63,11 @@
 		.hero {
 			--local-hero-max-width: calc(100% - 50px);
 		}
+		.hero > span {
+			display: inline-block;
+		}
+		.hero > span:nth-child(1) {
+			display: block;
+		}
 	}
 </style>
