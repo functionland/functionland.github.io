@@ -71,12 +71,13 @@
 			--min-height: unset;
 			--width: auto;
 			border: none;
+    		justify-items: start;
 		}
 		.d-container {
-			display: flex;
-			justify-content: space-between;
-			flex-direction: row;
+			display: grid;
 			padding: 50px 0 60px;
+			grid-auto-flow: column;
+			grid-column-gap: 40px
 		}
 	}
 </style>

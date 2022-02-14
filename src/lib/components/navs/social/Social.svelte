@@ -89,11 +89,11 @@
 			--social-padding: 0;
 			border: none;
 			align-items: center;
-			display: flex;
+			display: grid;
 		}
 		ul {
 			--row-gap: 40px;
-			column-gap: 40px;
+			column-gap: 20px;
 		}
 		a {
 			--size: auto;

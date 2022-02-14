@@ -77,6 +77,7 @@
 			align-content: center;
 			height: 100%;
 			margin-bottom: 0;
+			column-gap: 40px;
 		}
 		div {
 			grid-row: 1/-1;
