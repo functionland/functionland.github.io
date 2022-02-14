@@ -30,7 +30,7 @@
 		max-width: 100%;
 		height: auto;
 		display: block;
-		fill: var(--err-svg-color);
+		fill: var(--svg-soc-fill);
 		transition: fill 0.2s ease-in-out;
 	}
 </style>
