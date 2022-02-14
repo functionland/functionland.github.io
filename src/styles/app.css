@@ -8,7 +8,6 @@
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/700.css';
 @import 'the-new-css-reset/css/reset.css';
-@import './keyframes.css';
 
 :root {
 	color-scheme: light;
