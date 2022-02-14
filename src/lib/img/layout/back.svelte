@@ -1,19 +1,27 @@
+<svelte:options namespace="svg" />
+
 <script context="module">
 	export const prerender = true;
 </script>
+
 <script>
-    export let width;
-    export let height;
+	export let width;
+	export let height;
 </script>
-<svg width={width} height={height} fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z"/>
+
+<svg {width} {height} fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+	<path
+		fill-rule="evenodd"
+		d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z"
+	/>
 </svg>
+
 <style>
-  svg {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    fill: var(--err-svg-color);
-    transition: fill 0.2s ease-in-out;
-  }
+	svg {
+		max-width: 100%;
+		height: auto;
+		display: block;
+		fill: var(--err-svg-color);
+		transition: fill 0.2s ease-in-out;
+	}
 </style>
