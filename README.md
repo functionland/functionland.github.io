@@ -1,3 +1,9 @@
+Install docker from this guide:
+`https://docs.docker.com/engine/install/ubuntu/`
+
+Install docker-compose from this guide:
+`https://docs.docker.com/compose/install/`
+
 Generate user:pass with 
 `echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g`
 
