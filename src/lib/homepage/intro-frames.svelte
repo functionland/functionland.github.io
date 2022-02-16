@@ -56,22 +56,8 @@
 				scrollSpeed = delta;
 			};
 		};
-		const resizeMain = (state) => {
-			if (state == true) {
-			} else {
-			}
-			requestAnimationFrame(resizeMain);
-		}
+		
 		window.addEventListener('scroll', getScrollSpeed());
-		window.addEventListener('scroll', ()=>{
-			if($scrollY > $windowHeight) {
-				document.querySelector('main').style.marginTop = 0;
-				document.querySelector('main').style.paddingTop = "100vh"
-			} else {
-				document.querySelector('main').style.paddingTop = 0;
-				document.querySelector('main').style.marginTop = "100vh"
-			}
-		});
 	});
 	const preventWhilePlaying = (event) => {
 		if (introPlaying == true) {
@@ -103,8 +89,19 @@
 	let currentFrame = 1;
 	let lastScroll = 0;
 	// $:frameStep = ;
+	const trickScrollBar = (state) => {
+		if($scrollY > $innerHeight) {
+			document.querySelector('main').style.marginTop = "0";
+			document.querySelector('main').style.paddingTop = "100vh";
+		} else {
+			document.querySelector('main').style.marginTop = "100vh"
+			document.querySelector('main').style.paddingTop = "0"
+		}
+		requestAnimationFrame(trickScrollBar)
+	}
 	const detectScroll = (event) => {
 		if ($scrollY < $innerHeight) {
+			cancelAnimationFrame(trickScrollBar)
 			if (introPlaying == true) {
 				event.preventDefault();
 				return;
