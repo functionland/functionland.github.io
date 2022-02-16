@@ -29,6 +29,7 @@
 	let mainElement 
 	let mainElementStyle
 	let mainElementMarginTop
+	let windowHeight
 	onMount(() => {
 		play();
 		showSlogan = true;
@@ -55,7 +56,22 @@
 				scrollSpeed = delta;
 			};
 		};
+		const resizeMain = (state) => {
+			if (state == true) {
+			} else {
+			}
+			requestAnimationFrame(resizeMain);
+		}
 		window.addEventListener('scroll', getScrollSpeed());
+		window.addEventListener('scroll', ()=>{
+			if($scrollY > $windowHeight) {
+				document.querySelector('main').style.marginTop = 0;
+				document.querySelector('main').style.paddingTop = "100vh"
+			} else {
+				document.querySelector('main').style.paddingTop = 0;
+				document.querySelector('main').style.marginTop = "100vh"
+			}
+		});
 	});
 	const preventWhilePlaying = (event) => {
 		if (introPlaying == true) {
@@ -133,6 +149,7 @@
 	{/each}
 </svelte:head>
 <svelte:window
+	bind:innerHeight={windowHeight}
 	on:mousewheel|nonpassive={preventWhilePlaying}
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}
@@ -140,7 +157,11 @@
 <section on:mousewheel|nonpassive={mouseWheelEvent}
 		 on:touchmove|nonpassive={mouseWheelEvent}>
 	{#each frames as frame, index}
-		{#if parseInt(currentFrame) == frame }
+		{#if (
+			parseInt(currentFrame) == frame || 
+			(currentFrame >= frame && currentFrame <= (frame + 1)) ||
+			(currentFrame <= frame && currentFrame >= (frame - 1))
+			)}
 			<div class="frame active" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
 		{:else}
 			<div class="frame" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>

@@ -60,7 +60,7 @@
 	}
 	@media (min-width: 960px) {
 		footer {
-			max-width: 90%;
+			/* max-width: 90%; */
 			margin: 0 auto;
 		}
 		.container {

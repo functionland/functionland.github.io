@@ -6,7 +6,6 @@
 	import { scrollTo } from 'svelte-scrolling';
 	export let data;
 </script>
-
 <h2>{data.title}</h2>
 <p>{data.description}</p>
 <button use:scrollTo={data.to} class="btn btn-cta">Learn more</button>
