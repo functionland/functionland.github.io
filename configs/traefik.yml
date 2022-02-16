@@ -1,0 +1,40 @@
+api:
+  dashboard: true
+  debug: true
+
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+  https:
+    address: ":443"
+    http:
+      middlewares:
+        - default-headers@file
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: example.domain
+            sans:
+              - "*.example.domain"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: /config.yml
+
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: name@email.com
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"

@@ -1,40 +1,31 @@
-# create-svelte
+Generate user:pass with 
+`echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g`
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Replace domain in docker-compose.yml for traefik
+and also in ./configs/traefik.yml
 
-## Creating a project
+Create and .env file from the example and fill in the required vars
 
-If you're seeing this, you've probably already done this step. Congrats!
+Remove ./configs/acme.json if exists
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+Create new acme.json with the right permission using the following commands:
+`touch ./configs/acme.json`
+`chmod 600 ./configs/acme.json`
 
-# create a new project in my-app
-npm init svelte@next my-app
-```
+Run server with:
+`docker-compose up -d`
 
-> Note: the `@next` is temporary
+Check logs:
+`docker-compose logs -f`
 
-## Developing
+Recreate:
+`docker-compose up -d --force-recreate`
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Recreate + build:
+`docker-compose up -d --force-recreate --build`
 
-```bash
-npm run dev
+Stop:
+`docker-compose stop`
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment.
+Destroy:
+`docker-compose down -v`
