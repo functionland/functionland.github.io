@@ -1,15 +1,18 @@
-FROM keymetrics/pm2:latest-slim
+FROM node:latest
 
-WORKDIR /usr/src/app
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
 
-RUN chown -R node:node /usr/src/app
-COPY --chown=node ./dist /usr/src/app
-COPY --chown=node ./ecosystem.config.js /usr/src/app
-RUN npm install
+COPY . .
 
-USER node
-ENV NODE_ENV production
+RUN npm run build
+
+FROM node:latest
+
+WORKDIR /app
+COPY --from=0 /app .
+COPY . .
 
 EXPOSE 3000
-CMD [ "ls /usr/src/app"]
-CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
+CMD ["node","./build"]
