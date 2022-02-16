@@ -2,7 +2,6 @@
 	export const prerender = true;
 	/** @type {import('@sveltejs/kit').ErrorLoad} */
 	export function load({ error, status }) {
-		console.log(status);
 		return {
 			props: {
 				message: error.message,

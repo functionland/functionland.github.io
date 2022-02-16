@@ -30,37 +30,37 @@ export async function post(event) {
 		} else {
 			let message = `Something went wrong. Please try again later. If the problem persists, please contact us (Error code: ${res.status}). Thank you.`;
 			if (res.status == 204) {
-				console.log('Bad request');
-				console.log(
+				console.error('Bad request');
+				console.error(
 					'Docs guide: The server fulfilled the request but does not need to return an entity-body'
 				);
 			}
 			if (res.status == 400) {
-				console.log('Bad request');
-				console.log(
+				console.error('Bad request');
+				console.error(
 					'Docs guide: The request could not be understood by the server due to malformed syntax.'
 				);
 			}
 			if (res.status == 401) {
-				console.log('Bad request');
-				console.log('Docs guide: The request requires user authentication.');
+				console.error('Bad request');
+				console.error('Docs guide: The request requires user authentication.');
 			}
 			if (res.status == 404) {
-				console.log('Bad request');
-				console.log(
+				console.error('Bad request');
+				console.error(
 					'Docs guide: The server has not found anything matching the Request-URI. No indication is given of whether the condition is temporary or permanent.'
 				);
 			}
 			if (res.status == 500) {
-				console.log('Bad request');
-				console.log(
+				console.error('Bad request');
+				console.error(
 					'Docs guide: The server encountered an unexpected condition which prevented it from fulfilling the request.'
 				);
 			}
-			console.log('res.error.code');
-			console.log(res.error.code);
-			console.log('res.error.message');
-			console.log(res.error.message);
+			console.error('res.error.code');
+			console.error(res.error.code);
+			console.error('res.error.message');
+			console.error(res.error.message);
 			return {
 				status: 400,
 				body: JSON.stringify({
@@ -69,7 +69,7 @@ export async function post(event) {
 			};
 		}
 	} catch (error) {
-		console.log('try catch error on fetch - routes/email-submit/index.json.js');
+		console.error('try catch error on fetch - routes/email-submit/index.json.js');
 		console.error(error);
 		let message = `Something went wrong. Please try again later. If the problem persists, please contact us. Thank you.`;
 		return {

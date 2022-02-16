@@ -1,11 +1,10 @@
 <script context="module">
+	export const hydrate = true;
 	export const prerender = true;
-	export const intro = true;
 </script>
 
 <script>
 	import { scrollY, innerHeight } from 'svelte-window-stores/viewport';
-	import { scrollElement, scrollPosition } from 'svelte-scrolling';
 	import { base, assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
@@ -22,20 +21,14 @@
 			}
 		}, 1.4 * (1 / 42.4) * 1000);
 	};
-	
-
 	let scrollSpeed = 0
-
-	let mainElement 
-	let mainElementStyle
-	let mainElementMarginTop
 	let windowHeight
 	onMount(() => {
 		play();
 		showSlogan = true;
 		const getScrollSpeed = (settings) => {
 			var lastPos, newPos, timer, delta, 
-			delay = 50; // in "ms" (higher means lower fidelity )
+			delay = 50;
 
 			function clear() {
 				lastPos = null;
@@ -43,16 +36,14 @@
 			}
 
 			clear();
-
 			return function(){
 				newPos = $scrollY;
-				if ( lastPos != null ){ // && newPos < maxScroll 
+				if ( lastPos != null ){
 					delta = newPos -  lastPos;
 				}
 				lastPos = newPos;
 				clearTimeout(timer);
 				timer = setTimeout(clear, delay);
-				console.log(delta)
 				scrollSpeed = delta;
 			};
 		};
@@ -69,26 +60,15 @@
 		if (introPlaying == true) {
 			event.preventDefault();
 			return;
-		} else {
-			// if (event.deltaY > 0) {
-			// 	if (currentFrame > 60) {
-			// 		event.preventDefault();
-			// 		scrollPosition($innerHeight, {duration: 300});
-			// 	}
-			// } else {
-			// }
 		}
-		
 	};
 	let showSlogan = false;
 	let frames = [];
-	let framesImages = [];
-	for (let i = 1; i < 101; i++) {
+	for (let i = 0; i < 100; i++) {
 		frames.push(i + 1);
 	}
 	let currentFrame = 1;
 	let lastScroll = 0;
-	// $:frameStep = ;
 	const trickScrollBar = (state) => {
 		if($scrollY > $innerHeight) {
 			document.querySelector('main').style.marginTop = "0";
@@ -137,12 +117,11 @@
 		}
 		lastScroll = $scrollY;
 	};
-	let currentActive = 0;
 </script>
 
 <svelte:head>
 	{#each frames as frame, index}
-		<link rel="preload" as="image" href={base + assets + '/frames/intro/medium/frame_' + index + '_medium.jpg'} media="(min-width:960px)" />
+		<link rel="preload" as="image" href={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'} media="(min-width:960px)" />
 	{/each}
 </svelte:head>
 <svelte:window
@@ -158,7 +137,7 @@
 			parseInt(currentFrame) == frame || 
 			(currentFrame >= frame && currentFrame <= (frame + 1)) ||
 			(currentFrame <= frame && currentFrame >= (frame - 1))
-			)}
+		)}
 			<div class="frame active" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
 		{:else}
 			<div class="frame" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
@@ -172,22 +151,7 @@
 		{/if}
 	</div>
 </section>
-<b>currentFrame {currentFrame} <hr> $scrollY { $scrollY}</b>
-
-<!-- <b>FRAME: {currentFrame} <hr> scroll = {$scrollY} <hr> speed = {scrollSpeed} <hr> variatorFrame = {variatorFrame} <hr> </b> -->
 <style>
-	b {
-		position: fixed;
-		left: 50%;
-		top: 0;
-		transform: translateX(-50%);
-		background: var(--b-o-9);
-		color: white;
-		font-weight: bold;
-		padding: 1rem;
-		width: fit-content;
-		z-index: 33;
-	}
 	div.frame {
 		position: absolute;
 		pointer-events: none;
