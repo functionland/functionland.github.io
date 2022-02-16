@@ -4,7 +4,7 @@
 
 <script>
 	import Submit from '$lib/components/email/submit.svelte';
-	import Logo from '$lib/components/Logo/Logo.svelte';
+	import Logo from '$lib/components/Logo/index.svelte';
 	import FooterNav from '$lib/components/navs/footer/FooterNav.svelte';
 	import Social from '$lib/components/navs/social/Social.svelte';
 	import Copyright from '$lib/components/navs/copyright/Copyright.svelte';
@@ -47,6 +47,9 @@
 	}
 	footer {
 		width: 100%;
+		position: relative;
+		z-index: 1;
+		background: white;
 	}
 	.container {
 		--container-padding: 0 16px;
@@ -71,13 +74,13 @@
 			--min-height: unset;
 			--width: auto;
 			border: none;
-    		justify-items: start;
+			justify-items: start;
 		}
 		.d-container {
 			display: grid;
 			padding: 50px 0 60px;
 			grid-auto-flow: column;
-			grid-column-gap: 40px
+			grid-column-gap: 40px;
 		}
 	}
 </style>

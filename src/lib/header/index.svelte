@@ -3,11 +3,12 @@
 </script>
 
 <script>
-	// import { media } from 'svelte-match-media';
+	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { page } from '$app/stores';
 	import { assets } from '$app/paths';
-	import Logo from '$lib/components/Logo/Logo.svelte';
+	import Logo from '$lib/components/Logo/index.svelte';
 	const menuIcon = assets + 'images/layout/menu.png';
+
 	export const navItems = [
 		{
 			path: '/',
@@ -41,9 +42,19 @@
 	const closeMenuOnClick = () => {
 		menuOpen = false;
 	};
-	$: navClass = menuOpen === true ? 'open' : 'close';
+	let notransitionClass = '';
+	// const setCloseOnMenu = () => {
+	// 	if ($innerWidth <= 960) {
+	// 		notransitionClass = "no-transition";
+	// 		setTimeout(()=>{
+	// 			notransitionClass = "";
+	// 		},2000)
+	// 	}
+	// }
+	$: navClass = menuOpen === true ? `open ${notransitionClass}` : `close ${notransitionClass}`;
 </script>
 
+<!-- <svelte:window on:resize={setCloseOnMenu} /> -->
 <header>
 	<div class="wrapper">
 		<div class="overlay {navClass}" on:click={closeMenuOnClick} />
@@ -150,13 +161,16 @@
 	}
 
 	header {
-		position: relative;
+		position: fixed;
 		z-index: 10;
 		background: var(--header-bg);
 		width: 100%;
 		overflow-x: hidden;
 		overflow-x: clip;
 		height: 60px;
+		top: 0;
+		left: 0;
+		right: 0;
 	}
 	.wrapper {
 		display: flex;

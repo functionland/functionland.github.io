@@ -13,7 +13,7 @@
 </script>
 
 <script>
-	import ErrorScreenHandler from '$lib/components/error/screenHandler.svelte';
+	import ErrorScreenHandler from '$lib/components/error/index.svelte';
 	export let message;
 	export let status;
 </script>

@@ -4,7 +4,7 @@
 
 <script>
 	import error from '$lib/img/layout/error.svelte';
-	import Logo from '$lib/components/Logo/Logo.svelte';
+	import Logo from '$lib/components/Logo/index.svelte';
 	export let status;
 	export let message;
 </script>
