@@ -3,7 +3,7 @@
 </script>
 
 <script>
-	import Intro from '$lib/homepage/intro.svelte';
+	// import Intro from '$lib/homepage/intro.svelte';
 	import IntroFrames from '$lib/homepage/intro-frames.svelte';
 	import Hero from '$lib/homepage/hero.svelte';
 	import Values from '$lib/homepage/headlines.svelte';

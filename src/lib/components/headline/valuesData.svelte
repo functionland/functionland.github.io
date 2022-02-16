@@ -1,5 +1,6 @@
 <script context="module">
 	export const prerender = true;
+	import { assets } from "$app/paths";
 	const lipsum =
 		'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est.';
 	export const data = {
@@ -25,7 +26,28 @@
 				title: 'Own Your Data',
 				description: lipsum,
 				ref: 'own-your-data',
-				type: 'DataOwning'
+				videos: [
+					{
+						src: assets + 'videos/own-your-data-w.webm',
+						type: 'video/webm',
+						media: '(prefers-color-scheme: dark)',
+					},
+					{
+						src: assets + 'videos/own-your-data-b.webm',
+						type: 'video/webm',
+						media: '(prefers-color-scheme: light)',
+					},
+					{
+						src: assets + 'videos/own-your-data-w.mp4',
+						type: 'video/mp4',
+						media: '(prefers-color-scheme: dark)',
+					},
+					{
+						src: assets + 'videos/own-your-data-b.mp4',
+						type: 'video/mp4',
+						media: '(prefers-color-scheme: light)',
+					},
+				]
 			},
 			{
 				title: 'Apps Without Ads or Subscription',
@@ -37,7 +59,13 @@
 				title: 'Earn Crypto',
 				description: lipsum,
 				ref: 'earn-crypto',
-				type: 'Earn'
+				videos: [
+					{
+						src: assets + 'videos/earn-crypto.mp4',
+						type: 'video/mp4',
+						media: '(prefers-color-scheme: light)',
+					}
+				]
 			}
 		]
 	};

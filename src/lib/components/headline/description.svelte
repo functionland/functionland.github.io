@@ -4,16 +4,24 @@
 
 <script>
 	export let data;
+	let videos = data.videos ? data.videos.length > 0 ? data.videos : false : false;
 </script>
 
-<article>
+<div>
 	<h3>{data.title}</h3>
 	<p>{data.description}</p>
-	<!-- <div>{data.type}</div> -->
-</article>
+	{#if videos != false}
+		<video playsinline width="100%" muted>
+			{#each data.videos as video}
+				<source src={video.src} type={video.type} media={video.media} />
+			{/each}
+			This browser does not support the HTML5 video element.
+		</video>
+	{/if}
+</div>
 
 <style>
-	article {
+	div {
 		max-width: var(--description-max-width);
 	}
 	h3 {

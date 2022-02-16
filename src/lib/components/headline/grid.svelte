@@ -26,7 +26,6 @@
 			grid-template-rows: auto 1fr auto;
 			width: 100%;
 			grid-template-columns: 1fr;
-			max-width: unset;
 		}
 	}
 </style>
