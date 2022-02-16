@@ -1,0 +1,19 @@
+:root {
+	--intro-height: calc(100vh - 60px);
+
+	--slogan-font-size: 72px;
+	--slogan-font-weight: 700;
+	--slogan-line-height: 84px;
+	--slogan-letter-spacing: -2%;
+	--slogan-background-size: 200% auto;
+	--slogan-background-position: auto auto;
+	--slogan-max-width: calc(100% - 100px);
+}
+
+@media (min-width: 960px) {
+	:root {
+		--slogan-font-size: 144px;
+		--slogan-line-height: 168px;
+		--slogan-max-width: calc(100% - 300px);
+	}
+}

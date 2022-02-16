@@ -1,0 +1,11 @@
+:root {
+	--description-max-width: calc(100% - 60px);
+
+	--description-title-font-size: 56px;
+	--description-title-line-height: 80px;
+	--description-title-font-weight: 400;
+	--description-title-padding: 74px 0 40px;
+
+	--description-desc--font-size: 18px;
+	--description-desc-line-height: 30px;
+}

@@ -1,0 +1,26 @@
+html {
+	font-family: var(--montserrat);
+	font-size: var(--normal-f-size);
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+html {
+	height: auto;
+	min-height: 100vh;
+}
+
+html,
+body {
+	width: 100%;
+}
+
+body {
+	background: var(--body-bg);
+	color: var(--text-color);
+	letter-spacing: var(--letter-spacing);
+	min-height: 100vh;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	overflow-x: hidden;
+}

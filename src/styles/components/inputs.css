@@ -1,0 +1,53 @@
+.input {
+	font-family: var(--inter);
+	font-size: var(--input-font-size);
+	color: var(--input-color);
+	line-height: var(--input-line-height);
+	height: var(--input-height);
+	padding: var(--input-padding);
+	background: var(--input-bg);
+	border-width: var(--input-border-width);
+	border-color: var(--input-border-color);
+	border-style: var(--input-border-type);
+	border-radius: var(--input-border-radius);
+	transition-property: border-color, color, background-color;
+	transition-duration: 0.25s;
+	transition-timing-function: ease-in-out;
+}
+
+.input-btn {
+	width: var(--input-btn-width);
+	font-weight: var(--input-btn-font-weight);
+	align-items: center;
+	justify-content: center;
+	display: inline-grid;
+}
+
+.input-text {
+	font-size: var(--input-text-font-size);
+	color: var(--input-text-color);
+	font-weight: var(--input-text-font-weight);
+	line-height: var(--input-text-line-height);
+	box-shadow: 0 0 0 0 var(--color-error);
+	transition: box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.input-text:focus {
+	background: var(--input-text-focus-bg);
+}
+
+.input-text#invalid {
+	box-shadow: 0 0 3px 0 var(--color-error);
+}
+
+.input:disabled {
+	color: var(--input-disabled-color);
+	background: var(--input-disabled-bg);
+	border-color: var(--input-disabled-brdr-color);
+}
+
+@media (min-width: 960px) {
+	.input-btn:not(:disabled):hover {
+		cursor: pointer;
+	}
+}
