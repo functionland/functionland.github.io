@@ -12,3 +12,20 @@ Create new acme.json with the right permission using the following commands:
 `touch ./configs/acme.json`
 `chmod 600 ./configs/acme.json`
 
+Run server with:
+`docker-compose up -d`
+
+Check logs:
+`docker-compose logs -f`
+
+Recreate:
+`docker-compose up -d --force-recreate`
+
+Recreate + build:
+`docker-compose up -d --force-recreate --build`
+
+Stop:
+`docker-compose stop`
+
+Destroy:
+`docker-compose down -v`
