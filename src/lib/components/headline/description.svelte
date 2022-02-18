@@ -29,6 +29,10 @@
 		grid-row-gap: var(--description-row-gap);
 		min-height: var(--description-min-height);
 	}
+	section.apps-without-ads,
+	section.design {
+		padding-bottom: 119px;
+	}
 	section.earn-crypto {
 		color: white;
 		grid-row-gap: 20px;
@@ -66,6 +70,10 @@
 		max-width: var(--description-max-width);
 		font-size: var(--description-desc-font-size);
 		line-height: var(--description-desc-line-height);
+	}
+	section.apps-without-ads p {
+		text-align: center;
+		max-width: calc(100% - 80px);
 	}
 	section.earn-crypto p {
 		max-width: calc(100% - 100px);

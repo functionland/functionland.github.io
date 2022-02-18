@@ -1,7 +1,7 @@
 :root {
 	--description-max-width: calc(100% - 60px);
 
-	--description-title-font-size: 56px;
+	--description-title-font-size: 53px;
 	--description-title-line-height: 80px;
 	--description-title-font-weight: 400;
 	--description-title-padding: 22px 0;

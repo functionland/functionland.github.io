@@ -20,8 +20,8 @@
 </svelte:head>
 {#if photos}
 	<div class="{data.ref}" bind:offsetHeight={scrollTop}>
-		{#each photos as photo}
-            <picture>
+		{#each photos as photo, index}
+            <picture class={`${data.ref} ${data.ref}-${index+1}`}>
                 <source srcset={photo.srcset.large} media="(min-width: 960px)">
                 <img src={photo.srcset.small} alt="">
             </picture>
@@ -29,24 +29,55 @@
 	</div>
 {/if}
 <style>
-    .apps-without-ads {
+    div.apps-without-ads,
+    div.design {
+        max-width: calc(100% - 30px);
         position: relative;
-        height: 100%;
-        width: 100%;
+        display: block;
+        border-radius: 22px;
         overflow: hidden;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
     }
-    .apps-without-ads img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
+    div.apps-without-ads img,
+    div.design img {
         transition: opacity 0.5s ease;
+        display: block;
+        border-radius: 22px;
+        overflow: hidden;
     }
-    .apps-without-ads img:hover {
+    div.apps-without-ads img:hover,
+    div.design img:hover {
         opacity: 0.5;
     }
+    div.apps-without-ads picture.apps-without-ads,
+    div.design picture.design {
+        display: block;
+        position: relative;
+    }
+    div.apps-without-ads picture.apps-without-ads-1,
+    div.design picture.design-1 {
+        margin-bottom: -25%;
+        z-index: 1;
+        left: 12.5%;
+    }
+    div.apps-without-ads picture.apps-without-ads-3,
+    div.design picture.design-3 {
+        z-index: 1;
+        margin-top: -17.5%;
+        margin-bottom: -25%;
+        left: 57.5%;
+    }
+    div.apps-without-ads picture.apps-without-ads-5,
+    div.design picture.design-5 {
+        z-index: 1;
+        margin-top: -17.5%;
+        left: 12.5%;
+    }
+
+    div.plug-n-play {
+        display: grid;
+        height: 100%;
+        align-items: center;
+    }
+
+
 </style>

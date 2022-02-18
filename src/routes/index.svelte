@@ -10,6 +10,7 @@
 	import News from '$lib/homepage/news.svelte';
 	import Partners from '$lib/homepage/partners.svelte';
 	import { data as valuesData } from '$lib/components/headline/valuesData.svelte';
+	import { data as featuresData } from '$lib/components/headline/featuresData.svelte';
 </script>
 <svelte:head>
 	<title>FunctionLand</title>
@@ -18,7 +19,7 @@
 <main>
 	<Hero />
 	<Headlines data={valuesData} />
-	<!-- <Headlines data={featuresData} /> -->
+	<Headlines data={featuresData} />
 	<Preorder />
 	<News />
 	<Partners />
