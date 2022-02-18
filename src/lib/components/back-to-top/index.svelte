@@ -19,16 +19,16 @@
 		opacity: 1;
 		transition: opacity 0.5s, visibility 0.5s;
 		position: fixed;
-		z-index: 99;
+		z-index: 9;
 		right: 20px;
 		user-select: none;
 		bottom: 20px;
 		background-color: var(--go-top-bg);
+		border-radius: 50%;
+		padding: 10px;
 	}
 	@media (min-width: 960px) {
 		.back-to-top {
-			padding: 10px;
-			border-radius: 50%;
 			transition: background-color 0.3s;
 		}
 		.back-to-top:hover {
