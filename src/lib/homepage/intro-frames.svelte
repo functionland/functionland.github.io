@@ -194,7 +194,7 @@
 		height: var(--intro-height);
 		position: fixed;
 		z-index: 0;
-		top: 60px;
+		top: var(--header-height);
 		left: 0;
 		right: 0;
 		bottom: 0;

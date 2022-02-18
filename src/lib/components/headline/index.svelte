@@ -4,12 +4,11 @@
 
 <script>
 	import { scrollTo } from 'svelte-scrolling';
-	export let data;
+	export let item;
 </script>
-<h2>{data.title}</h2>
-<p>{data.description}</p>
-<button use:scrollTo={data.to} class="btn btn-cta">Learn more</button>
-
+<h2>{item.intro_title}</h2>
+<p>{item.intro_desc}</p>
+<button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button>
 <style>
 	h2 {
 		font-size: var(--headline-title-font-size);
