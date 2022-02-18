@@ -56,6 +56,7 @@
 	}
 	img {
 		width: 100%;
+		display: block;
 		border-radius: var(--hero-image-brdrds);
 	}
 	@media (min-width: 960px) {
