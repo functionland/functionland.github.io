@@ -23,6 +23,16 @@
 	};
 	let scrollSpeed = 0
 	let windowHeight
+	const trickScrollBar = (state) => {
+		if($scrollY < windowHeight) {
+			document.querySelector('main').style.marginTop = `${windowHeight}px`;
+			document.querySelector('main').style.paddingTop = 0;
+		} else {
+			document.querySelector('main').style.marginTop = 0;
+			document.querySelector('main').style.paddingTop = `${windowHeight}px`;
+		}
+		requestAnimationFrame(trickScrollBar)
+	}
 	onMount(() => {
 		play();
 		showSlogan = true;
@@ -49,6 +59,7 @@
 		};
 		
 		window.addEventListener('scroll', getScrollSpeed());
+		window.addEventListener('scroll', trickScrollBar());
 	});
 	const preventWhilePlaying = (event) => {
 		if (introPlaying == true) {
@@ -69,16 +80,6 @@
 	}
 	let currentFrame = 1;
 	let lastScroll = 0;
-	const trickScrollBar = (state) => {
-		if($scrollY > $innerHeight) {
-			document.querySelector('main').style.marginTop = "0";
-			document.querySelector('main').style.paddingTop = "100vh";
-		} else {
-			document.querySelector('main').style.marginTop = "100vh"
-			document.querySelector('main').style.paddingTop = "0"
-		}
-		requestAnimationFrame(trickScrollBar)
-	}
 	const detectScroll = (event) => {
 		if ($scrollY < $innerHeight) {
 			cancelAnimationFrame(trickScrollBar)
@@ -193,7 +194,7 @@
 		height: var(--intro-height);
 		position: fixed;
 		z-index: 0;
-		top: 60px;
+		top: var(--header-height);
 		left: 0;
 		right: 0;
 		bottom: 0;

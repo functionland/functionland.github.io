@@ -1,6 +1,5 @@
 :root {
-	--intro-height: calc(100vh - 60px);
-
+	--intro-height: calc(100vh - var(--header-height));
 	--slogan-font-size: 72px;
 	--slogan-font-weight: 700;
 	--slogan-line-height: 84px;

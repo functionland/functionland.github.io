@@ -1,7 +1,6 @@
 import { readable } from 'svelte/store';
 import parse from 'rss-to-json';
-const proxyUrl = 'http://192.168.1.5:4000/',
-	targetUrl = 'https://blog.fx.land/rss/';
+const targetUrl = 'https://cors-anywhere.herokuapp.com/https://blog.fx.land/rss/';
 
 export function initialValue() {
 	return {
@@ -25,7 +24,7 @@ function makeSubscribe(data, _args) {
 
 async function fetchBlogData(data, set) {
 	try {
-		parse(proxyUrl + targetUrl)
+		parse(targetUrl)
 			.then((result) => {
 				data.title = result.title;
 				data.description = result.description;
@@ -39,17 +38,17 @@ async function fetchBlogData(data, set) {
 			})
 			.catch((e) => {
 				if (e.status === 400) {
-					console.log('Bad request');
+					console.error('Bad request');
 				} else if (e.status === 401) {
-					console.log('Unauthorized');
+					console.error('Unauthorized');
 				} else if (e.status === 403) {
-					console.log('Forbidden');
+					console.error('Forbidden');
 				} else if (e.status === 404) {
-					console.log('Not found');
+					console.error('Not found');
 				} else if (e.status === 500) {
-					console.log('Internal server error');
+					console.error('Internal server error');
 				} else {
-					console.log('Unknown error');
+					console.error('Unknown error');
 				}
 				return e;
 			});

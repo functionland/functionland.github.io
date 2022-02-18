@@ -1,6 +1,6 @@
 :root {
-	--headlines-grid-gap: 60px;
-	--headlines-padding: 60px 0 40px;
+	--headlines-grid-gap: 50px;
+	--headlines-padding: 40px 0;
 
 	--headline-title-font-size: 24px;
 	--headline-title-line-height: 36px;

@@ -4,8 +4,14 @@
 	--description-title-font-size: 56px;
 	--description-title-line-height: 80px;
 	--description-title-font-weight: 400;
-	--description-title-padding: 74px 0 40px;
+	--description-title-padding: 22px 0;
+	--description-min-height: var(--section-min-height);
+	--description-padding: var(--section-padding);
+	--description-row-gap: 40px;
 
 	--description-desc--font-size: 18px;
 	--description-desc-line-height: 30px;
+	--description-section-bg: white;
+	--description-section-padding: 44px;
+	--description-section-earn-crypto-bg: #46454a;
 }
