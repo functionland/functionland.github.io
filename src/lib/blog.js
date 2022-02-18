@@ -1,6 +1,6 @@
 import { readable } from 'svelte/store';
 import parse from 'rss-to-json';
-const targetUrl = 'https://blog.fx.land/rss/';
+const targetUrl = 'https://cors-anywhere.herokuapp.com/https://blog.fx.land/rss/';
 
 export function initialValue() {
 	return {
