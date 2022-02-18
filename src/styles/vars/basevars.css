@@ -10,6 +10,9 @@
 	--p-large-f-weight: 400;
 	--max-width: 100%;
 	--container-padding: 0;
+	--header-height: 60px;
+	--section-min-height: calc(100vh - var(--header-height));
+	--section-padding: 40px 0;
 }
 
 @media (min-width: 960px) {
@@ -18,7 +21,7 @@
 		--container-padding: 0 20px;
 	}
 }
-@meida (min-width: 1600px) {
+@media (min-width: 1600px) {
 	:root {
 		--max-width: 1640px;
 	}
