@@ -78,4 +78,9 @@
 	section.earn-crypto p {
 		max-width: calc(100% - 100px);
 	}
+	@media (min-width: 960px) {
+		p {
+			max-width: 900px;
+		}
+	}
 </style>

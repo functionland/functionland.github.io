@@ -31,6 +31,7 @@
 <style>
     div.apps-without-ads,
     div.design {
+        width: 100%;
         max-width: calc(100% - 30px);
         position: relative;
         display: block;
@@ -44,40 +45,66 @@
         border-radius: 22px;
         overflow: hidden;
     }
-    div.apps-without-ads img:hover,
-    div.design img:hover {
-        opacity: 0.5;
-    }
-    div.apps-without-ads picture.apps-without-ads,
-    div.design picture.design {
-        display: block;
-        position: relative;
-    }
-    div.apps-without-ads picture.apps-without-ads-1,
-    div.design picture.design-1 {
-        margin-bottom: -25%;
-        z-index: 1;
-        left: 12.5%;
-    }
-    div.apps-without-ads picture.apps-without-ads-3,
-    div.design picture.design-3 {
-        z-index: 1;
-        margin-top: -17.5%;
-        margin-bottom: -25%;
-        left: 57.5%;
-    }
-    div.apps-without-ads picture.apps-without-ads-5,
-    div.design picture.design-5 {
-        z-index: 1;
-        margin-top: -17.5%;
-        left: 12.5%;
-    }
 
     div.plug-n-play {
         display: grid;
         height: 100%;
         align-items: center;
     }
-
+    @media (max-width: 959px) {
+        div.apps-without-ads img:hover,
+        div.design img:hover {
+            opacity: 0.5;
+        }
+        div.apps-without-ads picture.apps-without-ads,
+        div.design picture.design {
+            display: block;
+            position: relative;
+        }
+        div.apps-without-ads picture.apps-without-ads-1,
+        div.design picture.design-1 {
+            margin-bottom: -25%;
+            z-index: 1;
+            left: 12.5%;
+        }
+        div.apps-without-ads picture.apps-without-ads-3,
+        div.design picture.design-3 {
+            z-index: 1;
+            margin-top: -17.5%;
+            margin-bottom: -25%;
+            left: 57.5%;
+        }
+        div.apps-without-ads picture.apps-without-ads-5,
+        div.design picture.design-5 {
+            z-index: 1;
+            margin-top: -17.5%;
+            left: 12.5%;
+        }
+    }
+    @media (min-width: 960px) {
+        
+        div.apps-without-ads,
+        div.design {
+            max-width: calc(100% - 100px);
+        }
+        div.apps-without-ads picture.apps-without-ads-1,
+        div.design picture.design-1 {
+            margin-bottom: -25%;
+            z-index: 1;
+            left: 0;
+        }
+        div.apps-without-ads picture.apps-without-ads-2,
+        div.design picture.design-2 {
+            margin-bottom: -7.5%;
+            z-index: 0;
+            left: 17.5%;
+        }
+        div.apps-without-ads picture.apps-without-ads-3,
+        div.design picture.design-3 {
+            margin-top: -60%;
+            margin-bottom: unset;
+            left: 45%;
+        }
+    }
 
 </style>

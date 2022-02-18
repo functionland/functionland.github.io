@@ -113,4 +113,9 @@
 			mix-blend-mode: overlay;
 		}
 	}
+	@media (min-width: 960px) {
+		video.own-your-data {
+			width: 100%;
+		}
+	}
 </style>
