@@ -12,6 +12,7 @@
 	import { data as valuesData } from '$lib/components/headline/valuesData.svelte';
 	import { data as featuresData } from '$lib/components/headline/featuresData.svelte';
 </script>
+
 <svelte:head>
 	<title>FunctionLand</title>
 </svelte:head>
@@ -19,7 +20,7 @@
 <main>
 	<Hero />
 	<Headlines data={valuesData} />
-	<Headlines data={featuresData} />
+	<Headlines data={featuresData} title="Why <b>Box</b>?"/>
 	<Preorder />
 	<News />
 	<Partners />
