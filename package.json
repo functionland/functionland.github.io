@@ -34,10 +34,12 @@
 		"dotenv": "^16.0.0",
 		"rss-parser": "^3.12.0",
 		"rss-to-json": "^2.0.2",
+		"saos": "^1.2.0",
 		"svelte-inview": "^2.1.1",
 		"svelte-preprocess-import-assets": "^0.1.6",
 		"svelte-scrolling": "^1.1.1",
 		"svelte-window-stores": "^1.0.5",
+		"swiper": "^8.0.6",
 		"the-new-css-reset": "^1.4.7"
 	}
 }
