@@ -16,6 +16,5 @@
 @import './components/buttons.css';
 @import './components/inputs.css';
 @import './components/cards.css';
-
+@import './components/swiper.css';
 @import './screenreaders.css';
-@import './animations.css';

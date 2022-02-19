@@ -21,6 +21,7 @@ body {
 	letter-spacing: var(--letter-spacing);
 	min-height: 100vh;
 	display: grid;
+	grid-template-columns: 100vw;
 	grid-template-rows: auto 1fr auto;
 	overflow-x: hidden;
 	padding-top: var(--header-height);
