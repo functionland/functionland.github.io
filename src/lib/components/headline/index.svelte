@@ -1,14 +1,17 @@
 <script context="module">
 	export const prerender = true;
+	export const hydrate = true;
 </script>
 
 <script>
 	import { scrollTo } from 'svelte-scrolling';
 	export let item;
 </script>
+
 <h2>{item.intro_title}</h2>
 <p>{item.intro_desc}</p>
 <button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button>
+
 <style>
 	h2 {
 		font-size: var(--headline-title-font-size);

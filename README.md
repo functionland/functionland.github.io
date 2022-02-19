@@ -4,7 +4,7 @@ Install docker from this guide:
 Install docker-compose from this guide:
 `https://docs.docker.com/compose/install/`
 
-Generate user:pass with 
+Generate user:pass with
 `echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g`
 
 Replace domain in docker-compose.yml for traefik

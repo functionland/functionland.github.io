@@ -44,22 +44,14 @@
 		menuOpen = false;
 	};
 	let notransitionClass = '';
-	// const setCloseOnMenu = () => {
-	// 	if ($innerWidth <= 960) {
-	// 		notransitionClass = "no-transition";
-	// 		setTimeout(()=>{
-	// 			notransitionClass = "";
-	// 		},2000)
-	// 	}
-	// }
 	$: navClass = menuOpen === true ? `open ${notransitionClass}` : `close ${notransitionClass}`;
 </script>
 
 <!-- <svelte:window on:resize={setCloseOnMenu} /> -->
 <header>
 	<div class="wrapper">
-		<div class="overlay {navClass}" on:click={closeMenuOnClick} />
-		<div class="header-buttons {navClass}">
+		<div class="{`overlay ${navClass}`} " on:click={closeMenuOnClick} />
+		<div class="{`header-buttons ${navClass}`}">
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -79,7 +71,7 @@
 			<ul>
 				{#each navItems as navItem}
 					<li class:active={$page.url.pathname === navItem.path}>
-						<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>
+						<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick} >{navItem.text}</a>
 					</li>
 				{/each}
 			</ul>

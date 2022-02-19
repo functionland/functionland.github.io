@@ -126,6 +126,7 @@
 	$: calculated_time = (remainingDuration * ($scrollY / $innerHeight)) / 1.3 + stopFrame / fps;
 	$: time = calculated_time <= threshold ? calculated_time : threshold;
 </script>
+
 <b>scrolling {scrolling}</b>
 <svelte:window on:scroll={goToNextSection} />
 <section

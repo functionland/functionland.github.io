@@ -21,24 +21,17 @@
 			}
 		}, 1.4 * (1 / 42.4) * 1000);
 	};
-	let scrollSpeed = 0
-	let windowHeight
-	const trickScrollBar = (state) => {
-		if($scrollY < windowHeight) {
-			document.querySelector('main').style.marginTop = `${windowHeight}px`;
-			document.querySelector('main').style.paddingTop = 0;
-		} else {
-			document.querySelector('main').style.marginTop = 0;
-			document.querySelector('main').style.paddingTop = `${windowHeight}px`;
-		}
-		requestAnimationFrame(trickScrollBar)
-	}
+	let scrollSpeed = 0;
+	let windowHeight;
 	onMount(() => {
 		play();
 		showSlogan = true;
 		const getScrollSpeed = (settings) => {
-			var lastPos, newPos, timer, delta, 
-			delay = 50;
+			var lastPos,
+				newPos,
+				timer,
+				delta,
+				delay = 50;
 
 			function clear() {
 				lastPos = null;
@@ -46,10 +39,10 @@
 			}
 
 			clear();
-			return function(){
+			return function () {
 				newPos = $scrollY;
-				if ( lastPos != null ){
-					delta = newPos -  lastPos;
+				if (lastPos != null) {
+					delta = newPos - lastPos;
 				}
 				lastPos = newPos;
 				clearTimeout(timer);
@@ -57,9 +50,8 @@
 				scrollSpeed = delta;
 			};
 		};
-		
+
 		window.addEventListener('scroll', getScrollSpeed());
-		window.addEventListener('scroll', trickScrollBar());
 	});
 	const preventWhilePlaying = (event) => {
 		if (introPlaying == true) {
@@ -81,8 +73,14 @@
 	let currentFrame = 1;
 	let lastScroll = 0;
 	const detectScroll = (event) => {
+		if ($scrollY < windowHeight) {
+			document.querySelector('main').style.marginTop = `${windowHeight}px`;
+			document.querySelector('main').style.paddingTop = 0;
+		} else {
+			document.querySelector('main').style.marginTop = 0;
+			document.querySelector('main').style.paddingTop = `${windowHeight}px`;
+		}
 		if ($scrollY < $innerHeight) {
-			cancelAnimationFrame(trickScrollBar)
 			if (introPlaying == true) {
 				event.preventDefault();
 				return;
@@ -93,7 +91,8 @@
 						event.preventDefault();
 						return;
 					} else {
-						currentFrame +=  (0.25644438000000001 + (scrollSpeed / $innerHeight) + (scrollSpeed / $scrollY) );
+						currentFrame +=
+							0.25644438000000001 + scrollSpeed / $innerHeight + scrollSpeed / $scrollY;
 						if (currentFrame > 60) {
 							showSlogan = false;
 						}
@@ -105,9 +104,9 @@
 						event.preventDefault();
 						return;
 					} else {
-						currentFrame -=  (0.6644438000000001 + (scrollSpeed / $innerHeight) );
+						currentFrame -= 0.6644438000000001 + scrollSpeed / $innerHeight;
 						if ($scrollY < 300) {
-							currentFrame -=  0.86644438000000001
+							currentFrame -= 0.86644438000000001;
 						}
 						if (currentFrame < 80) {
 							showSlogan = true;
@@ -122,7 +121,12 @@
 
 <svelte:head>
 	{#each frames as frame, index}
-		<link rel="preload" as="image" href={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'} media="(min-width:960px)" />
+		<link
+			rel="preload"
+			as="image"
+			href={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}
+			media="(min-width:960px)"
+		/>
 	{/each}
 </svelte:head>
 <svelte:window
@@ -131,27 +135,41 @@
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}
 />
-<section on:mousewheel|nonpassive={mouseWheelEvent}
-		 on:touchmove|nonpassive={mouseWheelEvent}>
+<section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent}>
 	{#each frames as frame, index}
-		{#if (
-			parseInt(currentFrame) == frame || 
-			(currentFrame >= frame && currentFrame <= (frame + 1)) ||
-			(currentFrame <= frame && currentFrame >= (frame - 1))
-		)}
-			<div class="frame active" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
+		{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
+			<div
+				class="frame active"
+				style="background-image:url({base +
+					assets +
+					'/frames/intro/medium/frame_' +
+					frame +
+					'_medium.jpg'})"
+			/>
 		{:else}
-			<div class="frame" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
+			<div
+				class="frame"
+				style="background-image:url({base +
+					assets +
+					'/frames/intro/medium/frame_' +
+					frame +
+					'_medium.jpg'})"
+			/>
 		{/if}
 	{/each}
 	<div class="slogan">
 		{#if showSlogan}
-			<p in:fly={{ delay: 100, y: 200, duration: 1699 }} out:fade={{ delay: 0, duration: 300 }} class="slogan">
+			<p
+				in:fly={{ delay: 100, y: 200, duration: 1699 }}
+				out:fade={{ delay: 0, duration: 300 }}
+				class="slogan"
+			>
 				A Piece of Blockchain on Your Desk
 			</p>
 		{/if}
 	</div>
 </section>
+
 <style>
 	div.frame {
 		position: absolute;
@@ -209,7 +227,7 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		text-align: center;
-    	z-index: 12;
+		z-index: 12;
 		width: 100%;
 		height: 100%;
 		display: grid;
