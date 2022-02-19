@@ -2,53 +2,26 @@
 	export const prerender = true;
 	export const hydrate = true;
 </script>
+
 <script>
 	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { assets } from '$app/paths';
-	import { onMount } from 'svelte';
 	let src = assets + `videos/pre-order.mp4`;
-    let browserSupportText = "Your browser does not support the video element.";
-	$: onMount(() => {
-		// const passiveSupported = () => {
-		// 	let supported = false;
-		// 	try {
-		// 		let options = Object.defineProperty({}, 'passive', {
-		// 			get: () => {
-		// 				supported = true;
-		// 			}
-		// 		});
-		// 		window.addEventListener('test', null, options);
-		// 	} catch (err) {
-		// 		supported = false;
-		// 	}
-		// 	return supported;
-		// };
-		// window.addEventListener(
-		// 	'touchmove',
-		// 	(event) => {
-		// 		ontouchmoveEvent(event);
-		// 	},
-		// 	passiveSupported ? { passive: false } : false
-		// );
-	});
-	// import Blog from '$lib/components/blog/index.svelte';
+	let poster = assets + `images/home/preorder-poster.jpg`;
+	let browserSupportText = 'Your browser does not support the video element.';
+	let ended
 </script>
+
 <section>
-	{#if $innerWidth >= 960} 
-		<video playsinline muted>
-			<source src={src} type="video/mp4" />
-			{browserSupportText}
-		</video>
-	{:else}
-		<video autoplay playsinline muted>
-			<source src={src} type="video/mp4" />
-			{browserSupportText}
-		</video>
-	{/if}
+	<video autoplay playsinline muted poster={poster} bind:ended>
+		<source {src} type="video/mp4" />
+		{browserSupportText}
+	</video>
+	<!-- {#if ended}
+	{/if} -->
 	<p>Box is available now!</p>
 	<div class="cta">
-		<a class="btn btn-cta" sveltekit:prefetch href="/preorder">Pre-order</a
-		>
+		<a class="btn btn-cta" sveltekit:prefetch href="/preorder">Pre-order</a>
 	</div>
 </section>
 
@@ -63,6 +36,8 @@
 		width: 100%;
 		grid-template-columns: 1fr;
 		padding-bottom: 121px;
+		border-radius: 20px;
+		overflow: hidden;
 	}
 	video {
 		position: absolute;
@@ -73,7 +48,8 @@
 		object-fit: cover;
 		z-index: 0;
 	}
-	p, div {
+	p,
+	div {
 		height: 80px;
 		display: grid;
 		position: relative;
@@ -86,6 +62,16 @@
 		line-height: 30px;
 	}
 	div {
-		height: auto;
+		height: 56px;
+	}
+	a {
+		height: 56px;
+		width: 206px;
+	}
+	@media(min-width:960px) {
+		section {
+			max-width: 95%;
+			margin: 0 auto;
+		}
 	}
 </style>
