@@ -60,6 +60,11 @@
 		border-radius: var(--hero-image-brdrds);
 	}
 	@media (min-width: 960px) {
+		section {
+			width: 90%;
+			max-width: 1680px;
+			margin: 0 auto;
+		}
 		h1 {
 			text-align: var(--hero-text-align);
 		}
@@ -73,6 +78,10 @@
 			margin: 0 auto;
 			display: block;
 			border-radius: var(--hero-image-brdrds);
+		}
+	}
+	@media(min-width: 1920px) {
+		section {
 		}
 	}
 </style>

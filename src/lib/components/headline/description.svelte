@@ -1,16 +1,17 @@
 <script context="module">
 	export const prerender = true;
+	export const hydrate = true;
 </script>
 
 <script>
 	import { scrollRef } from 'svelte-scrolling';
 	import Videos from '$lib/components/headline/videos.svelte';
-	import Photos from '$lib/components/headline/photos.svelte';
+	import Photos from '$lib/components/headline/images.svelte';
 	export let data;
 </script>
 
 {#each data as item}
-	<section use:scrollRef={item.ref} class="{item.ref}">
+	<section use:scrollRef={item.ref} class={item.ref}>
 		<h3>{item.main_title}</h3>
 		<p>{item.main_desc}</p>
 		<Videos data={item} />
@@ -31,15 +32,15 @@
 	}
 	section.apps-without-ads,
 	section.design {
-		padding-bottom: 119px;
+		margin-bottom: 120px;
 	}
 	section.earn-crypto {
 		color: white;
 		grid-row-gap: 20px;
 	}
 	section.earn-crypto:before {
-		content: "";
-		background: linear-gradient(180deg, #4C4D51 60.48%, rgba(79, 80, 85, 0) 92.22%);
+		content: '';
+		background: linear-gradient(180deg, #4c4d51 60.48%, rgba(79, 80, 85, 0) 92.22%);
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -73,14 +74,23 @@
 	}
 	section.apps-without-ads p {
 		text-align: center;
-		max-width: calc(100% - 80px);
+		max-width: 90%;
 	}
 	section.earn-crypto p {
-		max-width: calc(100% - 100px);
+		max-width: 90%;
 	}
 	@media (min-width: 960px) {
 		p {
 			max-width: 900px;
+		}
+		section.earn-crypto p {
+			max-width: 900px;
+		}
+		section:not(.apps-without-ads):not(.design) {
+			height:var(--description-min-height);
+		}
+		section.plug-n-play {
+			grid-template-columns: 1fr 1fr;
 		}
 	}
 </style>

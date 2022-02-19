@@ -12,11 +12,11 @@
 	let introPlaying = true;
 	let forwardPalying = false;
 	let backwardPalying = false;
-	let playInterval
-	let playForwardInterval
-	let playBackwardInterval
+	let playInterval;
+	let playForwardInterval;
+	let playBackwardInterval;
 	const play = (type) => {
-		if (type=='init') {
+		if (type == 'init') {
 			if (currentFrame <= 42) {
 				currentFrame = currentFrame + 1;
 			} else {
@@ -25,7 +25,7 @@
 			}
 		} else if (type == 'forward') {
 			if (introPlaying == true || backwardPalying == true) {
-				return
+				return;
 			}
 			if (currentFrame < 100) {
 				currentFrame = currentFrame + 1;
@@ -35,7 +35,7 @@
 			}
 		} else if (type == 'backward') {
 			if (introPlaying == true || forwardPalying == true) {
-				return
+				return;
 			}
 			if (currentFrame > 0) {
 				currentFrame = currentFrame - 1;
@@ -45,14 +45,18 @@
 			}
 		}
 	};
-	let scrollSpeed = 0
+	let scrollSpeed = 0;
 	onMount(() => {
-		
 		introPlaying = true;
-		playInterval = setInterval(() => { play("init") }, 30);
+		playInterval = setInterval(() => {
+			play('init');
+		}, 30);
 		const getScrollSpeed = (settings) => {
-			var lastPos, newPos, timer, delta, 
-			delay = 50; // in "ms" (higher means lower fidelity )
+			var lastPos,
+				newPos,
+				timer,
+				delta,
+				delay = 50; // in "ms" (higher means lower fidelity )
 
 			function clear() {
 				lastPos = null;
@@ -61,10 +65,11 @@
 
 			clear();
 
-			return function(){
+			return function () {
 				newPos = $scrollY;
-				if ( lastPos != null ){ // && newPos < maxScroll 
-					delta = newPos -  lastPos;
+				if (lastPos != null) {
+					// && newPos < maxScroll
+					delta = newPos - lastPos;
 				}
 				lastPos = newPos;
 				clearTimeout(timer);
@@ -92,7 +97,6 @@
 	// $: variatorFrame = (currentFrame + (( parseFloat(scrollSpeed) - parseInt(scrollSpeed) ) / 10 / (1 / 42.4)));
 	let detectScroll = (event) => {
 		if ($scrollY < $innerHeight) {
-			
 			if (introPlaying == true) {
 				event.preventDefault();
 				return;
@@ -101,14 +105,14 @@
 				if (currentFrame >= 2 && currentFrame <= 100) {
 					forwardPalying = true;
 					playForwardInterval = setInterval(() => {
-						play("forward")
+						play('forward');
 					}, 300);
 				}
 			} else {
 				if (currentFrame >= 42 && currentFrame <= 100) {
 					backwardPalying = true;
 					playBackwardInterval = setInterval(() => {
-						play("backward")
+						play('backward');
 					}, 300);
 				}
 			}
@@ -120,7 +124,12 @@
 
 <svelte:head>
 	{#each frames as frame, index}
-		<link rel="preload" as="image" href={base + assets + '/frames/intro/medium/frame_' + index + '_medium.jpg'} media="(min-width:960px)" />
+		<link
+			rel="preload"
+			as="image"
+			href={base + assets + '/frames/intro/medium/frame_' + index + '_medium.jpg'}
+			media="(min-width:960px)"
+		/>
 	{/each}
 </svelte:head>
 <svelte:window
@@ -131,10 +140,24 @@
 
 <section>
 	{#each frames as frame, index}
-		{#if parseInt(currentFrame) == frame }
-			<div class="frame active" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
+		{#if parseInt(currentFrame) == frame}
+			<div
+				class="frame active"
+				style="background-image:url({base +
+					assets +
+					'/frames/intro/medium/frame_' +
+					frame +
+					'_medium.jpg'})"
+			/>
 		{:else}
-			<div class="frame" style="background-image:url({base + assets + '/frames/intro/medium/frame_' + (frame) + '_medium.jpg'})"></div>
+			<div
+				class="frame"
+				style="background-image:url({base +
+					assets +
+					'/frames/intro/medium/frame_' +
+					frame +
+					'_medium.jpg'})"
+			/>
 		{/if}
 	{/each}
 	<div class="slogan">
@@ -209,7 +232,7 @@
 		transform: translate(-50%, -50%);
 		text-align: center;
 		pointer-events: none;
-    	z-index: 3;
+		z-index: 3;
 	}
 	p {
 		max-width: var(--slogan-max-width);
