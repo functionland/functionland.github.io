@@ -6,14 +6,12 @@
 <script>
 	import Blog from '$lib/components/blog/index.svelte';
 </script>
+
 <section>
 	<h4>Latest News</h4>
 	<p>Access your favourite apps without the need to pay!</p>
-	<div>
-		<Blog />
-	</div>
+	<Blog />
 </section>
-
 
 <style>
 	section {
@@ -31,12 +29,5 @@
 		margin: 0 auto;
 		text-align: center;
 		padding-bottom: 20px;
-	}
-	div {
-		display: grid;
-		grid-auto-flow: row;
-		grid-row-gap: 16px;
-		max-width: calc(100% - 32px);
-		margin: 0 auto;
 	}
 </style>

@@ -1,18 +1,22 @@
 <script context="module">
-	export const prerender = false;
-	export const hydrate = false;
+	export const prerender = true;
+	export const hydrate = true;
 </script>
 
 <script>
 	import { onMount } from 'svelte';
+	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { onDestroy } from 'svelte';
-	import { initialValue, makeBlogStore } from '$lib/blog.js';
+	import { initialValue, makeBlogStore } from '$lib/components/blog/store.svelte';
 	import Blog_placeholder from '$lib/components/blog/placeholder.svelte';
 	import BlogItem from '$lib/components/blog/item.svelte';
 	let someProp = 'something';
 	let store = makeBlogStore(someProp);
 	let unsubscribe;
 	let blogData = initialValue();
+	if (!unsubscribe) {
+		unsubscribe = store.subscribe(updateBlogData);
+	}
 	onDestroy(() => {
 		if (unsubscribe) {
 			unsubscribe();
@@ -22,23 +26,43 @@
 	function updateBlogData(data) {
 		blogData = data;
 	}
-	onMount(() => {
-		if (!unsubscribe) {
-			unsubscribe = store.subscribe(updateBlogData);
-		}
-	});
+	$: limit = $innerWidth < 960 ? 3 : 9;
 </script>
 
-{#if blogData.ready == true}
-	{#if blogData.items != undefined}
-		{#each blogData.items as post}
-			<BlogItem {post} />
-		{/each}
+<div>
+	{#if blogData.ready == true}
+		{#if blogData.items != undefined}
+			{#each blogData.items as post, index}
+				{#if index < limit}
+					<BlogItem post={post} />
+				{/if}
+			{/each}
+		{/if}
+	{:else if blogData.error != undefined}
+		{#if blogData.error != undefined}
+			<div>error: {blogData.error}</div>
+		{/if}
+	{:else}
+		<Blog_placeholder />
+		<Blog_placeholder />
+		<Blog_placeholder />
 	{/if}
-{:else if blogData.error != undefined}
-	{#if blogData.error != undefined}
-		<div>error: {blogData.error}</div>
-	{/if}
-{:else}
-	<Blog_placeholder />
-{/if}
+</div>
+<style>
+	
+	div {
+		display: grid;
+		grid-auto-flow: row;
+		grid-row-gap: 16px;
+		max-width: calc(100% - 32px);
+		margin: 0 auto;
+	}
+
+	@media (min-width: 960px) {
+		div {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 15px;
+			max-width: 70%;
+		}
+	}
+</style>
