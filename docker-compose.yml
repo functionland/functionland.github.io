@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
 
@@ -46,19 +46,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: fxland
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./build:/usr/src/app/
     networks:
-        - proxy
+      - proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.fxland.entrypoints=https"
       - "traefik.http.routers.fxland.rule=Host(`example.domain`)"
       - "traefik.http.services.fxland.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.fxland-auth.basicauth.users=fxland:$$apr1$$PgKn6LCV$$MPUbn1rEw96J1iNZa2Arb." #generated with `echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g`
+      - "traefik.http.routers.fxland.middlewares=fxland-auth"
       - "traefik.docker.network=proxy"
+      # - "traefik.docker.network=proxy"
   
 networks:
-    proxy:
-        external: true
+  proxy:
+   external: true
