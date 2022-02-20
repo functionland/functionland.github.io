@@ -1,6 +1,6 @@
 <script>
     import { inview } from 'svelte-inview';
-
+	import { assets } from '$app/paths';
     let isInView;
     let scrollDirection;
     const options = {
@@ -17,8 +17,8 @@
 <div class={`item ${type} item-${index}`} use:inview={options} on:change={handleChange} >
     <div class="image-wrapper">
         {#if isInView}
-            <img src={item.image} alt="" width="400" height="400"/>
-            <img src={item.artwork} alt="" class="artwork" width="400" height="400" />
+            <img src={item.image} alt="" width="400" height="400" class="main" loading="lazy" />
+            <img src={`${assets}images/team/artwork.jpg`} alt="" class="artwork" width="400" height="400" loading="lazy" />
         {/if}
     </div>
     <div class="info-wrapper">
@@ -62,23 +62,47 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        transition: opacity cubic-bezier(0.39, 0.575, 0.565, 1) 1s;
+    }
+
+    .item.team img.artwork,
+    .item.advisor img.artwork {
+        opacity: 0;
+    }
+
+    .info {
+        display: grid;
+        height: 100%;
+        grid-auto-flow: row;
+        align-items: center;
+        padding:1rem;
     }
     @media (min-width: 960px) {
+        .item {
+            max-width: 400px;
+            width: 100%;
+        }
         .item-0 {
-            grid-column: 1/-1;
-            grid-row: 2/3;
+            grid-column: 1/2;
+            grid-row: 2/4;
         }
         .item-1 {
             grid-column: 2/3;
-            grid-row: 1/2;
+            grid-row: 1/3;
         }
         .item-2 {
             grid-column: 2/3;
-            grid-row: 3/4;
+            grid-row: 3/5;
         }
-        .item-0 {
+        .item-3 {
             grid-column: 3/4;
-            grid-row: 2/3;
+            grid-row: 2/4;
+        }
+        .item.team:hover img.main {
+            opacity: 0;
+        }
+        .item.team:hover img.artwork {
+            opacity: 1;
         }
     }
 </style>

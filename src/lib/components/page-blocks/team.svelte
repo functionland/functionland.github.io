@@ -1,5 +1,4 @@
 <script>
-    import Heading from '$lib/components/page-blocks/heading.svelte';
     import Grid from '$lib/components/grid/index.svelte';
     export let data;
 </script>
@@ -7,7 +6,7 @@
 <section>
     <div class="container">
         <div class="heading">
-            <h1>{data.title}</h1>
+            <div class="title">{data.title}</div>
             <p>{data.description}</p>
         </div>
         <Grid list={data.list} type="team"/>
@@ -16,10 +15,14 @@
 <style>
     section {
         font-family: var(--inter);
+        padding: 3rem 0 5rem;
+    }
+    .heading {
+        font-family: var(--inter);
         padding: 80px 0;
         text-align: center;
     }
-    h1 {
+    .title {
         font-size: 44px;
         font-weight: 700;
         padding-bottom: 2rem;
