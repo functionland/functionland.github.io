@@ -39,4 +39,10 @@
     .swiper-pagination {
         margin: 1rem 0;
     }
+    .swiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden,
+    .swiper-wrapper,
+    .swiper-slide.swiper-slide-active {
+        overflow: visible;
+    }
+
 }
