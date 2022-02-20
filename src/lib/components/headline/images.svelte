@@ -7,7 +7,6 @@
 	import { scrollY } from 'svelte-window-stores/viewport';
 	import { innerWidth } from 'svelte-window-stores/viewport';
     import { inview } from 'svelte-inview';
-import { onMount } from 'svelte';
 
     let isInView;
     let scrollDirection;
@@ -52,7 +51,7 @@ import { onMount } from 'svelte';
 	{/if}
 </svelte:head>
 {#if photos}
-	<div class={`photos de-contain ${data.ref}`} bind:offsetHeight={scrollTop}  use:inview={options} on:change={handleChange}>
+	<div class={`photos  ${data.ref} ${($innerWidth > 960 && (data.ref != 'design' && data.ref != 'plug-n-play' ? "de-contain" : ""))}`} bind:offsetHeight={scrollTop}  use:inview={options} on:change={handleChange}>
 		{#each data.photos as photo, index}
             {#if $innerWidth < 960}
                 {#if index <= 4}
@@ -253,5 +252,56 @@ import { onMount } from 'svelte';
             top: 50%;
             transform: translate(-50%,-50%);
         }
+        div.photos.design {
+            aspect-ratio: 1055/1185;
+            display: grid;
+            grid-template-columns: 167px 245px 181px 209px 326px;
+            grid-template-columns: 14.09282700421941% 20.67510548523207% 15.27426160337553% 17.63713080168776% 27.51054852320675%;
+            grid-template-rows: 288px 276px 457px;
+            grid-template-rows: 27.29857819905213% 26.16113744075829% 43.3175355450237%;
+            gap: 12px;
+            max-width: 1185px;
+            width: 100%;
+            height: auto;
+        }
+        div.photos.design div.image-box:nth-child(n),
+        div.photos.design div.image-box:nth-child(n) img {
+            aspect-ratio: unset !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        div.photos.design div.image-box:nth-child(1) {
+            grid-row: 1/2;
+            grid-column: 1/3;
+        }
+        div.photos.design div.image-box:nth-child(2) {
+            grid-row: 1/2;
+            grid-column: 3/5;
+        }
+        div.photos.design div.image-box:nth-child(3) {
+            grid-row: 1/3;
+            grid-column: 5/6;
+        }
+        div.photos.design div.image-box:nth-child(4) {
+            grid-row: 2/3;
+            grid-column: 1/2;
+        }
+        div.photos.design div.image-box:nth-child(5) {
+            grid-row: 2/3;
+            grid-column: 2/4;
+        }
+        div.photos.design div.image-box:nth-child(6) {
+            grid-row: 2/3;
+            grid-column: 4/5;
+        }
+        div.photos.design div.image-box:nth-child(7) {
+            grid-row: 3/4;
+            grid-column: 1/4;
+        }
+        div.photos.design div.image-box:nth-child(8) {
+            grid-row: 3/4;
+            grid-column: 4/6;
+        }
+
     }
 </style>

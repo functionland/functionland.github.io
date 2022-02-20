@@ -25,10 +25,18 @@
 		min-height: var(--section-min-height);
 	}
 	p {
-		
 		max-width: calc(100% - 120px);
 		margin: 0 auto;
 		text-align: center;
 		padding-bottom: 20px;
+	}
+	@media (min-width: 960px) {
+		section, .wrapper {
+			min-height: unset;
+			height: auto;
+		}
+		section {
+			padding-bottom: 8rem;
+		}
 	}
 </style>

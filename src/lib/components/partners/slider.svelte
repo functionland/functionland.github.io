@@ -17,10 +17,13 @@
 		<SwiperSlide>
 			<div class="page">
 				{#each data.slice(i*perpage, (i+1)*perpage) as item}
-					<picture>
-						<source srcset={item.dark} media="(prefers-color-scheme: dark)" />
-						<img src={item.light} alt={item.title}/>
-					</picture>
+					<div class="partner">
+						<picture>
+							<source srcset={item.dark} media="(prefers-color-scheme: dark)" />
+							<img src={item.light} alt={item.title} loading="lazy" decoding="async" class="visible"/>
+						</picture>
+						<img src={item.main} alt={item.title} class="colored" loading="lazy" decoding="async"/>
+					</div>
 				{/each}
 			</div>
 		</SwiperSlide>
@@ -50,5 +53,41 @@
 		max-height: 100%;
 		max-width: 120px;
 		mix-blend-mode: darken;
+	}
+	img.colored {
+		opacity: 0;
+	}
+	.partner {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		align-items: center;
+		align-content: center;
+		justify-content: center;
+		justify-items: center;
+	}
+	.partner picture, .partner .colored {
+		grid-column: 1/-1;
+		grid-row: 1/-1;
+		transition: opacity 0.4s, transform 0.4s;
+	}
+	@media (min-width: 960px) {
+		.page {
+			grid-template-columns: repeat(4, 1fr);
+			grid-template-rows: repeat(2, 120px);
+		}
+		.partner:hover picture {
+			opacity: 0;
+			transform: scale(1.1);
+		}
+		.partner:hover {
+			overflow: visible;
+			z-index: 2;
+		}
+		.partner:hover .colored {
+			opacity: 1;
+			transform: scale(1.1);
+		}
 	}
 </style>

@@ -34,3 +34,9 @@
     background-color: #0ACF83;
     transform: scale(1.5);
 }
+
+@media (min-width: 960px) {
+    .swiper-pagination {
+        margin: 1rem 0;
+    }
+}
