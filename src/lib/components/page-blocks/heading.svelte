@@ -11,16 +11,18 @@
 <style>
     section {
         font-family: var(--inter);
-        padding: 0 80px;
+        padding: 80px 0;
         text-align: center;
     }
     h1 {
         font-size: 44px;
         font-weight: 700;
+        padding-bottom: 2rem;
     }
     p {
         font-size: 18px;
         line-height: 1.5;
         font-weight: 500;
+        padding: 0 20px;
     }
 </style>

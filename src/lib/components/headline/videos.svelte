@@ -148,6 +148,9 @@
 		aspect-ratio: 390/450;
 		width: 100%;
 	}
+	.video-wrapper.earn-crypto {
+    	background: #4c4d51;
+	}
 	video {
 		position: absolute;
 		z-index: 0;
@@ -219,11 +222,10 @@
 			background: var(--bkg);
 		}
 		.video-wrapper.earn-crypto video.earn-crypto {
-			max-width: 150%;
-			max-height: 150%;
+			max-width: 100%;
+			bottom: -35%;
 		}
 		video.earn-crypto {
-			bottom: -30%;
 			/* width: 100%;
 			height: auto;
 			top: unset;
@@ -233,6 +235,13 @@
 		}
 	}
 	@media (min-width: 1900px) {
+		.video-wrapper.own-your-data {
+			aspect-ratio: 3/1.2;
+		}
+		.video-wrapper.own-your-data video.own-your-data {
+			max-width: 100%;
+			height: unset;
+		}
 		video.earn-crypto {
 			bottom: -42%;
 			/* bottom: -45%; */

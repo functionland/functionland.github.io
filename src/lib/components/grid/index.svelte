@@ -1,10 +1,11 @@
 <script>
     import Item from '$lib/components/grid/item.svelte';
     export let list;
+    export let type
 </script>
-<div>
+<div class={type}>
     {#each list as item}
-        <Item {item} />
+        <Item {item} {type}/>
     {/each}
 </div>
 <style>

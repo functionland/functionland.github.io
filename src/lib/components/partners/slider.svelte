@@ -72,6 +72,7 @@
 		.page {
 			grid-template-columns: repeat(4, 1fr);
 			grid-template-rows: repeat(2, 120px);
+			transition: opacity 0.3s;
 		}
 		.partner:hover picture {
 			opacity: 0;
@@ -87,6 +88,13 @@
 			transform: scale(1.5);
 			background-color: var(--bkg);
 			mix-blend-mode: luminosity;
+		}
+		
+		:global(.swiper-slide:not(.swiper-slide-active) .page) {
+			opacity: 0;
+		}
+		:global(.swiper-slide.swiper-slide-active .page) {
+			opacity: 1;
 		}
 	}
 </style>

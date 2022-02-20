@@ -17,14 +17,14 @@
 <div class={`item ${type} item-${index}`} use:inview={options} on:change={handleChange} >
     <div class="image-wrapper">
         {#if isInView}
-            <img src={item.image.src} alt="" width={item.image.width} height={item.image.height} >
-            <img src={item.artwork.src} alt="" class="artwork" width={item.artwork.width} height={item.artwork.height} >
+            <img src={item.image} alt="" width="400" height="400"/>
+            <img src={item.artwork} alt="" class="artwork" width="400" height="400" />
         {/if}
     </div>
     <div class="info-wrapper">
         <div class="info">
             <div class="name">{item.name}</div>
-            <div class="title">{item.title}</div>
+            <div class="title">{item.position}</div>
         </div>
     </div>
 </div>
@@ -36,6 +36,8 @@
         grid-template-rows: 72.25% auto;
         aspect-ratio: 1/1;
         width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
     }
     .info-wrapper {
         background: #F1F1F3;
@@ -47,6 +49,19 @@
     .name {
         font-size: 1.5rem;
         font-weight: 500;
+    }
+    .image-wrapper {
+        background: #F1F1F3;
+        position: relative;
+        overflow: hidden;
+    }
+    img {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
     @media (min-width: 960px) {
         .item-0 {
