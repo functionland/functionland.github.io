@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	import error from '$lib/img/layout/error.svelte';
 	import Logo from '$lib/components/Logo/index.svelte';

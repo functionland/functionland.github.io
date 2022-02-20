@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	import Discord from '$lib/img/social/discord.svelte';
 	import Twitter from '$lib/img/social/twitter.svelte';

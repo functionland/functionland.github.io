@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
 <script>
 	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { data } from '$lib/components/partners/data.svelte';

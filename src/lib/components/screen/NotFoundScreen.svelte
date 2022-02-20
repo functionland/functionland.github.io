@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	import Error404 from '$lib/img/layout/404.svelte';
 	import Error from '$lib/img/layout/error.svelte';

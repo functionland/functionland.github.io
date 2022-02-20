@@ -1,6 +1,4 @@
 <script context="module">
-	export const prerender = true;
-	export const hydrate = true;
 	import { assets } from '$app/paths';
 	export const data = [
 		{

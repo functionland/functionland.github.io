@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
 <script>
 	import { prefersColorScheme } from 'svelte-window-stores/appearance';
     import { inview } from 'svelte-inview';
@@ -216,9 +212,6 @@
 		}
 	}
 	@media (min-width: 1900px) and (min-height: 1000px) {
-		.video-wrapper:not(.earn-crypto),.video-wrapper {
-			aspect-ratio: 16/9;
-		}
 		.video-wrapper.customizable {
 			aspect-ratio: 3/1;
 		}
@@ -227,9 +220,6 @@
 			aspect-ratio: 3/2;
 			width: unset;
 			height: 100%;
-		}
-		section,.wrapper {
-			aspect-ratio: 16/9;
 		}
 	}
 </style>

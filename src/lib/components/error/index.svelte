@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
 	import ErrorScreen from '$lib/components/screen/ErrorScreen.svelte'; // your own Error screen component
 	import NotFoundScreen from '$lib/components/screen/NotFoundScreen.svelte'; // your own 404 screen component

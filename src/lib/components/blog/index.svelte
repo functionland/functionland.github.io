@@ -1,10 +1,4 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
-	import { onMount } from 'svelte';
 	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { onDestroy } from 'svelte';
 	import { initialValue, makeBlogStore } from '$lib/components/blog/store.svelte';

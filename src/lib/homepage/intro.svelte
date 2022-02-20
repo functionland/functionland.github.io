@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const intro = true;
-</script>
-
 <script>
 	import { scrollY, innerHeight, innerWidth } from 'svelte-window-stores/viewport';
 	import { scrollElement, scrollPosition, scrolling } from 'svelte-scrolling';

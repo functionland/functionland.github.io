@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <article>
 	<a href="/" target="_blank">
 		<img src="/" alt="" loading="lazy" decoding="async" />

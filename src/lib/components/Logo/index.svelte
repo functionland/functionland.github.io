@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	export let type;
 	import LogoWhite from '$lib/img/layout/logo-w.svelte';

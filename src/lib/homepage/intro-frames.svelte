@@ -1,8 +1,3 @@
-<script context="module">
-	export const hydrate = true;
-	export const prerender = true;
-</script>
-
 <script>
 	import { scrollY, innerHeight } from 'svelte-window-stores/viewport';
 	import { base, assets } from '$app/paths';
@@ -133,6 +128,18 @@
 />
 <section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent} class={outOfViewClass}>
 	<div class="parallax-bg">
+		<div class="hidden-frames" style="opacity: 0; position: fixed; z-index: -1;">
+			{#each frames as frame, index}
+				<div
+					class={`frame frame-${frame}`} data-frame={frame}
+					style="background-image:url({base +
+						assets +
+						'/frames/intro/medium/frame_' +
+						frame +
+						'_medium.jpg'})"
+				/>
+			{/each}
+		</div>
 		{#each frames as frame, index}
 			{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
 				<div
@@ -209,16 +216,17 @@
 		inset: 0;
 		height: 100%;
 		z-index: 0;
-		display: none;
-		visibility: hidden !important;
+		/* display: none; */
+		/* visibility: hidden !important; */
 		background-position: bottom center;
 		background-size: auto 100%;
 		background-repeat: no-repeat;
 		background-color: #3A3941;
 	}
 	div.frame.active {
-		display: block;
-		visibility: visible !important;
+		z-index: 1;
+		/* display: block;
+		visibility: visible !important; */
 	}
 	p {
 		pointer-events: none;

@@ -3,7 +3,6 @@
 </script>
 
 <script>
-	import Footer from '$lib/footer/index.svelte';
 	import IntroFrames from '$lib/homepage/intro-frames.svelte';
 	import Hero from '$lib/homepage/hero.svelte';
 	import Headlines from '$lib/homepage/headlines.svelte';
@@ -25,7 +24,6 @@
 	<Preorder />
 	<News />
 	<Partners />
-	<Footer />
 </main>
 <style>
 </style>

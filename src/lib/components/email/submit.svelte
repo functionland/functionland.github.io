@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
 	import { fade } from 'svelte/transition';
 	import { emailValidator, requiredValidator } from '$lib/components/email/validator/validator.js';

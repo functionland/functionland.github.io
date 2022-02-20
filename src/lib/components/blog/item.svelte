@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
 <script>
 	import Description from '../headline/description.svelte';
 	export let post;

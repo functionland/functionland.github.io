@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
 	// import { scrollTo } from 'svelte-scrolling';
 	import { scrollto } from "svelte-scrollto";

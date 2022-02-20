@@ -3,6 +3,7 @@
 </script>
 <script>
     import * as animateScroll from "svelte-scrollto";
+	import Footer from '$lib/footer/index.svelte';
     animateScroll.setGlobalOptions({
         offset: -60,
     })
@@ -12,5 +13,4 @@
 </script>
 <Header />
 <slot />
-<style>
-</style>
+<Footer />

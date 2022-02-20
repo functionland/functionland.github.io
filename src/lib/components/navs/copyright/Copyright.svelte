@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	import { page } from '$app/stores';
 	const currentYear = new Date().getFullYear();

@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
 	import { scrollY } from 'svelte-window-stores/viewport';
 	import { innerWidth } from 'svelte-window-stores/viewport';

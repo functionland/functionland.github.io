@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	import Submit from '$lib/components/email/submit.svelte';
 	import Logo from '$lib/components/Logo/index.svelte';

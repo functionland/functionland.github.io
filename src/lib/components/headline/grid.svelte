@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
 	import Headline from '$lib/components/headline/index.svelte';
 	import { innerWidth } from 'svelte-window-stores/viewport';

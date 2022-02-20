@@ -1,9 +1,4 @@
 <svelte:options namespace="svg" />
-
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	export let width;
 	export let height;

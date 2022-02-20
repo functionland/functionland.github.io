@@ -1,7 +1,4 @@
 <script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-    
     import { readable } from 'svelte/store';
     import parse from 'rss-to-json';
     const targetUrl = 'https://cors-anywhere.herokuapp.com/https://blog.fx.land/rss/';

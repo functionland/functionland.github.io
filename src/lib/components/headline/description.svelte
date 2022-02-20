@@ -1,8 +1,3 @@
-<script context="module">
-	export const prerender = true;
-	export const hydrate = true;
-</script>
-
 <script>
     import { inview } from 'svelte-inview';
 	// import { scrollRef } from 'svelte-scrolling';
@@ -176,11 +171,6 @@
 			aspect-ratio: 228/220;
 			width: 100%;
 			max-width: 75%;
-		}
-	}
-	@media (min-width: 1900px) and (min-height: 1000px) {
-		section,.wrapper {
-			/* aspect-ratio: 16/9; */
 		}
 	}
 </style>

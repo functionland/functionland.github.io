@@ -1,7 +1,3 @@
-<script context="module">
-	export const prerender = true;
-</script>
-
 <script>
 	import NavMaker from '$lib/components/navs/footer/NavMaker.svelte';
 	const company = {
