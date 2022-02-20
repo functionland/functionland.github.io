@@ -3,6 +3,7 @@
 </script>
 
 <script>
+	import Footer from '$lib/footer/index.svelte';
 	import IntroFrames from '$lib/homepage/intro-frames.svelte';
 	import Hero from '$lib/homepage/hero.svelte';
 	import Headlines from '$lib/homepage/headlines.svelte';
@@ -16,21 +17,15 @@
 <svelte:head>
 	<title>FunctionLand</title>
 </svelte:head>
-<IntroFrames />
 <main>
+	<IntroFrames />
 	<Hero />
 	<Headlines data={valuesData} />
 	<Headlines data={featuresData} title="Why <b>Box</b>?"/>
 	<Preorder />
 	<News />
 	<Partners />
+	<Footer />
 </main>
-
 <style>
-	main {
-		margin-top: 100vh;
-		position: relative;
-		z-index: 2;
-		background: var(--bkg);
-	}
 </style>

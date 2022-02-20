@@ -11,11 +11,22 @@
 
 .container {
 	margin: 0 auto;
-	max-width: var(--max-width);
+	max-width: var(--container-max-width);
 	padding: var(--container-padding);
 	width: 100%;
 }
-
 .no-transition {
 	transition: none;
 }
+
+@media(max-width:959px) {
+	.de-contain {
+		margin: 0 -20px;
+		width: 100vw;
+	}
+}
+/* .container {
+	width: 90%;
+	max-width: 1680px;
+	margin: 0 auto;
+} */

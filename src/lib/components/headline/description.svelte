@@ -4,23 +4,62 @@
 </script>
 
 <script>
-	import { scrollRef } from 'svelte-scrolling';
+    import { inview } from 'svelte-inview';
+	// import { scrollRef } from 'svelte-scrolling';
+	import { innerWidth } from 'svelte-window-stores/viewport';
 	import Videos from '$lib/components/headline/videos.svelte';
 	import Photos from '$lib/components/headline/images.svelte';
 	export let data;
+
+    let isInView;
+    let scrollDirection;
+    const handleChange = ({ detail }) => {
+        isInView = detail.inView;
+        scrollDirection = detail.scrollDirection.vertical;
+    };
 </script>
 
 {#each data as item}
-	<section use:scrollRef={item.ref} class={item.ref}>
-		<h3>{item.main_title}</h3>
-		<p>{item.main_desc}</p>
-		<Videos data={item} />
-		<Photos data={item} />
+	<section id={item.ref} use:inview on:change={handleChange}>
+		<div class="container">
+			<div class="wrapper {item.ref}">
+				{#if $innerWidth >= 960} 
+					{#if item.ref == 'plug-n-play'}
+					<h3
+						class:fade-in-right-delay={isInView}
+						class:fade-out-right-delay={!isInView}>{item.main_title}</h3>
+					<p
+						class:fade-in-right-delay={isInView}
+						class:fade-out-right-delay={!isInView}
+						class:animateHeadingFromTop={scrollDirection !== 'down'}>{item.main_desc}</p>
+					{:else}
+						<h3>{item.main_title}</h3>
+						<p>{item.main_desc}</p>
+					{/if}
+				{:else}
+					<h3>{item.main_title}</h3>
+					<p>{item.main_desc}</p>
+				{/if}
+				<Videos data={item} />
+				<Photos data={item} />
+			</div>
+		</div>
 	</section>
 {/each}
 
 <style>
-	section {
+	section, .wrapper {
+		min-height: var(--description-min-height);
+	}
+	.fade-in-right-delay {
+		animation: fade-in-right 1s ease-in-out normal both;
+		animation-delay: 0.8s;
+	}
+	.fadeout-right-delay {
+		animation: fade-out-right 0.4s ease-in-out  normal both;
+		animation-delay: 0.2s;
+	}
+	.wrapper {
 		padding: 0;
 		display: grid;
 		overflow: hidden;
@@ -28,23 +67,22 @@
 		justify-items: center;
 		grid-template-rows: auto auto 1fr;
 		grid-row-gap: var(--description-row-gap);
-		min-height: var(--description-min-height);
 	}
-	section.apps-without-ads,
-	section.design {
+	.wrapper.apps-without-ads,
+	.wrapper.design {
 		margin-bottom: 120px;
 	}
-	section.earn-crypto {
+	.wrapper.earn-crypto {
 		color: white;
 		grid-row-gap: 20px;
 	}
-	section.earn-crypto:before {
+	.wrapper.earn-crypto:before {
 		content: '';
 		background: linear-gradient(180deg, #4c4d51 60.48%, rgba(79, 80, 85, 0) 92.22%);
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 333px;
+		height: 50%;
 		position: absolute;
 		z-index: 1;
 	}
@@ -53,13 +91,13 @@
 		margin: 0 auto;
 		text-align: center;
 		position: relative;
-		max-width: var(--description-max-width);
+		/* max-width: var(--description-max-width); */
 		padding: var(--description-title-padding);
 		font-size: var(--description-title-font-size);
 		line-height: var(--description-title-line-height);
 		font-weight: var(--description-title-font-weight);
 	}
-	section.earn-crypto h3 {
+	.wrapper.earn-crypto h3 {
 		color: white;
 		grid-row-gap: 20px;
 		padding-bottom: 0;
@@ -68,29 +106,65 @@
 		z-index: 1;
 		margin: 0 auto;
 		position: relative;
-		max-width: var(--description-max-width);
+		/* max-width: var(--description-max-width); */
 		font-size: var(--description-desc-font-size);
 		line-height: var(--description-desc-line-height);
 	}
-	section.apps-without-ads p {
+	.wrapper.apps-without-ads p {
 		text-align: center;
 		max-width: 90%;
 	}
-	section.earn-crypto p {
+	.wrapper.earn-crypto p {
 		max-width: 90%;
 	}
 	@media (min-width: 960px) {
+		#earn-crypto .wrapper {
+			border-radius: 20px;
+			overflow: hidden;
+		}
 		p {
 			max-width: 900px;
 		}
-		section.earn-crypto p {
+		.wrapper.earn-crypto p {
 			max-width: 900px;
 		}
-		section:not(.apps-without-ads):not(.design) {
-			height:var(--description-min-height);
+		.wrapper:not(.apps-without-ads):not(.design) {
+			/* height:var(--description-min-height); */
 		}
-		section.plug-n-play {
+		.wrapper.plug-n-play {
 			grid-template-columns: 1fr 1fr;
+			grid-template-rows: max-content max-content;
+			align-items: center;
+			justify-content: center;
+			align-content: center;
+		}
+		.wrapper.plug-n-play h3,
+		.wrapper.plug-n-play p {
+			padding: 0;
+			text-align: start;
+			width: 100%;
+			max-width: 78%;
+		}
+	}
+	@media (max-width: 959px) {
+		#earn-crypto h3 {
+			font-size: 52px;
+		}
+		section#earn-crypto {
+			padding-bottom: 0
+		}
+		section#earn-crypto > .container {
+			padding: 0;
+		}
+		section#earn-crypto p {
+			aspect-ratio: 228/220;
+			width: 100%;
+			max-width: 75%;
+		}
+	}
+	@media (min-width: 1900px) and (min-height: 1000px) {
+		section,.wrapper {
+			aspect-ratio: 16/9;
 		}
 	}
 </style>

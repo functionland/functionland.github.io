@@ -13,20 +13,25 @@
 </script>
 
 <section>
-	<video autoplay playsinline muted poster={poster} bind:ended>
-		<source {src} type="video/mp4" />
-		{browserSupportText}
-	</video>
-	<!-- {#if ended}
-	{/if} -->
-	<p>Box is available now!</p>
-	<div class="cta">
-		<a class="btn btn-cta" sveltekit:prefetch href="/preorder">Pre-order</a>
+	<div class="container">
+		<div class="wrapper">
+			<video autoplay loop playsinline muted poster={poster} bind:ended>
+				<source {src} type="video/mp4" />
+				{browserSupportText}
+			</video>
+			<!-- {#if ended}
+			{/if} -->
+			<p>Box is available now!</p>
+			<div class="cta">
+				<a class="btn btn-cta" sveltekit:prefetch href="/preorder">Pre-order</a>
+			</div>
+		</div>
 	</div>
 </section>
 
 <style>
-	section {
+
+	.wrapper {
 		position: relative;
 		height: var(--section-min-height);
 		color: white;
@@ -49,7 +54,7 @@
 		z-index: 0;
 	}
 	p,
-	div {
+	.cta {
 		height: 80px;
 		display: grid;
 		position: relative;
@@ -61,7 +66,7 @@
 		font-weight: 400;
 		line-height: 30px;
 	}
-	div {
+	.cta {
 		height: 56px;
 	}
 	a {
@@ -69,9 +74,14 @@
 		width: 206px;
 	}
 	@media(min-width:960px) {
-		section {
+		.wrapper {
 			max-width: 95%;
 			margin: 0 auto;
+		}
+	}
+	@media (max-width: 959px) {
+		.container {
+			padding: 0;
 		}
 	}
 </style>

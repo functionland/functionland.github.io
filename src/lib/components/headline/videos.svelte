@@ -11,26 +11,27 @@
 	$: colorScheme = $prefersColorScheme === 0 ? 'light' : 'dark';
 	let ended;
 	$: loopClass = ended == true ? 'visible' : 'hidden';
-	$: endClass = ended == true ? 'hidden' : 'visible';
+	// $: endClass = ended == true ? 'hidden' : 'visible';
 </script>
 
 {#if videos}
-	<div class={data.ref}>
+	<div class="{data.ref} de-contain video-wrapper">
 		{#if data.ref === 'earn-crypto'}
 			<video
 				autoplay
+				loop
 				bind:ended
 				playsinline
 				muted
-				class={`${data.ref} ${data.ref}-main ${endClass}`}
+				class={`${data.ref} ${data.ref}-main `}
 			>
 				<source src={videos[0].src} type={videos[0].type} />
 				{browserSupportText}
 			</video>
-			<video autoplay loop playsinline muted class={`${data.ref} ${data.ref}-loop ${loopClass}`}>
+			<!-- <video autoplay loop playsinline muted class={`${data.ref} ${data.ref}-loop ${loopClass}`}>
 				<source src={videos[1].src} type={videos[1].type} />
 				{browserSupportText}
-			</video>
+			</video> -->
 		{:else}
 			{#each videos as video}
 				{#if video.scheme !== undefined}
@@ -68,16 +69,18 @@
 {/if}
 
 <style>
-	div {
+	.video-wrapper {
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
     	padding-top: 90%;
 	}
-	div:not(.earn-crypto) {
+	.video-wrapper:not(.earn-crypto) {
 		position: relative;
 		z-index: 0;
-    	padding-top: 100%;
+		padding-top: 0;
+		aspect-ratio: 390/450;
+		width: 100%;
 	}
 	video {
 		position: absolute;
@@ -110,43 +113,80 @@
 		z-index: -1;
 	}
 
-	div.customizable {
+	.video-wrapper.customizable {
 		position: relative;
 		z-index: unset;
 		background: var(--bkg);
 	}
-	div.customizable video.customizable {
+	.video-wrapper.customizable video.customizable {
 		width: 120%;
 		top: unset;
 		bottom: 0;
 		transform: translateX(-50%);
 	}
 	@media (prefers-color-scheme: dark) {
-		div.customizable video.customizable {
+		.video-wrapper.customizable video.customizable {
 			mix-blend-mode: overlay;
 		}
 	}
 	@media (min-width: 960px) {
-		video.own-your-data {
+		.video-wrapper:not(.earn-crypto),.video-wrapper {
+			aspect-ratio: 3/1;
 			width: 100%;
-		}
-		div:not(.earn-crypto) {
-			height: 100%;
 			padding-top: 0;
 		}
+		.video-wrapper video {
+			width: 100%;
+		}
+		
+		.video-wrapper.customizable video.customizable {
+			width: 50%;
+			top: unset;
+			bottom: 0;
+			transform: translateX(-50%);
+		}
 		video.own-your-data {
-			height: unset;
+			/* width: 100%; */
+		}
+		.video-wrapper:not(.earn-crypto) {
+			/* height: 100%; */
+			/* padding-top: 0; */
+		}
+		.video-wrapper.earn-crypto {
+			/* padding-top: 0; */
+		}
+		video.own-your-data {
+			/* height: unset;
 			width: unset;
 			max-height: 250%;
     		max-width: 150%;
 			top: 35%;
 			left: 50%;
-			transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%); */
 		}
 		video.earn-crypto {
-			max-width: 100%;
+			bottom: -30%;
+			/* width: 100%;
+			height: auto;
 			top: unset;
-			bottom: -25%;
+			left: unset;
+			transform: unset;
+			bottom: -20%; */
+		}
+	}
+	@media (min-width: 1900px) {
+		video.earn-crypto {
+			bottom: -42%;
+			/* bottom: -45%; */
+			/* bottom: -40%; */
+		}
+	}
+	@media (min-width: 1900px) and (min-height: 1000px) {
+		.video-wrapper:not(.earn-crypto),.video-wrapper {
+			aspect-ratio: 16/9;
+		}
+		section,.wrapper {
+			aspect-ratio: 16/9;
 		}
 	}
 </style>

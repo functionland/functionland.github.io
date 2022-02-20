@@ -28,41 +28,42 @@
 	}
 	$: limit = $innerWidth < 960 ? 3 : 9;
 </script>
-
-<div>
-	{#if blogData.ready == true}
-		{#if blogData.items != undefined}
-			{#each blogData.items as post, index}
-				{#if index < limit}
-					<BlogItem post={post} />
-				{/if}
-			{/each}
+<div class="wrapper">
+	<div class="grid">
+		{#if blogData.ready == true}
+			{#if blogData.items != undefined}
+				{#each blogData.items as post, index}
+					{#if index < limit}
+						<BlogItem post={post} />
+					{/if}
+				{/each}
+			{/if}
+		{:else if blogData.error != undefined}
+			{#if blogData.error != undefined}
+				<div>error: {blogData.error}</div>
+			{/if}
+		{:else}
+			<Blog_placeholder />
+			<Blog_placeholder />
+			<Blog_placeholder />
 		{/if}
-	{:else if blogData.error != undefined}
-		{#if blogData.error != undefined}
-			<div>error: {blogData.error}</div>
-		{/if}
-	{:else}
-		<Blog_placeholder />
-		<Blog_placeholder />
-		<Blog_placeholder />
-	{/if}
+	</div>
 </div>
 <style>
-	
-	div {
+	.grid {
 		display: grid;
 		grid-auto-flow: row;
 		grid-row-gap: 16px;
-		max-width: calc(100% - 32px);
+		/* max-width: calc(100% - 32px); */
 		margin: 0 auto;
 	}
 
 	@media (min-width: 960px) {
-		div {
+		.grid {
+			max-width: 1200px;
 			grid-template-columns: repeat(3, 1fr);
 			gap: 15px;
-			max-width: 70%;
+			/* max-width: 70%; */
 		}
 	}
 </style>

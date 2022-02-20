@@ -52,8 +52,6 @@
 		background: white;
 	}
 	.container {
-		--container-padding: 0 16px;
-		--columns: 1fr;
 		display: grid;
 		grid-auto-flow: row;
 		grid-template-columns: 1fr;
@@ -64,7 +62,6 @@
 			margin: 0 auto;
 		}
 		.container {
-			--container-padding: 0;
 			--columns: 1fr;
 			grid-template-columns: var(--columns);
 			grid-template-rows: auto 1fr auto;

@@ -85,6 +85,19 @@
 </header>
 
 <style>
+
+	header {
+		position: fixed;
+		z-index: 10;
+		background: var(--header-bg);
+		width: 100%;
+		/* overflow-x: hidden; */
+		/* overflow-x: clip; */
+		height: var(--header-height);
+		top: 0;
+		left: 0;
+		right: 0;
+	}
 	.logo-link {
 		align-items: center;
 		align-content: center;
@@ -151,19 +164,6 @@
 		grid-template-rows: 1fr auto;
 		overflow: hidden;
 		width: 100%;
-	}
-
-	header {
-		position: fixed;
-		z-index: 10;
-		background: var(--header-bg);
-		width: 100%;
-		overflow-x: hidden;
-		overflow-x: clip;
-		height: var(--header-height);
-		top: 0;
-		left: 0;
-		right: 0;
 	}
 	.wrapper {
 		display: flex;
@@ -341,7 +341,7 @@
 	}
 	@media (min-width: 960px) {
 		header {
-			overflow: visible;
+			/* overflow: visible; */
 		}
 		.wrapper {
 			position: relative;

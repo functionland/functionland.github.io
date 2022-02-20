@@ -80,8 +80,8 @@
 						},
 						large: {
 							src: assets + 'images/photos-app/photos-1-large.jpg',
-							width: 329,
-							height: 495
+							width: 427,
+							height: 288
 						},
 					},
 					type: 'image/jpg'
@@ -95,8 +95,8 @@
 						},
 						large: {
 							src: assets + 'images/photos-app/photos-2-large.jpg',
-							width: 850,
-							height: 563
+							width: 427,
+							height: 288
 						},
 					},
 					type: 'image/jpg'
@@ -110,8 +110,8 @@
 						},
 						large: {
 							src: assets + 'images/photos-app/photos-3-large.jpg',
-							width: 581,
-							height: 388
+							width: 584,
+							height: 326
 						},
 					},
 					type: 'image/jpg'
@@ -125,8 +125,8 @@
 						},
 						large: {
 							src: assets + 'images/photos-app/photos-4-large.jpg',
-							width: 692,
-							height: 463
+							width: 167,
+							height: 282
 						},
 					},
 					type: 'image/jpg'
@@ -140,8 +140,53 @@
 						},
 						large: {
 							src: assets + 'images/photos-app/photos-5-large.jpg',
-							width: 325,
-							height: 591
+							width: 433,
+							height: 279
+						},
+					},
+					type: 'image/jpg'
+				},
+				{
+					srcset: {
+						small: {
+							src: assets + 'images/photos-app/photos-5-small.jpg',
+							width: 265,
+							height: 229
+						},
+						large: {
+							src: assets + 'images/photos-app/photos-5-large.jpg',
+							width: 209,
+							height: 276
+						},
+					},
+					type: 'image/jpg'
+				},
+				{
+					srcset: {
+						small: {
+							src: assets + 'images/photos-app/photos-5-small.jpg',
+							width: 265,
+							height: 229
+						},
+						large: {
+							src: assets + 'images/photos-app/photos-5-large.jpg',
+							width: 626,
+							height: 457
+						},
+					},
+					type: 'image/jpg'
+				},
+				{
+					srcset: {
+						small: {
+							src: assets + 'images/photos-app/photos-5-small.jpg',
+							width: 265,
+							height: 229
+						},
+						large: {
+							src: assets + 'images/photos-app/photos-5-large.jpg',
+							width: 550,
+							height: 457
 						},
 					},
 					type: 'image/jpg'

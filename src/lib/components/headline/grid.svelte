@@ -10,19 +10,23 @@
 	export let title;
 </script>
 
-<section class={(typeof title != "undefined" && $innerWidth > 960 ) ? "titled" : ""}>
-	{#if (title && $innerWidth > 960)} 
-		<h3>{@html title}</h3>
-	{/if}
-	{#each data as item}
-		<div>
-			<Headline {item} />
+<section>
+	<div class="container">
+		<div class={(typeof title != "undefined" && $innerWidth > 960 ) ? "titled grid" : "grid"}>
+			{#if (title && $innerWidth > 960)} 
+				<h3>{@html title}</h3>
+			{/if}
+			{#each data as item}
+				<div class='item'>
+					<Headline {item} />
+				</div>
+			{/each}
 		</div>
-	{/each}
+	</div>
 </section>
 
 <style>
-	section {
+	.grid {
 		display: grid;
 		grid-auto-flow: row;
 		row-gap: var(--headlines-grid-gap);
@@ -30,12 +34,12 @@
 		justify-items: center;
 		padding: var(--headlines-padding);
 	}
-	section.titled {
+	.grid.titled {
 		padding: 0;
 		max-height: var(--section-min-height);
 		grid-template-rows: minmax(500px,1fr) auto 1fr ;
 	}
-	section.titled h3 {
+	.grid.titled h3 {
 		grid-row: 1 / 2;
 		grid-column: 1 / 5;
 		align-self: center;
@@ -43,26 +47,25 @@
 		font-size: 80px;
 		padding: 120px 0;
 	}
-	:global(section.titled h3 b) {
+	:global(.grid.titled h3 b) {
 		font-weight: bold;
-		
 	}
-	section.titled div {
+	.grid.titled .item {
 		grid-row: 2;
 	}
-	div {
-		max-width: calc(100% - 60px);
+	.item {
+		/* max-width: calc(100% - 60px); */
 	}
 	@media (min-width: 960px) {
-		section {
+		.grid {
 			grid-auto-flow: column;
 			align-items: start;
-			width: 87%;
-			max-width: 1530px;
+			/* width: 87%; */
+			/* max-width: 1530px; */
 			margin: 0 auto;
 			gap: 1rem;
 		}
-		div {
+		.item {
 			height: 100%;
 			display: grid;
 			grid-auto-flow: column;
@@ -72,6 +75,9 @@
 			max-width: unset;
 		}
 	}
-	@media (min-width: 1900px) {
+	@media (max-width: 960px) {
+		.item {
+			padding: 0 15px;
+		}
 	}
 </style>

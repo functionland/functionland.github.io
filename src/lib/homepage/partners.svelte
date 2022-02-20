@@ -6,9 +6,13 @@
 	import Slider from '$lib/components/partners/slider.svelte';
 </script>
 <section>
-	<h5>Our Partners</h5>
-	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
-	<Slider />
+	<div class="container">
+		<div class="wrapper">
+			<h5>Our Partners</h5>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+			<Slider />
+		</div>
+	</div>
 </section>
 <style>
 	h5 {
@@ -17,7 +21,7 @@
 		text-align: center;
 		padding-bottom: 2rem;
 	}
-	section {
+	.wrapper {
 		min-height: var(--section-min-height);
 	}
 	p {

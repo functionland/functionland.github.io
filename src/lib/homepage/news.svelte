@@ -8,13 +8,17 @@
 </script>
 
 <section>
-	<h4>Latest News</h4>
-	<p>Access your favourite apps without the need to pay!</p>
-	<Blog />
+	<div class="container">
+		<div class="wrapper">
+			<h4>Latest News</h4>
+			<p>Access your favourite apps without the need to pay!</p>
+			<Blog />
+		</div>
+	</div>
 </section>
 
 <style>
-	section {
+	.wrapper {
 		min-height: var(--section-min-height);
 		padding: 40px 0 80px;
 	}

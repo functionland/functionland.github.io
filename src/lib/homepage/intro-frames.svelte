@@ -8,8 +8,7 @@
 	import { base, assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	let playInterval;
-	let introPlaying = true;
+	let playInterval, outOfViewClass, scrollSpeed = 0, windowHeight, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true;
 	const play = () => {
 		introPlaying = true;
 		playInterval = setInterval(() => {
@@ -21,8 +20,6 @@
 			}
 		}, 1.4 * (1 / 42.4) * 1000);
 	};
-	let scrollSpeed = 0;
-	let windowHeight;
 	onMount(() => {
 		play();
 		showSlogan = true;
@@ -65,20 +62,18 @@
 			return;
 		}
 	};
-	let showSlogan = false;
-	let frames = [];
 	for (let i = 0; i < 100; i++) {
 		frames.push(i + 1);
 	}
-	let currentFrame = 1;
-	let lastScroll = 0;
 	const detectScroll = (event) => {
 		if ($scrollY < windowHeight) {
-			document.querySelector('main').style.marginTop = `${windowHeight}px`;
-			document.querySelector('main').style.paddingTop = 0;
+			outOfViewClass = '';
+			// document.querySelector('main').style.marginTop = `${windowHeight}px`;
+			// document.querySelector('main').style.paddingTop = 0;
 		} else {
-			document.querySelector('main').style.marginTop = 0;
-			document.querySelector('main').style.paddingTop = `${windowHeight}px`;
+			outOfViewClass = 'out-of-view';
+			// document.querySelector('main').style.marginTop = 0;
+			// document.querySelector('main').style.paddingTop = `${windowHeight}px`;
 		}
 		if ($scrollY < $innerHeight) {
 			if (introPlaying == true) {
@@ -91,8 +86,9 @@
 						event.preventDefault();
 						return;
 					} else {
-						currentFrame +=
-							0.25644438000000001 + scrollSpeed / $innerHeight + scrollSpeed / $scrollY;
+						currentFrame += 
+							// (0.25644438000000001 + (scrollSpeed / $innerHeight) + (scrollSpeed / $scrollY) * 5);
+							0.86644438000000001 + scrollSpeed / $innerHeight + scrollSpeed / $scrollY;
 						if (currentFrame > 60) {
 							showSlogan = false;
 						}
@@ -135,42 +131,77 @@
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}
 />
-<section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent}>
-	{#each frames as frame, index}
-		{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
-			<div
-				class="frame active"
-				style="background-image:url({base +
-					assets +
-					'/frames/intro/medium/frame_' +
-					frame +
-					'_medium.jpg'})"
-			/>
-		{:else}
-			<div
-				class="frame"
-				style="background-image:url({base +
-					assets +
-					'/frames/intro/medium/frame_' +
-					frame +
-					'_medium.jpg'})"
-			/>
-		{/if}
-	{/each}
-	<div class="slogan">
-		{#if showSlogan}
-			<p
-				in:fly={{ delay: 100, y: 200, duration: 1699 }}
-				out:fade={{ delay: 0, duration: 300 }}
-				class="slogan"
-			>
-				A Piece of Blockchain on Your Desk
-			</p>
-		{/if}
+<section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent} class={outOfViewClass}>
+	<div class="parallax-bg">
+		{#each frames as frame, index}
+			{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
+				<div
+					class="frame active"
+					style="background-image:url({base +
+						assets +
+						'/frames/intro/medium/frame_' +
+						frame +
+						'_medium.jpg'})"
+				/>
+			{:else}
+				<div
+					class="frame"
+					style="background-image:url({base +
+						assets +
+						'/frames/intro/medium/frame_' +
+						frame +
+						'_medium.jpg'})"
+				/>
+			{/if}
+		{/each}
+		<div class="slogan">
+			{#if showSlogan}
+				<p
+					in:fly={{ delay: 100, y: 200, duration: 1699 }}
+					out:fade={{ delay: 0, duration: 300 }}
+					class="slogan"
+				>
+					A Piece of Blockchain on Your Desk
+				</p>
+			{/if}
+		</div>
 	</div>
 </section>
 
 <style>
+	section {
+		height: var(--intro-height);
+		background-color: transparent;
+		position: relative;
+		z-index: 0;
+	}
+	.parallax-bg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #3A3941;
+	}
+	.out-of-view {
+		opacity: 0;
+	}
+
+	.slogan {
+		pointer-events: none;
+		position: absolute;
+		width: fit-content;
+		height: fit-content;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+		z-index: 12;
+		width: 100%;
+		height: 100%;
+		display: grid;
+		align-items: center;
+	}
 	div.frame {
 		position: absolute;
 		pointer-events: none;
@@ -183,6 +214,7 @@
 		background-position: bottom center;
 		background-size: auto 100%;
 		background-repeat: no-repeat;
+		background-color: #3A3941;
 	}
 	div.frame.active {
 		display: block;
@@ -207,31 +239,6 @@
 		word-break: break-word;
 		position: relative;
 		z-index: 4;
-	}
-	section {
-		height: var(--intro-height);
-		position: fixed;
-		z-index: 0;
-		top: var(--header-height);
-		left: 0;
-		right: 0;
-		bottom: 0;
-		transition: opacity 0.3s;
-	}
-	.slogan {
-		pointer-events: none;
-		position: absolute;
-		width: fit-content;
-		height: fit-content;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		text-align: center;
-		z-index: 12;
-		width: 100%;
-		height: 100%;
-		display: grid;
-		align-items: center;
 	}
 	@media (min-width: 960px) {
 		p {

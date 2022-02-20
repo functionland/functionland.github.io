@@ -4,15 +4,26 @@
 </script>
 
 <script>
-
-	import Saos from "saos";
 	import { scrollY } from 'svelte-window-stores/viewport';
 	import { innerWidth } from 'svelte-window-stores/viewport';
+    import { inview } from 'svelte-inview';
+import { onMount } from 'svelte';
+
+    let isInView;
+    let scrollDirection;
+    const options = {
+        unobserveOnEnter: false,
+    };
+    const handleChange = ({ detail }) => {
+        isInView = detail.inView;
+        scrollDirection = detail.scrollDirection.vertical;
+    };
+
 	export let data;
 	let photos = data.photos ? (data.photos.length > 0 ? true : false) : false;
 	let scrollTop;
     let preloadTriggered = false;
-	$: preload = $scrollY > scrollTop - 300 ? ()=>{preloadTriggered = true; return true} : false;
+	$: preload = $scrollY > scrollTop - 50 ? ()=>{preloadTriggered = true; return true} : false;
     
 
     const addAnimateOnHover = event => {
@@ -22,6 +33,11 @@
     }
     const removeAnimateOnHover = event => {
         event.target.classList.remove('vibrate-1-2s')
+    }
+    const enlarge = (event) => {
+        if (event.target.classList.contains('apps-without-ads')) {
+            event.target.classList.add('enlarge')
+        }
     }
 </script>
 
@@ -36,34 +52,46 @@
 	{/if}
 </svelte:head>
 {#if photos}
-	<div class={`photos ${data.ref}`} bind:offsetHeight={scrollTop}>
+	<div class={`photos de-contain ${data.ref}`} bind:offsetHeight={scrollTop}  use:inview={options} on:change={handleChange}>
 		{#each data.photos as photo, index}
-        
             {#if $innerWidth < 960}
+                {#if index <= 4}
                 <div class={`image-box ${data.ref}`} style={`aspect-ratio: ${photo.srcset.small.width}/${photo.srcset.small.height}; width: ${(photo.srcset.small.width / 390) * 100}%`}>
-                    <img src={photo.srcset.small.src} alt="" class={`${ (index%2 == 0 && data.ref!='plug-n-play') ? "vibrate-1-3s" : "vibrate-1-6s"} ${data.ref}`} width={photo.srcset.small.width} height={photo.srcset.small.height}/>
-                </div>
-            {:else}
-                <div class={`image-box ${data.ref}`} style={`aspect-ratio: ${photo.srcset.large.width}/${photo.srcset.large.height}; width: ${(photo.srcset.large.width / 1530) * 100}%`} on:mouseleave={removeAnimateOnHover} on:mouseenter={addAnimateOnHover}>
-                    {#if data.ref=="plug-n-play"}
-                        <Saos animation={"collapse-from-left 4s linear both"}>
-                            <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
-                        </Saos>
+                    {#if isInView}
+                        <img src={photo.srcset.small.src} alt="" class={`${ (index%2 == 0 && data.ref!='plug-n-play') ? "vibrate-1-3s" : "vibrate-1-6s"} ${data.ref}`} width={photo.srcset.small.width} height={photo.srcset.small.height}/>
                     {:else}
-                        <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
+                        <div class="{`placeholder ${data.ref}`}" width={photo.srcset.small.width} height={photo.srcset.small.height}></div>
                     {/if}
                 </div>
+                {/if}
+            {:else}
+                {#if data.ref=="plug-n-play"}
+                    {#if index <= 4}
+                    <div class={`image-box ${data.ref}`}
+                        class:animate={isInView}
+                        class:animateFromBottom={scrollDirection === 'down'}
+                        class:animateFromTop={scrollDirection !== 'down'}>
+                        <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
+                    </div>
+                    {/if}
+                {:else}
+                    <div class={`image-box ${data.ref}`} style={`aspect-ratio: ${photo.srcset.large.width}/${photo.srcset.large.height}; width: ${(photo.srcset.large.width / 1530) * 100}%`} on:mouseleave={removeAnimateOnHover} on:mouseenter={addAnimateOnHover} on:click={enlarge}>
+                        {#if isInView}
+                            <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
+                        {:else}
+                            <div class="{`placeholder ${data.ref}`}" width={photo.srcset.large.width} height={photo.srcset.large.height}></div>
+                        {/if}
+                    </div>
+                {/if}
             {/if}
 		{/each}
 	</div>
 {/if}
-<!-- width: calc( (${photo.srcset.small.height} / ${photo.srcset.small.width}) * (100% - 60px) ); -->
 <style>
     div.photos:not(.plug-n-play) {
         position: relative;
-        padding-top: calc( (939 / 390) * 100%);
+        aspect-ratio: 390/939;
 		width: 100%;
-		/* max-width: calc(100% - 30px); */
 		display: block;
     }
     div.image-box:not(.plug-n-play) {
@@ -114,44 +142,61 @@
     }
 
     @media (min-width: 960px) {
-        div.photos:not(.plug-n-play) {
-            padding-top: calc( (1529 / 1730) * 80%);
+        div.photos:not(.plug-n-play):not(.design) {
+            /* padding-top: calc( (1529 / 1730) * 80%); */
+            aspect-ratio: 1529/1198.99;
             max-width: 90%;
             margin: 0 auto;
         }
-        div.image-box:not(.plug-n-play) img {
+        div.photos.design {
+            aspect-ratio: 1188/1058;
+        }
+        div.photos.design div.image-box,
+        div.photos.design div.image-box:nth-child(1),
+        div.photos.design div.image-box:nth-child(2),
+        div.photos.design div.image-box:nth-child(3),
+        div.photos.design div.image-box:nth-child(4),
+        div.photos.design div.image-box:nth-child(5),
+        div.photos.design div.image-box img {
+            position: unset;
+            top: unset;
+            left: unset;
+            right: unset;
+            bottom: unset;
+        }
+        div.image-box:not(.plug-n-play):not(.design) img {
             height: unset;
             width: 100%; 
             border-radius: 20px;
         }
 
-        div.photos:not(.plug-n-play) div.image-box:nth-child(1) {
+        div.photos:not(.plug-n-play):not(.design) div.image-box:nth-child(1) {
             position: absolute;
             top: 0;
             left: 0;
             z-index: 1;
         }
-        div.photos:not(.plug-n-play) div.image-box:nth-child(2) {
+        div.photos:not(.plug-n-play):not(.design) div.image-box:nth-child(2) {
             position: absolute;
             top: 17.42%;
             left: 3.6%;
             z-index: 0;
         }
-        div.photos:not(.plug-n-play) div.image-box:nth-child(3) {
+        div.photos:not(.plug-n-play):not(.design) div.image-box:nth-child(3) {
             position: absolute;
             top: 0;
             left: unset;
             right: 0;
             z-index: 0;
         }
-        div.photos:not(.plug-n-play) div.image-box:nth-child(4) {
+        div.photos:not(.plug-n-play):not(.design) div.image-box:nth-child(4) {
             position: absolute;
             top: unset;
             left: 0;
             z-index: 0;
             bottom: 2.66%;
         }
-        div.photos:not(.plug-n-play) div.image-box:nth-child(5) {
+        div.photos:not(.plug-n-play):not(.design) div.image-box:nth-child(5) {
             position: absolute;
             bottom: 0;
             right: 0;
@@ -159,11 +204,11 @@
             top: unset;
             z-index: 0;
         }
-        div.photos:not(.plug-n-play):hover div.image-box:hover {
+        div.photos:not(.plug-n-play):not(.design):hover div.image-box:hover {
             opacity: 1;
         }
         
-        div.photos:not(.plug-n-play):hover div.image-box:not(:hover) {
+        div.photos:not(.plug-n-play):not(.design):hover div.image-box:not(:hover) {
             opacity: 0.9;
         }
         
@@ -173,9 +218,40 @@
             position: unset !important;
 		}
         .image-box.plug-n-play {
-            grid-row: 1 / -1;
-            /* position: absolute; */
+			position: absolute;
+			right: 0;
+			z-index: 1;
+			top: 0;
+			transform-origin: center;
+			height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        .image-box.plug-n-play.animateFromTop {
+            -webkit-animation: expand-to-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: expand-to-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation-delay: 0.2s;
 
+        }
+        .image-box.plug-n-play.animateFromBottom {
+            -webkit-animation: expand-to-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: expand-to-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation-delay: 0.2s;
+        }
+        .image-box.plug-n-play.animate {
+            -webkit-animation: collapse-from-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: collapse-from-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation-delay: 0.2s;
+        }
+        .image-box.plug-n-play img{
+            width: auto;
+            max-width: unset;
+            height: 100%;
+            max-width: unset;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
         }
     }
 </style>

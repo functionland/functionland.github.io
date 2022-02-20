@@ -9,22 +9,26 @@
 	--p-large-l-height: 50px;
 	--p-large-f-weight: 400;
 	--max-width: 100%;
-	--container-padding: 0;
+	--container-max-width: 100%;
+	--container-padding: 0 16px;
 	--header-height: 60px;
 	--section-min-height: calc(100vh - var(--header-height));
 	--section-padding: 40px 0;
-	--section-title-font-size: 53px;
+	--section-title-font-size: 48px;
 	--section-title-line-height: 80px;
 }
 
 @media (min-width: 960px) {
 	:root {
-		--max-width: calc(100% - 60px);
+		--max-width: 1530px;
+		--container-max-width: 1530px;
 		--container-padding: 0 20px;
 	}
 }
 @media (min-width: 1600px) {
 	:root {
 		--max-width: 1640px;
+		--container-max-width: 1640px;
+		--container-padding: 0 20px;
 	}
 }

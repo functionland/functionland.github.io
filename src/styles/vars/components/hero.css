@@ -17,5 +17,6 @@
 		--hero-line-height: 80px;
 		--hero-image-brdrds: var(--border-radius);
 		--hero-image-max-width: var(--max-width);
+		--hero-max-width: 827px;
 	}
 }

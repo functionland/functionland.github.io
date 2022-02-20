@@ -4,13 +4,16 @@
 </script>
 
 <script>
-	import { scrollTo } from 'svelte-scrolling';
+	// import { scrollTo } from 'svelte-scrolling';
+	import { scrollto } from "svelte-scrollto";
+
 	export let item;
 </script>
 
 <h2>{item.intro_title}</h2>
 <p>{item.intro_desc}</p>
-<button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button>
+<!-- <button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button> -->
+<button use:scrollto={`#${item.ref}`} class="btn btn-cta">{item.cta_text}</button>
 
 <style>
 	h2 {
