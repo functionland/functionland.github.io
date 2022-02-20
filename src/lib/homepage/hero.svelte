@@ -11,7 +11,11 @@
         scrollDirection = detail.scrollDirection.vertical;
     };
 </script>
-<svelte:window bind:innerWidth={innerWidth} />
+<svelte:head>
+	<link rel="preload" href={heroImageDesktop} media="(min-width: 960px)" as="image" />
+	<link rel="preload" href={heroImageMobile} media="(max-width: 959px)" as="image" />
+</svelte:head>
+<svelte:window bind:innerWidth={innerWidth}/>
 <section>
 	<div class="container">
 		<div class="wrapper">
@@ -47,7 +51,7 @@
 					class:scale-out-FromTop={scrollDirection === 'down'}
 					class:scale-out-FromBottom={scrollDirection !== 'down'}>
 					<source srcset={heroImageDesktop} media="(min-width: 960px)" />
-					<img src={heroImageMobile} alt=""
+					<img src={heroImageMobile} alt="" loading="eager"
 					class:size-in={imageIsInView}
 					class:size-out-FromBottom={scrollDirection === 'down'}
 					class:size-out-FromTop={scrollDirection !== 'down'}/>
