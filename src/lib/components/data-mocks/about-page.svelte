@@ -31,7 +31,7 @@
                 {
                     name: "Ehsan Shariati",
                     position: "CTO",
-                    image: assets + 'images/team/ehsan-shariati.png',
+                    image: assets + 'images/team/ehsan-shariati.jpg',
                     artwork: assets + 'images/team/ehsan-shariati-artwork.jpg',
                 },
                 {
@@ -78,25 +78,25 @@
             list: [
                 {
                     name: "Crhis Gale",
-                    title: "Founder | ViewWorks",
+                    position: "Founder | ViewWorks",
                     image: assets + 'images/advisors/crhis-gale.png',
                     artwork: assets + 'images/advisors/crhis-gale-artwork.jpg',
                 },
                 {
                     name: "Zac Cohen",
-                    title: "Founder | FileBase",
+                    position: "Founder | FileBase",
                     image: assets + 'images/advisors/zac-cohen.png',
                     artwork: assets + 'images/advisors/zac-cohen-artwork.jpg',
                 },
                 {
                     name: "Shaun Neff",
-                    title: "Founder | Neff Headwear",
-                    image: assets + 'images/advisors/shaun-neff.png',
+                    position: "Founder | Neff Headwear",
+                    image: assets + 'images/advisors/shaun-neff.jpg',
                     artwork: assets + 'images/advisors/shaun-neff-artwork.jpg',
                 },
                 {
                     name: "Andy Lark",
-                    title: "CEO | Group Lark",
+                    position: "CEO | Group Lark",
                     image: assets + 'images/advisors/andy-lark.png',
                     artwork: assets + 'images/advisors/andy-lark-artwork.jpg',
                 }
@@ -104,7 +104,7 @@
         },
         partners: {
             title: "Our Partners",
-            description: "Pulvinar auctor nisl, volutpat turpis enim id. ",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore",
             list: partnersList
         },
         memories: {
@@ -264,7 +264,7 @@
 			]
         },
         jobs: {
-            main_title: 'Help Us Build a Better Future,Join Functionland',
+            main_title: 'Help Us Build a Better Future, Join Functionland',
             title: 'Available Positions',
             description: 'Email us at hi@fx.land to learn more!',
             cta_items: [

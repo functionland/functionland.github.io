@@ -11,17 +11,19 @@
     </div>
 </section>
 <style>
+    section {
+        font-family: var(--inter);
+    }
     .grid {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-rows: 1fr 1fr;
         grid-auto-flow: row;
         padding: 2rem;
         height: 100%;
         width: 100%;
         background: #f6f6f6;
         min-height: var(--section-min-height);
-        justify-items: center;
         align-items: center;
     }
     .title {
@@ -29,6 +31,8 @@
         font-size: 40px;
         font-weight: 600;
         border-bottom: 4px solid rgb(207, 207, 207);
+        display: flex;
+        align-items: center;
     }
     .description {
         color: #00000080;
@@ -40,6 +44,7 @@
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr;
             grid-auto-flow: row;
+            min-height: unset;
             /* padding: 4rem; */
         }
         .title {

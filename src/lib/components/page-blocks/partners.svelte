@@ -1,20 +1,22 @@
 <script>
-    import Grid from '$lib/components/grid/people.svelte';
+    import Grid from '$lib/components/grid/partners.svelte';
     export let data;
 </script>
+
 <section>
     <div class="container">
         <div class="heading">
             <div class="title">{data.title}</div>
             <p>{data.description}</p>
         </div>
-        <Grid list={data.list} type="team"/>
+        <Grid list={data.list}/>
     </div>
 </section>
 <style>
     section {
         font-family: var(--inter);
         padding: 3rem 0 5rem;
+        background: #f6f6f6;
     }
     .heading {
         font-family: var(--inter);
