@@ -133,11 +133,18 @@
 
 <svelte:head>
 	{#each frames as frame, index}
+
 		<link
 			rel="preload"
 			as="image"
 			href={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}
 			media="(min-width:960px)"
+		/>
+		<link
+			rel="preload"
+			as="image"
+			href={base + assets + '/frames/intro/medium/frame_' + frame + '_small.jpg'}
+			media="(max-width:959px)"
 		/>
 	{/each}
 </svelte:head>
@@ -150,37 +157,41 @@
 />
 <section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent} class={outOfViewClass}>
 	<div class="parallax-bg">
-		<div class="hidden-frames" style="opacity: 0; position: fixed; z-index: -1;">
-			{#each frames as frame, index}
-				<div
-					class={`frame frame-${frame}`} data-frame={frame}
-					style="background-image:url({base +
-						assets +
-						'/frames/intro/medium/frame_' +
-						frame +
-						'_medium.jpg'})"
-				/>
-			{/each}
-		</div>
 		{#each frames as frame, index}
 			{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
-				<div
+				<!-- <div
 					class="frame active"
 					style="background-image:url({base +
 						assets +
 						'/frames/intro/medium/frame_' +
 						frame +
 						'_medium.jpg'})"
-				/>
+				/> -->
+				<div class="frame active">
+					<picture>
+						<source
+							media="(min-width:960px)"
+							srcset={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}>
+						<img src={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'} alt="">
+					</picture>
+				</div>
 			{:else}
-				<div
+				<div class="frame">
+					<picture>
+						<source
+							media="(min-width:960px)"
+							srcset={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}>
+						<img src={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'} alt="">
+					</picture>
+				</div>
+				<!-- <div
 					class="frame"
 					style="background-image:url({base +
 						assets +
 						'/frames/intro/medium/frame_' +
 						frame +
 						'_medium.jpg'})"
-				/>
+				/> -->
 			{/if}
 		{/each}
 		<div class="slogan">
@@ -203,6 +214,7 @@
 		background-color: transparent;
 		position: relative;
 		z-index: 0;
+		padding: 0;
 	}
 	.parallax-bg {
 		position: fixed;
@@ -231,7 +243,15 @@
 		display: grid;
 		align-items: center;
 	}
-	div.frame {
+	.frame {
+		/* position: absolute;
+		pointer-events: none;
+		width: 100%;
+		inset: 0;
+		height: auto;
+		bottom: 0;
+		z-index: 0; */
+		
 		position: absolute;
 		pointer-events: none;
 		width: 100%;
@@ -245,10 +265,21 @@
 		background-repeat: no-repeat;
 		background-color: #3A3941;
 	}
-	div.frame.active {
+	.frame.active {
 		z-index: 1;
 		/* display: block;
 		visibility: visible !important; */
+	}
+	.frame img {
+		position: absolute;
+		bottom: 0;
+		height: 100%;
+		width: auto;
+		max-width: unset;
+		/* height: 100%; */
+		left: 50%;
+		transform: translateX(-50%);
+		object-fit: contain;
 	}
 	p {
 		pointer-events: none;
@@ -274,9 +305,10 @@
 		p {
 			word-break: unset;
 		}
-		div.frame {
-			max-width: unset;
-			background-size: 100% auto;
+		.frame img {
+			height: auto;
+			width: 100%;
+			max-width: 100%;
 		}
 	}
 </style>
