@@ -22,7 +22,8 @@
 		"prettier-plugin-svelte": "^2.4.0",
 		"svelte": "^3.44.0",
 		"svelte-intersection-observer": "^0.10.0",
-		"svelte-preprocess": "^4.10.3"
+		"svelte-preprocess": "^4.10.3",
+		"svelte-scrollto": "^0.2.0"
 	},
 	"type": "module",
 	"dependencies": {
@@ -35,7 +36,7 @@
 		"rss-parser": "^3.12.0",
 		"rss-to-json": "^2.0.2",
 		"saos": "^1.2.0",
-		"svelte-inview": "^2.1.1",
+		"svelte-inview": "^3.0.0",
 		"svelte-preprocess-import-assets": "^0.1.6",
 		"svelte-scrolling": "^1.1.1",
 		"svelte-window-stores": "^1.0.5",
