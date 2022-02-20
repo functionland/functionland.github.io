@@ -143,7 +143,7 @@
 		<link
 			rel="preload"
 			as="image"
-			href={base + assets + '/frames/intro/medium/frame_' + frame + '_small.jpg'}
+			href={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'}
 			media="(max-width:959px)"
 		/>
 	{/each}
