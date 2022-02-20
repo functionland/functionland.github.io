@@ -57,7 +57,7 @@
                 {#if index <= 4}
                 <div class={`image-box ${data.ref}`} style={`aspect-ratio: ${photo.srcset.small.width}/${photo.srcset.small.height}; width: ${(photo.srcset.small.width / 390) * 100}%`}>
                     {#if isInView}
-                        <img src={photo.srcset.small.src} alt="" class={`${ (index%2 == 0 && data.ref!='plug-n-play') ? "vibrate-1-3s" : "vibrate-1-6s"} ${data.ref}`} width={photo.srcset.small.width} height={photo.srcset.small.height}/>
+                        <img src={photo.srcset.small.src} alt="" class={`${ (index%2 == 0 && data.ref!='plug-n-play') ? "vibrate-1-3s" : "vibrate-1-6s"} ${data.ref}`} width={photo.srcset.small.width} height={photo.srcset.small.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
                     {:else}
                         <div class="{`placeholder ${data.ref}`}" width={photo.srcset.small.width} height={photo.srcset.small.height}></div>
                     {/if}

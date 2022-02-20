@@ -67,7 +67,7 @@
 			<!-- {#if $media.mobile}
             {/if} -->
 		</div>
-		<nav class={navClass}>
+		<nav class:close={menuOpen != true} class:open={menuOpen == true}>
 			<ul>
 				{#each navItems as navItem}
 					<li class:active={$page.url.pathname === navItem.path}>

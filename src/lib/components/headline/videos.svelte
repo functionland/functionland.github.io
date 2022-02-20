@@ -2,20 +2,49 @@
 	export const prerender = true;
 	export const hydrate = true;
 </script>
-
 <script>
 	import { prefersColorScheme } from 'svelte-window-stores/appearance';
+    import { inview } from 'svelte-inview';
 	export let data;
 	let videos = data.videos ? (data.videos.length > 0 ? data.videos : false) : false;
 	let browserSupportText = 'Your browser does not support the video element.';
 	$: colorScheme = $prefersColorScheme === 0 ? 'light' : 'dark';
 	let ended;
+    let isInView;
+    let scrollDirection;
+    const options = {
+    	rootMargin: '150px',
+        unobserveOnEnter: false,
+    };
+    const handleChange = ({ detail }) => {
+        isInView = detail.inView;
+        scrollDirection = detail.scrollDirection.vertical;
+		preloadTriggered = true;
+    };
+    let preloadTriggered = false;
 	$: loopClass = ended == true ? 'visible' : 'hidden';
-	// $: endClass = ended == true ? 'hidden' : 'visible';
 </script>
-
+<svelte:head>
+	{#if preloadTriggered}
+		{#if data.ref === 'earn-crypto'}
+			<link rel="preload" href={videos[0].src} as="video" type={videos[0].type} />
+		{:else}
+			{#each videos as video}
+				{#if preloadTriggered == true}
+					{#if video.scheme !== undefined}
+						{#if colorScheme === video.scheme}
+							<link rel="preload" href={video.src} type={video.type} as="video" media={`(preferes-color-scheme: ${colorScheme})`} />
+						{/if}
+					{:else}
+						<link rel="preload" href={video.src} type={video.type} as="video" media={`(preferes-color-scheme: ${colorScheme})`} />
+					{/if}
+				{/if}
+			{/each}
+		{/if}
+	{/if}
+</svelte:head>
 {#if videos}
-	<div class="{data.ref} de-contain video-wrapper">
+	<div class="{data.ref} de-contain video-wrapper"  use:inview={options} on:change={handleChange}>
 		{#if data.ref === 'earn-crypto'}
 			<video
 				autoplay
@@ -25,7 +54,7 @@
 				muted
 				class={`${data.ref} ${data.ref}-main `}
 			>
-				<source src={videos[0].src} type={videos[0].type} />
+				<source src={videos[0].src} type={videos[0].type} loading="{preloadTriggered == true ? 'eager' : 'lazy'}" decoding="async" />
 				{browserSupportText}
 			</video>
 			<!-- <video autoplay loop playsinline muted class={`${data.ref} ${data.ref}-loop ${loopClass}`}>
@@ -37,12 +66,12 @@
 				{#if video.scheme !== undefined}
 					{#if colorScheme === video.scheme}
 						{#if data.ref === 'customization'}
-							<video loop playsinline muted class={data.ref}>
+							<video loop playsinline muted class={data.ref} loading="{preloadTriggered == true ? 'eager' : 'lazy'}" decoding="async">
 								<source src={video.src} type={video.type} />
 								{browserSupportText}
 							</video>
 						{:else}
-							<video autoplay loop playsinline muted class={data.ref}>
+							<video autoplay loop playsinline muted class={data.ref} loading="{preloadTriggered == true ? 'eager' : 'lazy'}" decoding="async">
 								<source src={video.src} type={video.type} />
 								{browserSupportText}
 							</video>
@@ -51,12 +80,12 @@
 					{/if}
 				{:else}
 					{#if data.ref === 'customization'}
-						<video loop playsinline muted class={data.ref}>
+						<video loop playsinline muted class={data.ref} loading="{preloadTriggered == true ? 'eager' : 'lazy'}" decoding="async">
 							<source src={video.src} type={video.type} />
 							{browserSupportText}
 						</video>
 					{:else}
-						<video autoplay loop playsinline muted class={data.ref}>
+						<video autoplay loop playsinline muted class={data.ref} loading="{preloadTriggered == true ? 'eager' : 'lazy'}" decoding="async">
 							<source src={video.src} type={video.type} />
 							{browserSupportText}
 						</video>
@@ -138,12 +167,17 @@
 		.video-wrapper video {
 			width: 100%;
 		}
-		
+		.video-wrapper.customizable {
+			grid-column: 1 /2;
+			grid-row: 1/-1;
+		}
 		.video-wrapper.customizable video.customizable {
-			width: 50%;
+			/* width: 100%; */
+			width: unset;
+			height: 100%;
 			top: unset;
 			bottom: 0;
-			transform: translateX(-50%);
+			transform: translateX(-45%);
 		}
 		video.own-your-data {
 			/* width: 100%; */
@@ -184,6 +218,15 @@
 	@media (min-width: 1900px) and (min-height: 1000px) {
 		.video-wrapper:not(.earn-crypto),.video-wrapper {
 			aspect-ratio: 16/9;
+		}
+		.video-wrapper.customizable {
+			aspect-ratio: 3/1;
+		}
+		.video-wrapper.customizable video.customizable {
+			transform: translateX(-45%);
+			aspect-ratio: 3/2;
+			width: unset;
+			height: 100%;
 		}
 		section,.wrapper {
 			aspect-ratio: 16/9;
