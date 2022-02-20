@@ -44,6 +44,13 @@
         font-weight: 500;
         padding: 0 20px;
     }
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: max-content;
+        gap: 3rem;
+        margin: 0 auto;
+    }
     @media (min-width: 960px) {
         .grid {
             display: grid;
