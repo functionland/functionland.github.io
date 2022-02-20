@@ -66,6 +66,7 @@
 	}
 	.wrapper.earn-crypto {
 		color: white;
+    	background: #4c4d51;
 		grid-row-gap: 20px;
 	}
 	.wrapper.earn-crypto:before {
