@@ -1,23 +1,22 @@
 <script>
-	// import { scrollRef } from 'svelte-scrolling';
-	import { innerWidth, innerHeight } from 'svelte-window-stores/viewport';
 	import { fade } from 'svelte/transition';
 	import { assets } from '$app/paths';
     import { inview } from 'svelte-inview';
 	const heroImageDesktop = assets + 'images/home/hero-image-desktop.png';
 	const heroImageMobile = assets + 'images/home/hero-image-mobile.jpg';
 
-    let imageIsInView, heroIsInView, scrollDirection;
+    let imageIsInView, heroIsInView, scrollDirection, innerWidth;
     const handleChangeImageIsInView = ({ detail }) => {
         imageIsInView = detail.inView;
         scrollDirection = detail.scrollDirection.vertical;
     };
 </script>
+<svelte:window bind:innerWidth={innerWidth} />
 <section>
 	<div class="container">
 		<div class="wrapper">
 			<h1 class="hero">
-			{#if $innerWidth > 960}
+			{#if innerWidth > 960}
 				{#if imageIsInView}
 				<span>
 					<span class="bold" 

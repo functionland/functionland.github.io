@@ -1,13 +1,10 @@
 <script>
-	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { onDestroy } from 'svelte';
 	import { initialValue, makeBlogStore } from '$lib/components/blog/store.svelte';
 	import Blog_placeholder from '$lib/components/blog/placeholder.svelte';
 	import BlogItem from '$lib/components/blog/item.svelte';
-	let someProp = 'something';
-	let store = makeBlogStore(someProp);
-	let unsubscribe;
-	let blogData = initialValue();
+	let someProp = 'something', store = makeBlogStore(someProp), unsubscribe, blogData = initialValue();
+	let innerWidth
 	if (!unsubscribe) {
 		unsubscribe = store.subscribe(updateBlogData);
 	}
@@ -20,8 +17,9 @@
 	function updateBlogData(data) {
 		blogData = data;
 	}
-	$: limit = $innerWidth < 960 ? 3 : 9;
+	$: limit = innerWidth < 960 ? 3 : 9;
 </script>
+<svelte:window bind:innerWidth={innerWidth} />
 <div class="wrapper">
 	<div class="grid">
 		{#if blogData.ready == true}

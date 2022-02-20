@@ -1,24 +1,21 @@
 <script>
     import { inview } from 'svelte-inview';
-	// import { scrollRef } from 'svelte-scrolling';
-	import { innerWidth } from 'svelte-window-stores/viewport';
 	import Videos from '$lib/components/headline/videos.svelte';
 	import Photos from '$lib/components/headline/images.svelte';
 	export let data;
 
-    let isInView;
-    let scrollDirection;
+    let isInView, scrollDirection, innerWidth;
     const handleChange = ({ detail }) => {
         isInView = detail.inView;
         scrollDirection = detail.scrollDirection.vertical;
     };
 </script>
-
+<svelte:window bind:innerWidth={innerWidth} />
 {#each data as item}
 	<section id={item.ref} use:inview on:change={handleChange}>
 		<div class="container">
 			<div class="wrapper {item.ref}">
-				{#if $innerWidth >= 960} 
+				{#if innerWidth >= 960} 
 					{#if item.ref == 'plug-n-play'}
 					<h3
 						class:fade-in-right-delay={isInView}
@@ -122,9 +119,6 @@
 		}
 		.wrapper.earn-crypto p {
 			max-width: 900px;
-		}
-		.wrapper:not(.apps-without-ads):not(.design) {
-			/* height:var(--description-min-height); */
 		}
 		.wrapper.plug-n-play, .wrapper.customizable {
 			grid-template-columns: 1fr 1fr;

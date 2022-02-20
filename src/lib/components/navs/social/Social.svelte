@@ -1,45 +1,7 @@
 <script>
 	import GetIcon from './getIcon.svelte';
-	const socials = [
-		{
-			url: 'https://discord.gg/k9UybUBdBB',
-			name: 'Discord',
-			width: '28px',
-			height: '21.34px'
-		},
-		{
-			url: 'https://twitter.com/functionland',
-			name: 'Twitter',
-			width: '28px',
-			height: '22.75px'
-		},
-		{
-			url: 'https://github.com/functionland',
-			name: 'GitHub',
-			width: '28px',
-			height: '27.31px'
-		},
-		{
-			url: 'https://t.me/functionland',
-			name: 'Telegram',
-			width: '28px',
-			height: '28px'
-		},
-		{
-			url: 'https://www.instagram.com/functionland',
-			name: 'Instagram',
-			width: '28px',
-			height: '28px'
-		},
-		{
-			url: 'https://www.linkedin.com/company/functionland',
-			name: 'LinkedIn',
-			width: '28px',
-			height: '28px'
-		}
-	];
+	import { social_nav as socials } from '$lib/components/data-mocks/navItems.svelte';
 </script>
-
 <nav>
 	<ul>
 		{#each socials as social}
@@ -51,7 +13,6 @@
 		{/each}
 	</ul>
 </nav>
-
 <style>
 	nav {
 		--social-padding: 40px 0;

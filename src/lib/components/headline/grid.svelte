@@ -1,14 +1,14 @@
 <script>
 	import Headline from '$lib/components/headline/index.svelte';
-	import { innerWidth } from 'svelte-window-stores/viewport';
 	export let data;
 	export let title;
+	let innerWidth
 </script>
-
+<svelte:window bind:innerWidth={innerWidth} />
 <section>
 	<div class="container">
-		<div class={(typeof title != "undefined" && $innerWidth > 960 ) ? "titled grid" : "grid"}>
-			{#if (title && $innerWidth > 960)} 
+		<div class={(typeof title != "undefined" && innerWidth > 960 ) ? "titled grid" : "grid"}>
+			{#if (title && innerWidth > 960)} 
 				<h3>{@html title}</h3>
 			{/if}
 			{#each data as item}
@@ -47,9 +47,6 @@
 	}
 	.grid.titled .item {
 		grid-row: 2;
-	}
-	.item {
-		/* max-width: calc(100% - 60px); */
 	}
 	@media (min-width: 960px) {
 		.grid {

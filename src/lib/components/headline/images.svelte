@@ -1,24 +1,21 @@
 <script>
-	import { scrollY } from 'svelte-window-stores/viewport';
-	import { innerWidth } from 'svelte-window-stores/viewport';
     import { inview } from 'svelte-inview';
+	export let data;
 
-    let isInView;
-    let scrollDirection;
+    let isInView, scrollDirection, innerWidth, scrollY;
+
     const options = {
         unobserveOnEnter: false,
     };
+
     const handleChange = ({ detail }) => {
         isInView = detail.inView;
         scrollDirection = detail.scrollDirection.vertical;
     };
 
-	export let data;
-	let photos = data.photos ? (data.photos.length > 0 ? true : false) : false;
-	let scrollTop;
-    let preloadTriggered = false;
-	$: preload = $scrollY > scrollTop - 50 ? ()=>{preloadTriggered = true; return true} : false;
-    
+	let photos = data.photos ? (data.photos.length > 0 ? true : false) : false, scrollTop;
+    // let preloadTriggered = false
+	// $: preload = scrollY > scrollTop - 50 ? ()=>{preloadTriggered = true; return true} : false;
 
     const addAnimateOnHover = event => {
         if (!event.target.classList.contains('plug-n-play')) {
@@ -28,6 +25,7 @@
     const removeAnimateOnHover = event => {
         event.target.classList.remove('vibrate-1-2s')
     }
+
     const enlarge = (event) => {
         if (event.target.classList.contains('apps-without-ads')) {
             event.target.classList.add('enlarge')
@@ -35,7 +33,7 @@
     }
 </script>
 
-<svelte:head>
+<!-- <svelte:head>
 	{#if preloadTriggered}
 		{#each data.photos as photo}
 			{#if preloadTriggered == true}
@@ -44,18 +42,15 @@
 			{/if}
 		{/each}
 	{/if}
-</svelte:head>
+</svelte:head> -->
+<svelte:window bind:innerWidth={innerWidth} bind:scrollY={scrollY} />
 {#if photos}
-	<div class={`photos  ${data.ref} ${($innerWidth > 960 && (data.ref != 'design' && data.ref != 'plug-n-play' ? "de-contain" : ""))}`} bind:offsetHeight={scrollTop}  use:inview={options} on:change={handleChange}>
+	<div class={`photos  ${data.ref} ${(innerWidth > 960 && (data.ref != 'design' && data.ref != 'plug-n-play' ? "de-contain" : ""))}`} bind:offsetHeight={scrollTop}  use:inview={options} on:change={handleChange}>
 		{#each data.photos as photo, index}
-            {#if $innerWidth < 960}
+            {#if innerWidth < 960}
                 {#if index <= 4}
                 <div class={`image-box ${data.ref}`} style={`aspect-ratio: ${photo.srcset.small.width}/${photo.srcset.small.height}; width: ${(photo.srcset.small.width / 390) * 100}%`}>
-                    {#if isInView}
-                        <img src={photo.srcset.small.src} alt="" class={`${ (index%2 == 0 && data.ref!='plug-n-play') ? "vibrate-1-3s" : "vibrate-1-6s"} ${data.ref}`} width={photo.srcset.small.width} height={photo.srcset.small.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
-                    {:else}
-                        <div class="{`placeholder ${data.ref}`}" width={photo.srcset.small.width} height={photo.srcset.small.height}></div>
-                    {/if}
+                    <img src={photo.srcset.small.src} alt="" class={`${ (index%2 == 0 && data.ref!='plug-n-play') ? "vibrate-1-3s" : "vibrate-1-6s"} ${data.ref}`} width={photo.srcset.small.width} height={photo.srcset.small.height} loading="lazy" decoding="async"/>
                 </div>
                 {/if}
             {:else}
@@ -65,16 +60,12 @@
                         class:animate={isInView}
                         class:animateFromBottom={scrollDirection === 'down'}
                         class:animateFromTop={scrollDirection !== 'down'}>
-                        <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
+                        <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="lazy" decoding="async"/>
                     </div>
                     {/if}
                 {:else}
                     <div class={`image-box ${data.ref}`} style={`aspect-ratio: ${photo.srcset.large.width}/${photo.srcset.large.height}; width: ${(photo.srcset.large.width / 1530) * 100}%`} on:mouseleave={removeAnimateOnHover} on:mouseenter={addAnimateOnHover} on:click={enlarge}>
-                        {#if isInView}
-                            <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="{preload == true ? 'eager' : 'lazy'}" decoding="async"/>
-                        {:else}
-                            <div class="{`placeholder ${data.ref}`}" width={photo.srcset.large.width} height={photo.srcset.large.height}></div>
-                        {/if}
+                        <img src={photo.srcset.large.src} alt="" class={data.ref} width={photo.srcset.large.width} height={photo.srcset.large.height} loading="lazy" decoding="async"/>
                     </div>
                 {/if}
             {/if}

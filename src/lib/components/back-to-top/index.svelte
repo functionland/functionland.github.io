@@ -1,11 +1,11 @@
 <script>
 	import BackIcon from '$lib/img/layout/backToTop.svelte';
 	import { scrollTop } from 'svelte-scrolling';
-	import { scrollY } from 'svelte-window-stores/viewport';
 	import { fly } from 'svelte/transition';
-	$: show = $scrollY > 450;
+	let scrollY
+	$: show = scrollY > 450;
 </script>
-
+<svelte:window bind:scrollY={scrollY} />
 {#if show}
 	<div transition:fly={{ y: 200, duration: 400 }} class="back-to-top" on:click={() => scrollTop()}>
 		<BackIcon width="28px" height="32px" fill="var(--go-top-fill)" />

@@ -1,11 +1,12 @@
 <script>
-	import { innerWidth } from 'svelte-window-stores/viewport';
-	import { data } from '$lib/components/partners/data.svelte';
+	import { data } from '$lib/components/data-mocks/partners.svelte';
 	import { Pagination } from 'swiper';
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
-	$: perpage = $innerWidth < 960 ? 8 : 8;
+	let innerWidth
+	$: perpage = innerWidth < 960 ? 8 : 8;
 	$: pages = data.length%perpage === 0 ? data.length/perpage : Math.floor(data.length/perpage) + 1;
 </script>
+<svelte:window bind:innerWidth={innerWidth} />
 <Swiper
     modules={[Pagination]}
     pagination={{ clickable: true }}>
@@ -48,7 +49,6 @@
 		width: auto;
 		max-height: 100%;
 		max-width: 120px;
-		mix-blend-mode: darken;
 	}
 	img.colored {
 		opacity: 0;
@@ -75,15 +75,18 @@
 		}
 		.partner:hover picture {
 			opacity: 0;
-			transform: scale(1.1);
+			transform: scale(1.5);
 		}
 		.partner:hover {
 			overflow: visible;
 			z-index: 2;
+			background-color: var(--bkg);
 		}
 		.partner:hover .colored {
 			opacity: 1;
-			transform: scale(1.1);
+			transform: scale(1.5);
+			background-color: var(--bkg);
+			mix-blend-mode: luminosity;
 		}
 	}
 </style>

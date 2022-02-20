@@ -1,6 +1,6 @@
 <script>
 	import { scrollY, innerHeight, innerWidth } from 'svelte-window-stores/viewport';
-	import { scrollElement, scrollPosition, scrolling } from 'svelte-scrolling';
+	import { scrollPosition, scrolling } from 'svelte-scrolling';
 	import { assets } from '$app/paths';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';

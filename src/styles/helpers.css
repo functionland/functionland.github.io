@@ -17,6 +17,8 @@
 }
 .no-transition {
 	transition: none;
+	-webkit-transition: none;
+	-moz-transition: none;
 }
 
 @media(max-width:959px) {

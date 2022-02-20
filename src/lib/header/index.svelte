@@ -1,36 +1,12 @@
 <script>
-	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { page } from '$app/stores';
 	import { assets } from '$app/paths';
+	import { onMount } from 'svelte';
 	import Logo from '$lib/components/Logo/index.svelte';
 	const menuIcon = assets + 'images/layout/menu.png';
-
-	export const navItems = [
-		{
-			path: '/',
-			text: 'Home'
-		},
-		{
-			path: '/blog',
-			text: 'Blog'
-		},
-		{
-			path: '/about',
-			text: 'About Us'
-		},
-		{
-			path: '/nft',
-			text: 'NFT'
-		},
-		{
-			path: '/fula-protocol',
-			text: 'FULA Protocol'
-		}
-	];
-	const ctaItem = {
-		path: '/preorder',
-		text: 'Pre-Order'
-	};
+	import { main_nav } from '$lib/components/data-mocks/navItems.svelte';
+	const navItems = main_nav.list;
+	const ctaItem = main_nav.cta;
 	let menuOpen = false;
 	const menuToggleClickAction = () => {
 		menuOpen = !menuOpen;
@@ -38,15 +14,25 @@
 	const closeMenuOnClick = () => {
 		menuOpen = false;
 	};
-	let notransitionClass = '';
-	$: navClass = menuOpen === true ? `open ${notransitionClass}` : `close ${notransitionClass}`;
-</script>
+	const setNoTransition = () => {
+		notransitionClass = "no-transition";
+		setTimeout(() => {
+			notransitionClass = "";
+		}, 800);
+	};
+	onMount(() => {
+		window.addEventListener('resize',setNoTransition);
+	});
 
+	let notransitionClass = 'no-transition';
+	$: navClass = menuOpen === true ? `open` : `close`;
+</script>
+<svelte:window on:resize={setNoTransition} on:load={setNoTransition} />
 <!-- <svelte:window on:resize={setCloseOnMenu} /> -->
 <header>
 	<div class="wrapper">
-		<div class="{`overlay ${navClass}`} " on:click={closeMenuOnClick} />
-		<div class="{`header-buttons ${navClass}`}">
+		<div class="{`overlay ${notransitionClass} ${navClass}`} " on:click={closeMenuOnClick} />
+		<div class="{`header-buttons ${notransitionClass} ${navClass}`}">
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -62,7 +48,7 @@
 			<!-- {#if $media.mobile}
             {/if} -->
 		</div>
-		<nav class:close={menuOpen != true} class:open={menuOpen == true}>
+		<nav class={`${notransitionClass} ${navClass}`}>
 			<ul>
 				{#each navItems as navItem}
 					<li class:active={$page.url.pathname === navItem.path}>
@@ -335,9 +321,6 @@
 		}
 	}
 	@media (min-width: 960px) {
-		header {
-			/* overflow: visible; */
-		}
 		.wrapper {
 			position: relative;
 			z-index: 2;

@@ -1,4 +1,5 @@
 <script>
+	import { copyright_nav } from '$lib/components/data-mocks/navItems.svelte';
 	import { page } from '$app/stores';
 	const currentYear = new Date().getFullYear();
 	const startYear = '2022';
@@ -8,20 +9,7 @@
 	} else {
 		yearString = startYear;
 	}
-	const navItems = [
-		{
-			path: '/privacy',
-			text: 'Privacy Policy'
-		},
-		{
-			path: '/terms',
-			text: 'Terms and Conditions'
-		},
-		{
-			path: '/referral-guidelines',
-			text: 'Referral Guidelines'
-		}
-	];
+	const navItems = copyright_nav.list;
 </script>
 
 <div class="copyright">

@@ -21,6 +21,17 @@
 </footer>
 
 <style>
+	footer {
+		width: 100%;
+		position: relative;
+		z-index: 1;
+		background: var(--bkg);
+	}
+	.container {
+		display: grid;
+		grid-auto-flow: row;
+		grid-template-columns: 1fr;
+	}
 	.logo-link {
 		--padding: 41px 0;
 		--min-height: 109px;
@@ -40,17 +51,6 @@
 		border: 1px solid var(--footer-nav-border-color);
 		border-left: none;
 		border-right: none;
-	}
-	footer {
-		width: 100%;
-		position: relative;
-		z-index: 1;
-		background: white;
-	}
-	.container {
-		display: grid;
-		grid-auto-flow: row;
-		grid-template-columns: 1fr;
 	}
 	@media (min-width: 960px) {
 		footer {

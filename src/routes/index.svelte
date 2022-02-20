@@ -9,8 +9,8 @@
 	import Preorder from '$lib/homepage/preorder.svelte';
 	import News from '$lib/homepage/news.svelte';
 	import Partners from '$lib/homepage/partners.svelte';
-	import { data as valuesData } from '$lib/components/headline/valuesData.svelte';
-	import { data as featuresData } from '$lib/components/headline/featuresData.svelte';
+	import { data as valuesData } from '$lib/components/data-mocks/values.svelte';
+	import { data as featuresData } from '$lib/components/data-mocks/features.svelte';
 </script>
 
 <svelte:head>

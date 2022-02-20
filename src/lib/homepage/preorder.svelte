@@ -1,21 +1,61 @@
 <script>
-	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { assets } from '$app/paths';
 	let src = assets + `videos/pre-order.mp4`;
 	let poster = assets + `images/home/preorder-poster.jpg`;
 	let browserSupportText = 'Your browser does not support the video element.';
-	let ended
+	import { onMount } from 'svelte';
+	let ended;
+	// let innerWidth;
+	onMount(() => {
+		const loadLazyVideos = () => {
+			var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
+			if ("IntersectionObserver" in window) {
+				var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
+				entries.forEach(function(video) {
+					if (video.isIntersecting) {
+					for (var source in video.target.children) {
+						var videoSource = video.target.children[source];
+						if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+						videoSource.src = videoSource.dataset.src;
+						}
+					}
+
+					video.target.load();
+					video.target.classList.remove("lazy");
+					lazyVideoObserver.unobserve(video.target);
+					}
+				});
+				});
+
+				lazyVideos.forEach(function(lazyVideo) {
+				lazyVideoObserver.observe(lazyVideo);
+				});
+			}
+		}
+		const docReady = callbackFunc => {
+			if (document.readyState !== 'loading') {
+			callbackFunc();
+			} else if (document.addEventListener) {
+			document.addEventListener('DOMContentLoaded', callbackFunc);
+			} else {
+			document.attachEvent('onreadystatechange', function () {
+				if (document.readyState === 'complete') {
+				callbackFunc();
+				}
+			});
+			}
+		};
+		docReady(loadLazyVideos);
+	});
 </script>
 
 <section>
 	<div class="container">
 		<div class="wrapper">
-			<video autoplay loop playsinline muted poster={poster} bind:ended>
-				<source {src} type="video/mp4" />
+			<video autoplay loop playsinline muted poster={poster} class="lazy" bind:ended>
+				<source data-src={src} type="video/mp4" />
 				{browserSupportText}
 			</video>
-			<!-- {#if ended}
-			{/if} -->
 			<p>Box is available now!</p>
 			<div class="cta">
 				<a class="btn btn-cta" sveltekit:prefetch href="/preorder">Pre-order</a>
@@ -24,6 +64,7 @@
 	</div>
 </section>
 
+<!-- <svelte:window bind:innerWidth={innerWidth} /> -->
 <style>
 
 	.wrapper {

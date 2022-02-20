@@ -1,22 +1,34 @@
 <script>
-	import { scrollY, innerHeight } from 'svelte-window-stores/viewport';
 	import { base, assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	let playInterval, outOfViewClass, scrollSpeed = 0, windowHeight, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true;
-	const play = () => {
-		introPlaying = true;
-		playInterval = setInterval(() => {
-			if (currentFrame <= 42) {
-				currentFrame = currentFrame + 1;
-			} else {
-				clearInterval(playInterval);
-				introPlaying = false;
-			}
-		}, 1.4 * (1 / 42.4) * 1000);
-	};
+	let playInterval, outOfViewClass, scrollSpeed = 0, innerHeight, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true, scrollY, ready = false;
 	onMount(() => {
-		play();
+		const docReady = callbackFunc => {
+			if (document.readyState !== 'loading') {
+			callbackFunc();
+			} else if (document.addEventListener) {
+			document.addEventListener('DOMContentLoaded', callbackFunc);
+			} else {
+			document.attachEvent('onreadystatechange', function () {
+				if (document.readyState === 'complete') {
+				callbackFunc();
+				}
+			});
+			}
+		};
+		const play = () => {
+			introPlaying = true;
+			playInterval = setInterval(() => {
+				if (currentFrame <= 42) {
+					currentFrame = currentFrame + 1;
+				} else {
+					clearInterval(playInterval);
+					introPlaying = false;
+				}
+			}, 1.4 * (1 / 42.4) * 1000);
+		};
+		docReady(play);
 		showSlogan = true;
 		const getScrollSpeed = (settings) => {
 			var lastPos,
@@ -32,7 +44,7 @@
 
 			clear();
 			return function () {
-				newPos = $scrollY;
+				newPos = scrollY;
 				if (lastPos != null) {
 					delta = newPos - lastPos;
 				}
@@ -42,18 +54,21 @@
 				scrollSpeed = delta;
 			};
 		};
-
 		window.addEventListener('scroll', getScrollSpeed());
 	});
 	const preventWhilePlaying = (event) => {
 		if (introPlaying == true) {
-			event.preventDefault();
+			if (event.cancelable == true) {
+				event.preventDefault();
+			}
 			return;
 		}
 	};
 	const mouseWheelEvent = (event) => {
 		if (introPlaying == true) {
-			event.preventDefault();
+			if (event.cancelable == true) {
+				event.preventDefault();
+			}
 			return;
 		}
 	};
@@ -61,29 +76,33 @@
 		frames.push(i + 1);
 	}
 	const detectScroll = (event) => {
-		if ($scrollY < windowHeight) {
+		if (scrollY < innerHeight) {
 			outOfViewClass = '';
-			// document.querySelector('main').style.marginTop = `${windowHeight}px`;
+			// document.querySelector('main').style.marginTop = `${innerHeight}px`;
 			// document.querySelector('main').style.paddingTop = 0;
 		} else {
 			outOfViewClass = 'out-of-view';
 			// document.querySelector('main').style.marginTop = 0;
-			// document.querySelector('main').style.paddingTop = `${windowHeight}px`;
+			// document.querySelector('main').style.paddingTop = `${innerHeight}px`;
 		}
-		if ($scrollY < $innerHeight) {
+		if (scrollY < innerHeight) {
 			if (introPlaying == true) {
-				event.preventDefault();
+				if (event.cancelable == true) {
+					event.preventDefault();
+				}
 				return;
 			}
-			if ($scrollY > lastScroll) {
+			if (scrollY > lastScroll) {
 				if (currentFrame >= 2 && currentFrame <= 100) {
 					if (introPlaying == true) {
-						event.preventDefault();
+						if (event.cancelable == true) {
+							event.preventDefault();
+						}
 						return;
 					} else {
 						currentFrame += 
-							// (0.25644438000000001 + (scrollSpeed / $innerHeight) + (scrollSpeed / $scrollY) * 5);
-							0.86644438000000001 + scrollSpeed / $innerHeight + scrollSpeed / $scrollY;
+							// (0.25644438000000001 + (scrollSpeed / innerHeight) + (scrollSpeed / scrollY) * 5);
+							0.86644438000000001 + scrollSpeed / innerHeight + scrollSpeed / scrollY;
 						if (currentFrame > 60) {
 							showSlogan = false;
 						}
@@ -92,11 +111,13 @@
 			} else {
 				if (currentFrame >= 43 && currentFrame <= 102) {
 					if (introPlaying == true) {
-						event.preventDefault();
+						if (event.cancelable == true) {
+							event.preventDefault();
+						}
 						return;
 					} else {
-						currentFrame -= 0.6644438000000001 + scrollSpeed / $innerHeight;
-						if ($scrollY < 300) {
+						currentFrame -= 0.6644438000000001 + scrollSpeed / innerHeight;
+						if (scrollY < 300) {
 							currentFrame -= 0.86644438000000001;
 						}
 						if (currentFrame < 80) {
@@ -106,7 +127,7 @@
 				}
 			}
 		}
-		lastScroll = $scrollY;
+		lastScroll = scrollY;
 	};
 </script>
 
@@ -121,7 +142,8 @@
 	{/each}
 </svelte:head>
 <svelte:window
-	bind:innerHeight={windowHeight}
+	bind:innerHeight={innerHeight}
+	bind:scrollY={scrollY}
 	on:mousewheel|nonpassive={preventWhilePlaying}
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}

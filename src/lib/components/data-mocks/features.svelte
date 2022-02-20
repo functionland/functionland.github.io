@@ -41,7 +41,7 @@
 			videos: [
 				{
 					src: assets + 'videos/customizable-w.mp4',
-					type: 'video/webm',
+					type: 'video/mp4',
 					scheme: 'light',
 					poster: assets + 'images/home-page/customizable.png'
 				},

@@ -1,56 +1,8 @@
 <script>
 	import NavMaker from '$lib/components/navs/footer/NavMaker.svelte';
-	const company = {
-		title: 'Company',
-		items: [
-			{
-				path: '/about',
-				text: 'About Us'
-			},
-			{
-				path: '/contact',
-				text: 'Contact Us'
-			},
-			{
-				path: '/nft',
-				text: 'NFT'
-			}
-		]
-	};
-	const help = {
-		title: 'Get Help',
-		items: [
-			{
-				path: '/faq',
-				text: 'Frequently Asked Questions'
-			},
-			{
-				path: '/support',
-				text: 'Support'
-			},
-			{
-				path: '/wishlist',
-				text: 'Wishlist'
-			}
-		]
-	};
-	const resources = {
-		title: 'Resources',
-		items: [
-			{
-				path: '/whitepaper',
-				text: 'Whitepaper'
-			},
-			{
-				path: '/branding-guidelines',
-				text: 'Branding Guidelines'
-			},
-			{
-				path: '/fula-protocol',
-				text: 'FULA Protocol'
-			}
-		]
-	};
+	import { company_nav as company } from '$lib/components/data-mocks/navItems.svelte';
+	import { help_nav as help } from '$lib/components/data-mocks/navItems.svelte';
+	import { resources_nav as resources } from '$lib/components/data-mocks/navItems.svelte';
 </script>
 
 <div>
