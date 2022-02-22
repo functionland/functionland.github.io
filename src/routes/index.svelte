@@ -3,7 +3,7 @@
 </script>
 
 <script>
-	import IntroFrames from '$lib/homepage/intro-frames.svelte';
+	import Frames from '$lib/homepage/frames.svelte';
 	import Hero from '$lib/homepage/hero.svelte';
 	import Headlines from '$lib/homepage/headlines.svelte';
 	import Preorder from '$lib/homepage/preorder.svelte';
@@ -17,7 +17,7 @@
 	<title>FunctionLand</title>
 </svelte:head>
 <main>
-	<IntroFrames />
+	<Frames />
 	<Hero />
 	<Headlines data={valuesData} />
 	<Headlines data={featuresData} title="Why <b>Box</b>?"/>
