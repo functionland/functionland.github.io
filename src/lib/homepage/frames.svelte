@@ -152,16 +152,6 @@
 </section>
 
 <style>
-	b {
-		position: fixed;
-		top: 0;
-		left: 50%;
-		transform: translateX(-50%);
-		background: var(--b-o-8);
-		color: white;
-		z-index: 30;
-		padding: 1rem 2rem;
-	}
 	section {
 		background-color: var(--bkg);
 		padding: 0;
