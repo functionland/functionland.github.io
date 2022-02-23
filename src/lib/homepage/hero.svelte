@@ -4,10 +4,21 @@
     import { inview } from 'svelte-inview';
 	const heroImageDesktop = assets + 'images/home/hero-image-desktop.png';
 	const heroImageMobile = assets + 'images/home/hero-image-mobile.jpg';
-
+	const imageOptions = {
+		threshold: 0.4,
+		unobserveOnEnter: false,
+	};
+	const heroOptions = {
+		threshold: 0.5,
+		unobserveOnEnter: false,
+	};
     let imageIsInView, heroIsInView, scrollDirection, innerWidth;
     const handleChangeImageIsInView = ({ detail }) => {
         imageIsInView = detail.inView;
+        scrollDirection = detail.scrollDirection.vertical;
+    };
+	const handleChangeHeroIsInView = ({ detail }) => {
+        heroIsInView = detail.inView;
         scrollDirection = detail.scrollDirection.vertical;
     };
 </script>
@@ -19,42 +30,33 @@
 <section>
 	<div class="container">
 		<div class="wrapper">
-			<h1 class="hero">
-			{#if innerWidth > 960}
-				{#if imageIsInView}
-				<span>
-					<span class="bold" 
-						in:fade={{duration: 400, delay: 300}} out:fade>Box </span>
-						<span in:fade={{duration: 400, delay: 600}} out:fade>by </span>
-						<span class="teal-text" in:fade={{duration: 400, delay: 900}} out:fade>Functionland </span>
-				</span>
-				<span in:fade={{duration: 400, delay: 1300}} out:fade>The Private, </span>
-				<span in:fade={{duration: 400, delay: 1500}} out:fade>Payless, </span>
-				<span in:fade={{duration: 400, delay: 1700}} out:fade>Cloud Storage </span>
-				<span in:fade={{duration: 400, delay: 1900}} out:fade>Alternative</span>
+			<h1 class="hero" use:inview={heroOptions} on:change={handleChangeHeroIsInView}>
+				{#if heroIsInView}
+					<span>
+						<span class="bold" 
+							in:fade={{duration: 400, delay: 300}} out:fade>Box </span>
+							<span in:fade={{duration: 400, delay: 600}} out:fade>by </span>
+							<span class="teal-text" in:fade={{duration: 400, delay: 1000}} out:fade>Functionland </span>
+					</span>
+					<span in:fade={{duration: 400, delay: 1500}} out:fade>The Private, </span>
+					<span in:fade={{duration: 400, delay: 2000}} out:fade>Payless, </span>
+					<span in:fade={{duration: 400, delay: 2500}} out:fade>Cloud Storage </span>
+					<span in:fade={{duration: 400, delay: 3000}} out:fade>Alternative</span>
 				{/if}
-			{:else}
-				<span>
-					<span class="bold">Box </span>
-						<span>by </span>
-						<span class="teal-text">Functionland </span>
-				</span>
-				<span>The Private, </span>
-				<span>Payless, </span>
-				<span>Cloud Storage </span>
-				<span>Alternative</span>
-			{/if}
 			</h1>
-			<div class="hero-image-wrapper" use:inview on:change={handleChangeImageIsInView}>
+			<div class="hero-image-wrapper" use:inview={imageOptions} on:change={handleChangeImageIsInView}>
 				<picture id="hero" 
-					class:scale-in={imageIsInView}
+					class:animate={imageIsInView}
+					class:animateFromBottom={scrollDirection === 'down'}
+					class:animateFromTop={scrollDirection !== 'down'}>
+					<!-- class:scale-in={imageIsInView}
 					class:scale-out-FromTop={scrollDirection === 'down'}
-					class:scale-out-FromBottom={scrollDirection !== 'down'}>
+					class:scale-out-FromBottom={scrollDirection !== 'down'}> -->
 					<source srcset={heroImageDesktop} media="(min-width: 960px)" />
 					<img src={heroImageMobile} alt="" loading="eager"
-					class:size-in={imageIsInView}
-					class:size-out-FromBottom={scrollDirection === 'down'}
-					class:size-out-FromTop={scrollDirection !== 'down'}/>
+					class:animate={imageIsInView}
+					class:animateFromBottom={scrollDirection === 'down'}
+					class:animateFromTop={scrollDirection !== 'down'}/>
 				</picture>
 			</div>
 		</div>
@@ -76,15 +78,24 @@
 		margin: 0 auto;
 		max-width: var(--hero-max-width);
 		padding-bottom: var(--hero-padding-bottom);
+		aspect-ratio: 266/319;
+		width: 100%;
 	}
 	h1 > span {
 		display: block;
+	}
+
+	.hero-image-wrapper {
+		
+    	clip: rect(0px, 969.875px, 857px, 327.125px);
 	}
 	img {
 		width: 100%;
 		display: block;
 		border-radius: var(--hero-image-brdrds);
 	}
+
+
 	@media (min-width: 960px) {
 		h1 {
 			text-align: var(--hero-text-align);
@@ -124,41 +135,38 @@
 			transform: translateX(-47%) translateY(-40%);
 			transform-origin: center;
 			aspect-ratio: 1678/947;
-			height: 100vw;
+			height: var(--intro-height);
 			width: auto;
 			max-width: unset;
 		}
-
-
-        .scale-out-FromTop {
-            -webkit-animation: scale-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+        picture.animateFromTop {
+            -webkit-animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.2s;
 
         }
-        .scale-out-FromBottom {
-            -webkit-animation: scale-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+        picture.animateFromBottom {
+            -webkit-animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.2s;
         }
-        .scale-in {
-            -webkit-animation: scale-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+        picture.animate {
+            -webkit-animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.2s;
         }
+        picture img.animateFromTop {
+            -webkit-animation: size-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: size-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation-delay: 0.2s;
 
-        .size-out-FromTop {
+        }
+        picture img.animateFromBottom {
             -webkit-animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.2s;
-
         }
-        .size-out-FromBottom {
-            -webkit-animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
-        }
-        .size-in {
+        picture img.animate {
             -webkit-animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.2s;

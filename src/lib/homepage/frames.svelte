@@ -1,25 +1,21 @@
 <script>
+	import {innerWidth, innerHeight} from 'svelte-window-stores/viewport'
 	import { base, assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	let playInterval, heightSetInterval, outOfViewClass, scrollSpeed = 0, innerWidth, innerHeight, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true, scrollY, ready = false, introWrapper;
-	$: mobile = innerWidth < 960
-	let totalFrames = (mobile == true) ? 59 : 61;
-	$: threshold = (mobile == true) ? 36 : 35;
-	$: ratio = (mobile == true) ? 0.67 : 0.3;
-	
+	let playInterval, heightSetInterval, outOfViewClass, scrollSpeed = 0, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true, scrollY, ready = false, introWrapper;
 
+	let isMobile = $innerWidth < 960
+	let totalFrames = isMobile ? 66 : 59;
+	$: threshold = isMobile ? 45 : 41;
+	$: ratio = isMobile ? .25 : 0.34;
+	$: sloganHideFrame = (totalFrames + threshold) / 2;
+	$: framesToAdd = totalFrames * (scrollY / $innerHeight)
 	for (let i = 1; i < totalFrames+1; i++) {
 		frames.push(i);
 	}
-	$: framesToAdd = totalFrames * (scrollY / innerHeight)
 	const detectScroll = (event) => {
-		// if (currentFrame > 40 && currentFrame < 46) {
-		// 	introWrapper.style.paddingBottom = `${scrollY * ratio}px`;
-		// } else {
-		// 	introWrapper.style.height = 'var(--intro-height)';
-		// }
-		if (scrollY < innerHeight) {
+		if (scrollY < $innerHeight) {
 			if (currentFrame < 46) {
 				event.preventDefault();
 			}
@@ -30,15 +26,15 @@
 				return;
 			}
 			if (scrollY > lastScroll) {
-				if (currentFrame >= (threshold - 2) && currentFrame <= totalFrames) {
+				if (currentFrame >= (threshold - 2) && currentFrame <= (totalFrames - 1)) {
 					if (introPlaying == true) {
 						if (event.cancelable == true) {
 							event.preventDefault();
 						}
 						return;
 					} else {
-						currentFrame = ( framesToAdd * ratio) + threshold;
-						if (currentFrame > 60) {
+						currentFrame = parseInt( (currentFrame + (( framesToAdd * ratio) + threshold)) /2)
+						if (currentFrame > sloganHideFrame) {
 							showSlogan = false;
 						}
 					}
@@ -51,35 +47,47 @@
 						}
 						return;
 					} else {
-						currentFrame = ( framesToAdd * ratio) + threshold;
-						if (currentFrame < 80) {
+						currentFrame = parseInt( (currentFrame + (( framesToAdd * ratio) + threshold)) /2)
+						if (currentFrame < sloganHideFrame) {
 							showSlogan = true;
 						}
 					}
 				}
 			}
 		}
-		if (scrollY < innerHeight) {
+		if (scrollY < $innerHeight) {
 			outOfViewClass = '';
 		} else {
 			outOfViewClass = 'out-of-view';
 		}
 		lastScroll = scrollY;
 	};
-	const play = () => {
-		introPlaying = true;
-		playInterval = setInterval(() => {
-			if (currentFrame <= threshold) {
-				currentFrame = currentFrame + 1;
-			} else {
-				clearInterval(playInterval);
-				introPlaying = false;
-			}
-		}, 1.4 * (1 / 42.4) * 1000);
-	};
-	
 	onMount(() => {
-		play()
+		const docReady = callbackFunc => {
+			if (document.readyState !== 'loading') {
+			callbackFunc();
+			} else if (document.addEventListener) {
+			document.addEventListener('DOMContentLoaded', callbackFunc);
+			} else {
+			document.attachEvent('onreadystatechange', function () {
+				if (document.readyState === 'complete') {
+				callbackFunc();
+				}
+			});
+			}
+		};
+		const play = () => {
+			introPlaying = true;
+			playInterval = setInterval(() => {
+				if (currentFrame <= threshold) {
+					currentFrame = currentFrame + 1;
+				} else {
+					clearInterval(playInterval);
+					introPlaying = false;
+				}
+			}, 1.4 * (1 / 42.4) * 1000);
+		};
+		docReady(play);
 		showSlogan = true;
 	});
 	const preventWhilePlaying = (event) => {
@@ -100,61 +108,42 @@
 	};
 </script>
 
-<svelte:head>
-	{#each frames as frame, index}
-		<link
-			rel="preload"
-			as="image"
-			href={base + assets + '/frames/intro/desktop/desktop_frame_' + frame + '.jpg'}
-			media="(min-width:960px)"
-		/>
-		<link
-			rel="preload"
-			as="image"
-			href={base + assets + '/frames/intro/mobile/mobile_frame_' + frame + '.jpg'}
-			media="(max-width:959px)"
-		/>
-	{/each}
-</svelte:head>
 <svelte:window
-	bind:innerHeight={innerHeight}
-	bind:innerWidth={innerWidth}
 	bind:scrollY={scrollY}
 	on:mousewheel|nonpassive={preventWhilePlaying}
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}
 />
-<b>currentFrame {currentFrame} <hr/> "totalFrames" {totalFrames} <hr/> threshold {threshold} <hr />ratio {ratio}</b>
 <section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent} class={outOfViewClass} bind:this={introWrapper}>
 	<div class="parallax-bg">
 		{#each frames as frame, index}
-			{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
-				<div class="frame active">
+			{#if parseInt(currentFrame) == frame}
+				<div class="frame active frame_{frame}">
 					<picture>
-						<source
-							media="(min-width:960px)"
-							srcset={base + assets + '/frames/intro/desktop/desktop_frame_' + frame + '.jpg'}>
-						<img src={base + assets + '/frames/intro/mobile/mobile_frame_' + frame + '.jpg'} alt="">
+						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.webp' } type="image/webp">
+						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } type="image/jpeg">
+						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.webp' } type="image/webp">
+						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.jpeg' } type="image/jpeg">
+						<img src={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } alt="">
 					</picture>
 				</div>
 			{:else}
-				<div class="frame">
+				<div class="frame frame_{frame}">
 					<picture>
-						<source
-							media="(min-width:960px)"
-							srcset={base + assets + '/frames/intro/desktop/desktop_frame_' + frame + '.jpg'}>
-						<img src={base + assets + '/frames/intro/mobile/mobile_frame_' + frame + '.jpg'} alt="">
+						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.webp' } type="image/webp">
+						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } type="image/jpeg">
+						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.webp' } type="image/webp">
+						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.jpeg' } type="image/jpeg">
+						<img src={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } alt="">
 					</picture>
 				</div>
 			{/if}
 		{/each}
 		<div class="slogan">
 			{#if showSlogan}
-				<p
-					in:fly={{ delay: 100, y: 200, duration: 1699 }}
+				<p in:fly={{ delay: 100, y: 200, duration: 1699 }}
 					out:fade={{ delay: 0, duration: 300 }}
-					class="slogan"
-				>
+					class="slogan">
 					A Piece of Blockchain on Your Desk
 				</p>
 			{/if}
@@ -174,24 +163,36 @@
 		padding: 1rem 2rem;
 	}
 	section {
-		height: var(--intro-height);
-		background-color: transparent;
-		position: relative;
-		z-index: 0;
+		background-color: var(--bkg);
 		padding: 0;
-		transition: 0.6s height 0.3s ease-in-out;
+		height: var(--intro-height);
 	}
 	.parallax-bg {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		
+	}
+	.frame {
+		width: 100%;
+		grid-column: 1/-1;
+		grid-row: 1/-1;
+		height: max-content;
+		visibility: hidden;
+		display: none;
+	}
+	.frame.active {
+		visibility: visible;
+		display: block;
+		z-index: 1;
+	}
+	.frame img {
+		width: 100%;
+		height: auto;
 	}
 	.out-of-view {
 		opacity: 0;
 	}
-
 	.slogan {
 		pointer-events: none;
 		position: absolute;
@@ -206,44 +207,6 @@
 		height: 100%;
 		display: grid;
 		align-items: center;
-	}
-	.frame {
-		/* position: absolute;
-		pointer-events: none;
-		width: 100%;
-		inset: 0;
-		height: auto;
-		bottom: 0;
-		z-index: 0; */
-		
-		position: absolute;
-		pointer-events: none;
-		width: 100%;
-		inset: 0;
-		height: 100%;
-		z-index: 0;
-		/* display: none; */
-		/* visibility: hidden !important; */
-		background-position: bottom center;
-		background-size: auto 100%;
-		background-repeat: no-repeat;
-		background-color: white;
-	}
-	.frame.active {
-		z-index: 1;
-		/* display: block;
-		visibility: visible !important; */
-	}
-	.frame img {
-		position: absolute;
-		bottom: 0;
-		height: 100%;
-		width: auto;
-		max-width: unset;
-		/* height: 100%; */
-		left: 50%;
-		transform: translateX(-50%);
-		object-fit: contain;
 	}
 	p {
 		pointer-events: none;
@@ -265,34 +228,72 @@
 		position: relative;
 		z-index: 4;
 	}
-	@media (min-width: 960px) {
-		section {
-			aspect-ratio: 16/9;
-			overflow: hidden;
-			width: 100%;
-		}
-		.parallax-bg {
-			height: var(--intro-height);
-			top: 60px;
-		}
+	@media (max-width: 959px) {
 		picture {
-			aspect-ratio: 16/9;
-			height: 100%;
-			width: unset;
+			display: grid;
+			align-items: end;
+			justify-content: center;
+			overflow: hidden;
+			overflow: clip;
+			justify-content: center;
+			max-width: 100vw;
+			overflow-y: scroll;
 		}
-		img {
-			width: 100%;
+		.frame img {
+			/* width: unset;
+			max-width: unset;
+			height: 100vh;     */
+			aspect-ratio:  1080/720 auto;
 			height: unset;
-			aspect-ratio: 16/9;
-			bottom: 0;
+			width: unset;
+			min-height: unset;
+			max-height: unset;
+			max-width: unset;
+			min-width: unset;
+			/* min-height: 100vh; */
+			display: block;
+			/* width: calc( (1080/720) * 100vw); */
+			min-height: calc( (1080/720) * 100vw);
+			/* height: var(--intro-height); */
+			max-width: calc( (1080/720) * 100vw);
 		}
+		.frame_42 img,
+		.frame_43 img,
+		.frame_44 img,
+		.frame_45 img,
+		.frame_46 img,
+		.frame_47 img,
+		.frame_48 img,
+		.frame_49 img,
+		.frame_50 img,
+		.frame_51 img,
+		.frame_52 img,
+		.frame_53 img,
+		.frame_54 img,
+		.frame_55 img,
+		.frame_56 img,
+		.frame_57 img,
+		.frame_58 img,
+		.frame_59 img,
+		.frame_60 img,
+		.frame_61 img,
+		.frame_62 img,
+		.frame_63 img,
+		.frame_64 img,
+		.frame_65 img,
+		.frame_66 img {
+			/* height: auto;
+			aspect-ratio: 720/1080; */
+		}
+	}
+	@media (min-width: 960px) {
 		p {
 			word-break: unset;
 		}
-		.frame img {
-			height: auto;
-			width: 100%;
-			max-width: 100%;
-		}
+	}
+	@media (prefers-color-scheme: dark) {
+		/* .frame {
+    		background: var(--bkg);
+		} */
 	}
 </style>

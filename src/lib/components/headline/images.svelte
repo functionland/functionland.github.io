@@ -5,6 +5,7 @@
     let isInView, scrollDirection, innerWidth, scrollY;
 
     const options = {
+        threshold: 0.5,
         unobserveOnEnter: false,
     };
 
