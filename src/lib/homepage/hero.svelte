@@ -5,7 +5,8 @@
 	const heroImageDesktop = assets + 'images/home/hero-image-desktop.png';
 	const heroImageMobile = assets + 'images/home/hero-image-mobile.jpg';
 	const imageOptions = {
-		threshold: 0.4,
+		threshold: 0.5,
+		rootmargin: "-5%",
 		unobserveOnEnter: false,
 	};
 	const heroOptions = {
@@ -142,34 +143,34 @@
         picture.animateFromTop {
             -webkit-animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
+            animation-delay: 0.7s;
 
         }
         picture.animateFromBottom {
             -webkit-animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
+            animation-delay: 0.7s;
         }
         picture.animate {
             -webkit-animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
+            animation-delay: 0.7s;
         }
         picture img.animateFromTop {
             -webkit-animation: size-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: size-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
+            animation-delay: 0.6s;
 
         }
         picture img.animateFromBottom {
             -webkit-animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
+            animation-delay: 0.6s;
         }
         picture img.animate {
             -webkit-animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.2s;
+            animation-delay: 0.6s;
         }
 	}
 </style>

@@ -1,9 +1,11 @@
 <script>
 	// import { scrollTo } from 'svelte-scrolling';
 	import { scrollto } from "svelte-scrollto";
+	import {innerWidth } from 'svelte-window-stores/viewport'
     import { inview } from 'svelte-inview';
+	let thresh =  $innerWidth < 960 ? 0.2 : 0.3;
 	const inViewOptions = {
-		threshold: 0.7,
+		threshold: thresh,
 		unobserveOnEnter: false,
 	};
     let isInView, scrollDirection;
@@ -16,8 +18,8 @@
 	export let index;
 </script>
 
-	<div class="{`item ${titled ? 'titled' : '' }`}" use:inview={inViewOptions} on:change={handleChange}>
-		<div style="animation-delay: {(index+1) * 200}ms;"
+	<div class="wrapper" use:inview={inViewOptions} on:change={handleChange}>
+		<div class="{`item ${titled ? 'titled' : '' }`}" style="animation-delay: {(index+1) * 200}ms;"
 			class:animate={isInView}
 			class:animateFromBottom={scrollDirection === 'down'}
 			class:animateFromTop={scrollDirection !== 'down'}
@@ -43,25 +45,27 @@
 		font-weight: var(--headline-content-font-weight);
 		padding-bottom: var(--headline-content-padding-bottom);
 	}
-	
+	.wrapper {
+		height: 100%;
+	}
 	.item.titled {
 		grid-row: 2;
 	}
-	.animateFromTop, .animateFromBottom, .animateToBottom, .animateToTop {
+	.animate,.animateFromTop, .animateFromBottom, .animateToBottom, .animateToTop {
 		opacity: 0;
 		animation-name: none;
 	}
 	.animate.animateFromTop {
-		-webkit-animation: fade-in-bottom 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+		-webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
 		animation: fade-in-bottom 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-		animation-delay: 0.1s;
+		animation-delay: 0.2s;
 	}
 	.animate.animateFromBottom {
-		-webkit-animation: fade-in-top 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+		-webkit-animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
 		animation: fade-in-top 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-		animation-delay: 0.1s;
+		animation-delay: 0.2s;
 	}
-	.animate.animateToBottom {
+	/* .animate.animateToBottom {
 		-webkit-animation: fade-in-top 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
 		animation: fade-in-top 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
 		animation-delay: 0.1s;
@@ -70,7 +74,7 @@
 		-webkit-animation: fade-in-bottom 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
 		animation: fade-in-bottom 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
 		animation-delay: 0.1s;
-	}
+	} */
 	@media (min-width: 960px) {
 		button {
 			align-self: bottom;
