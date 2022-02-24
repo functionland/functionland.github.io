@@ -18,7 +18,7 @@
 	export let index;
 </script>
 
-<div class="wrapper" use:inview={inViewOptions} on:change={handleChange}>
+<div class={`wrapper ${titled ? 'titled' : ''}`} use:inview={inViewOptions} on:change={handleChange}>
 	<div
 		class={`item ${titled ? 'titled' : ''}`}
 		style="animation-delay: {(index + 1) * 200}ms;"
@@ -52,9 +52,6 @@
 	.wrapper {
 		height: 100%;
 	}
-	.item.titled {
-		grid-row: 2;
-	}
 	.animate,
 	.animateFromTop,
 	.animateFromBottom,
@@ -74,6 +71,9 @@
 		animation-name: none;
 	}
 	@media (min-width: 960px) {
+		.wrapper.titled {
+			grid-row: 2;
+		}
 		button {
 			align-self: bottom;
 		}

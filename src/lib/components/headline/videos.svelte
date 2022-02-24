@@ -60,7 +60,7 @@
 		docReady(loadLazyVideos);
 	});
 	// let preloadTriggered = false;
-	$: loopClass = ended == true ? 'visible' : 'hidden';
+	// $: loopClass = ended == true ? 'visible' : 'hidden';
 </script>
 
 <!-- <svelte:head>
@@ -89,10 +89,6 @@
 				<source data-src={videos[0].src} type={videos[0].type} decoding="async" />
 				{browserSupportText}
 			</video>
-			<!-- <video autoplay loop playsinline muted class={`${data.ref} ${data.ref}-loop ${loopClass}`}>
-				<source src={videos[1].src} type={videos[1].type} />
-				{browserSupportText}
-			</video> -->
 		{:else}
 			{#each videos as video}
 				{#if video.scheme !== undefined}
@@ -121,7 +117,6 @@
 							{browserSupportText}
 						</video>
 					{/if}
-					<!-- <Video video={video} ref={item.ref}/> -->
 				{/if}
 			{/each}
 		{/if}
@@ -130,44 +125,56 @@
 
 <style>
 	.video-wrapper {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		padding-top: 90%;
-	}
-	.video-wrapper:not(.earn-crypto) {
 		position: relative;
-		z-index: 0;
-		padding-top: 0;
-		aspect-ratio: 390/450;
+		aspect-ratio: 1/1;
 		width: 100%;
+		height: unset;
+		overflow: hidden;
 	}
 	.video-wrapper.earn-crypto {
-		background: #4c4d51;
+		position: absolute;
+		aspect-ratio: 3/4;
+		bottom: 0;
+		width: unset;
+		height: 100%;
+	}
+	.video-wrapper.customizable {
+		aspect-ratio: 3/3.5;
+		width: unset;
+		height: 100%;
 	}
 	video {
 		position: absolute;
 		z-index: 0;
 	}
 	video.own-your-data {
-		height: 200%;
+		width: 250%;
+		height: unset;
 		top: 40%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		aspect-ratio: 1/1;
+		max-width: unset;
 	}
 	video.earn-crypto {
-		width: 175%;
+		width: 135%;
+		height: unset;
 		top: unset;
 		bottom: -10%;
 		left: 50%;
 		transform: translateX(-50%);
+		aspect-ratio: 1/1;
+		max-width: unset;
 	}
 	video.customizable {
-		width: 100%;
-		top: 35%;
+		width: 135%;
+		height: unset;
+		top: unset;
+		bottom: -10%;
 		left: 50%;
-		transform: translate(-50%, -50%);
-		/* position: relative; */
+		transform: translateX(-50%);
+		aspect-ratio: 1/1;
+		max-width: unset;
 	}
 	video.visible {
 		z-index: 0;
@@ -175,58 +182,41 @@
 	video.hidden {
 		z-index: -1;
 	}
-
-	.video-wrapper.customizable {
-		position: relative;
-		z-index: unset;
-		background: var(--bkg);
-	}
-	.video-wrapper.customizable video.customizable {
-		width: 120%;
-		top: unset;
-		bottom: 0;
-		transform: translateX(-50%);
-	}
 	@media (min-width: 960px) {
-		.video-wrapper:not(.earn-crypto),
 		.video-wrapper {
-			aspect-ratio: 3/1;
+			aspect-ratio: 1/1;
+		}
+		.video-wrapper.own-your-data {
+			aspect-ratio: 16/6;
+			align-self: start;
+		}
+		.video-wrapper.earn-crypto {
+			background: #5F6067;
+			aspect-ratio: 16/9;
 			width: 100%;
-			padding-top: 0;
+			height: unset;
 		}
 		.video-wrapper.customizable {
+    		height: var(--description-min-height);
+			aspect-ratio: 2/3;
 			grid-column: 1 /2;
 			grid-row: 1/-1;
 		}
 		.video-wrapper.customizable video.customizable {
-			/* width: 100%; */
-			width: unset;
+			/* width: unset;
 			height: 100%;
 			top: unset;
 			bottom: 0;
-			transform: translateX(-45%);
+			transform: translateX(-45%); */
 		}
-		.video-wrapper.own-your-data {
-			background: var(--bkg);
-		}
-		.video-wrapper.own-your-data video.own-your-data {
-			width: 135%;
-			height: unset;
-		}
-		.video-wrapper.earn-crypto {
-			background: var(--bkg);
-		}
-		.video-wrapper.earn-crypto video.earn-crypto {
-			max-width: 100%;
-			bottom: -35%;
+		video.own-your-data {
+			width: 100%;
+			top: 37%;
 		}
 		video.earn-crypto {
-			/* width: 100%;
-			height: auto;
-			top: unset;
-			left: unset;
-			transform: unset;
-			bottom: -20%; */
+			max-width: unset;
+			width: 100%;
+			bottom: -45%;
 		}
 	}
 	@media (min-width: 1900px) {
@@ -239,8 +229,6 @@
 		}
 		video.earn-crypto {
 			bottom: -42%;
-			/* bottom: -45%; */
-			/* bottom: -40%; */
 		}
 	}
 	@media (min-width: 1900px) and (min-height: 1000px) {

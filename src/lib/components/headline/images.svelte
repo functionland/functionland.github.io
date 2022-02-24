@@ -3,31 +3,31 @@
 	import { inview } from 'svelte-inview';
 	export let data;
 
-	// const descView = {
-	// 	inview: false,
-	// 	options: {
-	// 		threshold: 0.01,
-	// 		unobserveOnEnter: false
-	// 	},
-	// 	scrollDirection: '',
-	// 	fadeIn: {
-	// 		reveal: [
-	// 			{ duration: 400, delay: 300 },
-	// 			{ duration: 400, delay: 600 },
-	// 			{ duration: 400, delay: 900 },
-	// 			{ duration: 400, delay: 1200 },
-	// 			{ duration: 400, delay: 1400 },
-	// 			{ duration: 400, delay: 1600 },
-	// 			{ duration: 400, delay: 1800 },
-	// 			{ duration: 400, delay: 1800 },
-	// 		],
-	// 		none: { duration: 0, delay: 0 }
-	// 	},
-	// 	change:({ detail }) => {
-	// 		descView.inview = detail.inView;
-	// 		descView.scrollDirection = detail.scrollDirection.vertical;
-	// 	},
-	// }
+	const descView = {
+		inview: false,
+		options: {
+			threshold: 0.01,
+			unobserveOnEnter: false
+		},
+		scrollDirection: '',
+		fadeIn: {
+			reveal: [
+				{ duration: 400, delay: 300 },
+				{ duration: 400, delay: 600 },
+				{ duration: 400, delay: 900 },
+				{ duration: 400, delay: 1200 },
+				{ duration: 400, delay: 1400 },
+				{ duration: 400, delay: 1600 },
+				{ duration: 400, delay: 1800 },
+				{ duration: 400, delay: 1800 },
+			],
+			none: { duration: 0, delay: 0 }
+		},
+		change:({ detail }) => {
+			descView.inview = detail.inView;
+			descView.scrollDirection = detail.scrollDirection.vertical;
+		},
+	}
 	let isInView, scrollDirection, innerWidth, scrollY;
 
 	const options = {

@@ -35,7 +35,7 @@
 			mobile: assets + 'images/home/hero-image-mobile.jpg',
 		},
 		options: {
-			threshold: [0.1, 0.7],
+			threshold: 0.01,
 			unobserveOnEnter: false
 		},
 		inview: false,
@@ -102,6 +102,8 @@
 							<img src={image.src.mobile} alt="" loading="eager"
 								in:fade={(image.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}
 							/>
+						{:else}
+							<img src={image.src.mobile} alt="" loading="lazy" />
 						{/if}
 					</picture>
 				</div>
