@@ -1,15 +1,20 @@
 <script>
 	import Slider from '$lib/components/partners/slider.svelte';
 </script>
+
 <section>
 	<div class="container">
 		<div class="wrapper">
 			<h5>Our Partners</h5>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore</p>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+				labore
+			</p>
 			<Slider />
 		</div>
 	</div>
 </section>
+
 <style>
 	h5 {
 		font-size: var(--section-title-font-size);
@@ -27,7 +32,8 @@
 		padding-bottom: 20px;
 	}
 	@media (min-width: 960px) {
-		section, .wrapper {
+		section,
+		.wrapper {
 			min-height: unset;
 			height: auto;
 		}

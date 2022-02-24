@@ -24,7 +24,7 @@
 							src: assets + 'images/home/plug-n-play-large.jpg',
 							width: 1920,
 							height: 1073
-						},
+						}
 					},
 					type: 'image/jpg'
 				}
@@ -81,7 +81,7 @@
 							src: assets + 'images/photos-app/photos-1-large.jpg',
 							width: 427,
 							height: 288
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -96,7 +96,7 @@
 							src: assets + 'images/photos-app/photos-2-large.jpg',
 							width: 427,
 							height: 288
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -111,7 +111,7 @@
 							src: assets + 'images/photos-app/photos-3-large.jpg',
 							width: 584,
 							height: 326
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -126,7 +126,7 @@
 							src: assets + 'images/photos-app/photos-4-large.jpg',
 							width: 167,
 							height: 282
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -141,7 +141,7 @@
 							src: assets + 'images/photos-app/photos-5-large.jpg',
 							width: 433,
 							height: 279
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -156,7 +156,7 @@
 							src: assets + 'images/photos-app/photos-5-large.jpg',
 							width: 209,
 							height: 276
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -171,7 +171,7 @@
 							src: assets + 'images/photos-app/photos-5-large.jpg',
 							width: 626,
 							height: 457
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -186,7 +186,7 @@
 							src: assets + 'images/photos-app/photos-5-large.jpg',
 							width: 550,
 							height: 457
-						},
+						}
 					},
 					type: 'image/jpg'
 				}

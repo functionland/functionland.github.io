@@ -48,7 +48,7 @@
 							src: assets + 'images/photos-app/photos-1-large.jpg',
 							width: 329,
 							height: 495
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -63,7 +63,7 @@
 							src: assets + 'images/photos-app/photos-2-large.jpg',
 							width: 850,
 							height: 563
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -78,7 +78,7 @@
 							src: assets + 'images/photos-app/photos-3-large.jpg',
 							width: 581,
 							height: 388
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -93,7 +93,7 @@
 							src: assets + 'images/photos-app/photos-4-large.jpg',
 							width: 692,
 							height: 463
-						},
+						}
 					},
 					type: 'image/jpg'
 				},
@@ -108,7 +108,7 @@
 							src: assets + 'images/photos-app/photos-5-large.jpg',
 							width: 325,
 							height: 591
-						},
+						}
 					},
 					type: 'image/jpg'
 				}

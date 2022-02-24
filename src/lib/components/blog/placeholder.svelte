@@ -2,8 +2,8 @@
 	<a href="/" target="_blank">
 		<img src="/" alt="" loading="lazy" decoding="async" />
 		<div>
-			<em></em>
-			<time></time>
+			<em />
+			<time />
 		</div>
 	</a>
 </article>

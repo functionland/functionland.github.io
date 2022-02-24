@@ -4,7 +4,7 @@ export default {
 	kit: {
 		adapter: adapter({
 			out: 'build',
-			precompress: false,
+			precompress: true,
 			env: {
 				host: 'HOST',
 				port: 'PORT',
@@ -13,7 +13,8 @@ export default {
 					protocol: 'PROTOCOL_HEADER',
 					host: 'HOST_HEADER'
 				}
-			},
+			}
 		}),
+		amp: true
 	}
 };

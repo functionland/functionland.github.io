@@ -1,69 +1,140 @@
 <script>
+	import { scrollY, innerWidth } from 'svelte-window-stores/viewport';
 	import { fade } from 'svelte/transition';
 	import { assets } from '$app/paths';
-    import { inview } from 'svelte-inview';
-	const heroImageDesktop = assets + 'images/home/hero-image-desktop.png';
-	const heroImageMobile = assets + 'images/home/hero-image-mobile.jpg';
-	const imageOptions = {
-		threshold: 0.5,
-		rootmargin: "-5%",
-		unobserveOnEnter: false,
-	};
-	const heroOptions = {
-		threshold: 0.5,
-		unobserveOnEnter: false,
-	};
-    let imageIsInView, heroIsInView, scrollDirection, innerWidth;
-    const handleChangeImageIsInView = ({ detail }) => {
-        imageIsInView = detail.inView;
-        scrollDirection = detail.scrollDirection.vertical;
-    };
-	const handleChangeHeroIsInView = ({ detail }) => {
-        heroIsInView = detail.inView;
-        scrollDirection = detail.scrollDirection.vertical;
-    };
+	import { inview } from 'svelte-inview';
+	let isMobile = $innerWidth < 960;
+	const title = {
+		inview: false,
+		options: {
+			threshold: 0.1,
+			unobserveOnEnter: false
+		},
+		scrollDirection: '',
+		fadeIn: {
+			reveal: [
+				{ duration: 400, delay: 300 },
+				{ duration: 400, delay: 600 },
+				{ duration: 400, delay: 900 },
+				{ duration: 400, delay: 1200 },
+				{ duration: 400, delay: 1400 },
+				{ duration: 400, delay: 1600 },
+				{ duration: 400, delay: 1800 },
+				{ duration: 400, delay: 1800 },
+			],
+			none: { duration: 0, delay: 0 }
+		},
+		change:({ detail }) => {
+			title.inview = detail.inView;
+			title.scrollDirection = detail.scrollDirection.vertical;
+		},
+	}
+	const image = {
+		src : {
+			desktop: assets + 'images/home/hero-image-desktop.png',
+			mobile: assets + 'images/home/hero-image-mobile.jpg',
+		},
+		options: {
+			threshold: [0.1, 0.7],
+			unobserveOnEnter: false
+		},
+		inview: false,
+		scrollDirection: '',
+		change:({ detail }) => {
+			image.inview = detail.inView;
+			image.scrollDirection = detail.scrollDirection.vertical;
+		},
+		init:({detail}) => {
+			image.posY = window.pageYOffset + detail.node.getBoundingClientRect().y;
+		},
+	}
 </script>
+
 <svelte:head>
-	<link rel="preload" href={heroImageDesktop} media="(min-width: 960px)" as="image" />
-	<link rel="preload" href={heroImageMobile} media="(max-width: 959px)" as="image" />
+	<link rel="preload" href={image.src.desktop} media="(min-width: 960px)" as="image" />
+	<link rel="preload" href={image.src.mobile} media="(max-width: 959px)" as="image" />
 </svelte:head>
-<svelte:window bind:innerWidth={innerWidth}/>
 <section>
 	<div class="container">
 		<div class="wrapper">
-			<h1 class="hero" use:inview={heroOptions} on:change={handleChangeHeroIsInView}>
-				{#if heroIsInView}
+			<h1 class="hero" use:inview={title.options} on:change={title.change}>
+				{#if title.inview}
 					<span>
-						<span class="bold" 
-							in:fade={{duration: 400, delay: 300}} out:fade>Box </span>
-							<span in:fade={{duration: 400, delay: 600}} out:fade>by </span>
-							<span class="teal-text" in:fade={{duration: 400, delay: 1000}} out:fade>Functionland </span>
+						<span class="bold"
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[0] : title.fadeIn.none}
+						>Box </span>
+						<span
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[1] : title.fadeIn.none}
+						>by </span>
+						<span class="teal-text"
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[2] : title.fadeIn.none}
+						>Functionland </span>
 					</span>
-					<span in:fade={{duration: 400, delay: 1500}} out:fade>The Private, </span>
-					<span in:fade={{duration: 400, delay: 2000}} out:fade>Payless, </span>
-					<span in:fade={{duration: 400, delay: 2500}} out:fade>Cloud Storage </span>
-					<span in:fade={{duration: 400, delay: 3000}} out:fade>Alternative</span>
+					<span
+						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[3] : title.fadeIn.none}
+					>The Private, </span>
+					<span
+						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[4] : title.fadeIn.none}
+					>Payless, </span>
+					<span
+						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[5] : title.fadeIn.none}
+					>Cloud Storage </span>
+					<span
+						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[6] : title.fadeIn.none}
+					>Alternative</span>
+				{:else}
+					<span class='hidden'>
+						<span class="bold">Box </span>
+						<span>by </span>
+						<span class="teal-text">Functionland </span>
+					</span>
+					<span class='hidden'>The Private, </span>
+					<span class='hidden'>Payless, </span>
+					<span class='hidden'>Cloud Storage </span>
+					<span class='hidden'>Alternative</span>
 				{/if}
 			</h1>
-			<div class="hero-image-wrapper" use:inview={imageOptions} on:change={handleChangeImageIsInView}>
-				<picture id="hero" 
-					class:animate={imageIsInView}
-					class:animateFromBottom={scrollDirection === 'down'}
-					class:animateFromTop={scrollDirection !== 'down'}>
-					<!-- class:scale-in={imageIsInView}
-					class:scale-out-FromTop={scrollDirection === 'down'}
-					class:scale-out-FromBottom={scrollDirection !== 'down'}> -->
-					<source srcset={heroImageDesktop} media="(min-width: 960px)" />
-					<img src={heroImageMobile} alt="" loading="eager"
-					class:animate={imageIsInView}
-					class:animateFromBottom={scrollDirection === 'down'}
-					class:animateFromTop={scrollDirection !== 'down'}/>
-				</picture>
-			</div>
+			{#if isMobile}
+				<div class="hero-image-wrapper" use:inview={image.options} on:change={image.change}>
+					<picture id="hero">
+						<source srcset={image.src.desktop} media="(min-width: 960px)" />
+						{#if image.inview}
+							<img src={image.src.mobile} alt="" loading="eager"
+								in:fade={(image.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}
+							/>
+						{/if}
+					</picture>
+				</div>
+			{:else}
+				<div class="hero-image-wrapper" use:inview={image.options} on:change={image.change}>
+					<picture id="hero"
+						class:animate={image.inview}
+						class:animateFromBottom={image.scrollDirection === 'down'}
+						class:animateFromTop={image.scrollDirection !== 'down'}
+						class:animateToBottom={image.scrollDirection === 'top'}
+						class:animateToTop={image.scrollDirection !== 'top'}
+					>
+						<source srcset={image.src.desktop} media="(min-width: 960px)" />
+						<img src={image.src.mobile} alt="" loading="eager"
+							class:animate={image.inview}
+							class:animateFromBottom={image.scrollDirection === 'down'}
+							class:animateFromTop={image.scrollDirection !== 'down'}
+							class:animateToBottom={image.scrollDirection === 'top'}
+							class:animateToTop={image.scrollDirection !== 'top'}
+							/>
+					</picture>
+				</div>
+			{/if}
 		</div>
 	</div>
 </section>
+
 <style>
+	.hidden {
+		position: absolute;
+		opacity: 0;
+		user-select: none;
+	}
 	section {
 		padding-bottom: 0;
 	}
@@ -85,17 +156,25 @@
 	h1 > span {
 		display: block;
 	}
-
-	.hero-image-wrapper {
-		
-    	clip: rect(0px, 969.875px, 857px, 327.125px);
-	}
 	img {
 		width: 100%;
 		display: block;
 		border-radius: var(--hero-image-brdrds);
 	}
-
+	.hero-image-wrapper {
+		aspect-ratio:1678/947;
+		position: relative;
+		width: 100%;
+	}
+	@media (max-width: 959px) {
+		h1 {
+			padding-bottom: 0;
+		}
+		.wrapper {
+			padding: var(--hero-section-padding);
+			height: 100%;
+		}
+	}
 
 	@media (min-width: 960px) {
 		h1 {
@@ -108,11 +187,6 @@
 		h1 > span:nth-child(1) {
 			display: block;
 		}
-		img {
-			margin: 0 auto;
-			display: block;
-			border-radius: var(--hero-image-brdrds);
-		}
 		.hero-image-wrapper {
 			aspect-ratio:1678/947;
 			position: relative;
@@ -123,9 +197,7 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translateX(-50%) translateY(-50%);
-			width: 400px;
-			height: 400px;
+			transform: translate(-50%, -50%);
 			overflow: hidden;
 			border-radius: var(--hero-image-brdrds);
 		}
@@ -133,44 +205,119 @@
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			transform: translateX(-47%) translateY(-40%);
+			transform: translate(-50%, -50%);
 			transform-origin: center;
 			aspect-ratio: 1678/947;
-			height: var(--intro-height);
 			width: auto;
 			max-width: unset;
+			margin: 0 auto;
+			display: block;
+			border-radius: var(--hero-image-brdrds);
 		}
-        picture.animateFromTop {
-            -webkit-animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.7s;
 
-        }
-        picture.animateFromBottom {
-            -webkit-animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.7s;
-        }
-        picture.animate {
+		picture.animate,
+		picture.animateFromTop,
+		picture.animateFromBottom,
+		picture.animateToBottom,
+		picture.animateToTop {
+			height: 400px;
+			width: 400px;
+			animation-name: none;
+		}
+		picture.animate.animateFromTop {
+			-webkit-animation: scale-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: scale-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+			animation-delay: 1s;
+		}
+		picture.animateToTop.animateFromTop:not(.animate),
+		picture.animate.animateFromBottom:not(.animateFromTop) {
+			height: 100%;
+			width: 100%;
+			animation-name: none;
+		}
+
+
+		picture img.animate,
+		picture img.animateFromTop,
+		picture img.animateFromBottom,
+		picture img.animateToBottom,
+		picture img.animateToTop {
+			transform: translateX(-47%) translateY(-40%);
+			height: calc((947 / 1678) * 100vw);
+			animation-name: none;
+		}
+		picture img.animate.animateFromTop {
+			-webkit-animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+			animation-delay: 1.3s;
+		}
+		picture img.animateToTop.animateFromTop:not(.animate),
+		picture img.animate.animateFromBottom:not(.animateFromTop) {
+			transform: translateX(-50%) translateY(-50%);
+			height: 100%;
+			animation-name: none;
+		}
+		/* .animate,
+		.animateFromTop,
+		.animateFromBottom,
+		.animateToBottom,
+		.animateToTop {
+			animation-name: none;
+		}
+		.animate.animateFromBottom {
+			animation-name: none;
+		} */
+		/* picture.animateFromTop {
             -webkit-animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.7s;
-        }
-        picture img.animateFromTop {
-            -webkit-animation: size-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: size-out 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.6s;
 
-        }
-        picture img.animateFromBottom {
-            -webkit-animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: size-out 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.6s;
-        }
-        picture img.animate {
+			
+			transform: translateX(-47%) translateY(-40%);
+			height: calc((947 / 1678) * 100vw);
+		} */
+
+		
+		/* picture.animate,
+		picture.animateFromTop,
+		picture.animateFromBottom,
+		picture.animateToBottom,
+		picture.animateToTop {
+			width: 400px;
+			height: 400px;
+			animation-name: none;
+		}
+		picture.animate.animateFromTop {
+            -webkit-animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
+            animation-delay: 0.7s;
+		}
+		picture.animate.animateToTop {
+			width: 100%;
+			height: 100%;
+			animation-name: none;
+		}
+		picture img.animate,
+		picture img.animateFromBottom,
+		picture img.animateToBottom,
+		picture img.animateToTop {
+			transform: translateX(-47%) translateY(-40%);
+			height: calc((947 / 1678) * 100vw);
+			animation-name: none;
+		} */
+		/* picture img.animateFromTop {
+			transform: translateX(-47%) translateY(-40%);
+			height: calc((947 / 1678) * 100vw);
+		} */
+		/* picture img.animate.animateFromTop {
             -webkit-animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
             animation-delay: 0.6s;
-        }
+		}
+		picture img.animateFromBottom, picture img.animateFromTop {
+			height: 100%;
+			transform: translateX(-50%) translateY(-50%);
+			animation-name: none;
+		} */
 	}
 </style>

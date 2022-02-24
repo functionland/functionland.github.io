@@ -21,7 +21,7 @@
 	-moz-transition: none;
 }
 
-@media(max-width:959px) {
+@media (max-width: 959px) {
 	.de-contain {
 		margin: 0 -20px;
 		width: 100vw;

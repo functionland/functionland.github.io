@@ -1,67 +1,68 @@
 <script>
 	import { prefersColorScheme } from 'svelte-window-stores/appearance';
-    import { inview } from 'svelte-inview';
+	import { inview } from 'svelte-inview';
 	import { onMount } from 'svelte';
 	export let data;
 	let videos = data.videos ? (data.videos.length > 0 ? data.videos : false) : false;
 	let browserSupportText = 'Your browser does not support the video element.';
 	$: colorScheme = $prefersColorScheme === 0 ? 'light' : 'dark';
 	let ended;
-    let isInView;
-    let scrollDirection;
-    const options = {
-    	rootMargin: '150px',
-        unobserveOnEnter: false,
-    };
-    const handleChange = ({ detail }) => {
-        isInView = detail.inView;
-        scrollDirection = detail.scrollDirection.vertical;
+	let isInView;
+	let scrollDirection;
+	const options = {
+		rootMargin: '150px',
+		unobserveOnEnter: false
+	};
+	const handleChange = ({ detail }) => {
+		isInView = detail.inView;
+		scrollDirection = detail.scrollDirection.vertical;
 		// preloadTriggered = true;
-    };
+	};
 	onMount(() => {
 		const loadLazyVideos = () => {
-			var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
-			if ("IntersectionObserver" in window) {
-				var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
-				entries.forEach(function(video) {
-					if (video.isIntersecting) {
-					for (var source in video.target.children) {
-						var videoSource = video.target.children[source];
-						if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
-						videoSource.src = videoSource.dataset.src;
+			var lazyVideos = [].slice.call(document.querySelectorAll('video.lazy'));
+			if ('IntersectionObserver' in window) {
+				var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
+					entries.forEach(function (video) {
+						if (video.isIntersecting) {
+							for (var source in video.target.children) {
+								var videoSource = video.target.children[source];
+								if (typeof videoSource.tagName === 'string' && videoSource.tagName === 'SOURCE') {
+									videoSource.src = videoSource.dataset.src;
+								}
+							}
+
+							video.target.load();
+							video.target.classList.remove('lazy');
+							lazyVideoObserver.unobserve(video.target);
 						}
-					}
-
-					video.target.load();
-					video.target.classList.remove("lazy");
-					lazyVideoObserver.unobserve(video.target);
-					}
-				});
+					});
 				});
 
-				lazyVideos.forEach(function(lazyVideo) {
-				lazyVideoObserver.observe(lazyVideo);
+				lazyVideos.forEach(function (lazyVideo) {
+					lazyVideoObserver.observe(lazyVideo);
 				});
 			}
-		}
-		const docReady = callbackFunc => {
+		};
+		const docReady = (callbackFunc) => {
 			if (document.readyState !== 'loading') {
-			callbackFunc();
-			} else if (document.addEventListener) {
-			document.addEventListener('DOMContentLoaded', callbackFunc);
-			} else {
-			document.attachEvent('onreadystatechange', function () {
-				if (document.readyState === 'complete') {
 				callbackFunc();
-				}
-			});
+			} else if (document.addEventListener) {
+				document.addEventListener('DOMContentLoaded', callbackFunc);
+			} else {
+				document.attachEvent('onreadystatechange', function () {
+					if (document.readyState === 'complete') {
+						callbackFunc();
+					}
+				});
 			}
 		};
 		docReady(loadLazyVideos);
 	});
-    // let preloadTriggered = false;
+	// let preloadTriggered = false;
 	$: loopClass = ended == true ? 'visible' : 'hidden';
 </script>
+
 <!-- <svelte:head>
 	{#if preloadTriggered}
 		{#if data.ref === 'earn-crypto'}
@@ -82,16 +83,9 @@
 	{/if}
 </svelte:head> -->
 {#if videos}
-	<div class="{data.ref} de-contain video-wrapper"  use:inview={options} on:change={handleChange}>
+	<div class="{data.ref} de-contain video-wrapper" use:inview={options} on:change={handleChange}>
 		{#if data.ref === 'earn-crypto'}
-			<video
-				bind:ended
-				autoplay
-				loop
-				playsinline
-				muted
-				class={`${data.ref} ${data.ref}-main lazy`}
-			>
+			<video bind:ended autoplay loop playsinline muted class={`${data.ref} ${data.ref}-main lazy`}>
 				<source data-src={videos[0].src} type={videos[0].type} decoding="async" />
 				{browserSupportText}
 			</video>
@@ -139,7 +133,7 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
-    	padding-top: 90%;
+		padding-top: 90%;
 	}
 	.video-wrapper:not(.earn-crypto) {
 		position: relative;
@@ -149,7 +143,7 @@
 		width: 100%;
 	}
 	.video-wrapper.earn-crypto {
-    	background: #4c4d51;
+		background: #4c4d51;
 	}
 	video {
 		position: absolute;
@@ -194,7 +188,8 @@
 		transform: translateX(-50%);
 	}
 	@media (min-width: 960px) {
-		.video-wrapper:not(.earn-crypto),.video-wrapper {
+		.video-wrapper:not(.earn-crypto),
+		.video-wrapper {
 			aspect-ratio: 3/1;
 			width: 100%;
 			padding-top: 0;

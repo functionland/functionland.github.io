@@ -2,19 +2,29 @@
 	import { base, assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	let playInterval, outOfViewClass, scrollSpeed = 0, innerHeight, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true, scrollY, ready = false;
+	let playInterval,
+		outOfViewClass,
+		scrollSpeed = 0,
+		innerHeight,
+		showSlogan = false,
+		frames = [],
+		lastScroll = 0,
+		currentFrame = 1,
+		introPlaying = true,
+		scrollY,
+		ready = false;
 	onMount(() => {
-		const docReady = callbackFunc => {
+		const docReady = (callbackFunc) => {
 			if (document.readyState !== 'loading') {
-			callbackFunc();
-			} else if (document.addEventListener) {
-			document.addEventListener('DOMContentLoaded', callbackFunc);
-			} else {
-			document.attachEvent('onreadystatechange', function () {
-				if (document.readyState === 'complete') {
 				callbackFunc();
-				}
-			});
+			} else if (document.addEventListener) {
+				document.addEventListener('DOMContentLoaded', callbackFunc);
+			} else {
+				document.attachEvent('onreadystatechange', function () {
+					if (document.readyState === 'complete') {
+						callbackFunc();
+					}
+				});
 			}
 		};
 		const play = () => {
@@ -100,7 +110,7 @@
 						}
 						return;
 					} else {
-						currentFrame += 
+						currentFrame +=
 							// (0.25644438000000001 + (scrollSpeed / innerHeight) + (scrollSpeed / scrollY) * 5);
 							0.86644438000000001 + scrollSpeed / innerHeight + scrollSpeed / scrollY;
 						if (currentFrame > 60) {
@@ -133,7 +143,6 @@
 
 <svelte:head>
 	{#each frames as frame, index}
-
 		<link
 			rel="preload"
 			as="image"
@@ -149,13 +158,17 @@
 	{/each}
 </svelte:head>
 <svelte:window
-	bind:innerHeight={innerHeight}
-	bind:scrollY={scrollY}
+	bind:innerHeight
+	bind:scrollY
 	on:mousewheel|nonpassive={preventWhilePlaying}
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}
 />
-<section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent} class={outOfViewClass}>
+<section
+	on:mousewheel|nonpassive={mouseWheelEvent}
+	on:touchmove|nonpassive={mouseWheelEvent}
+	class={outOfViewClass}
+>
 	<div class="parallax-bg">
 		{#each frames as frame, index}
 			{#if parseInt(currentFrame) == frame || (currentFrame >= frame && currentFrame <= frame + 1) || (currentFrame <= frame && currentFrame >= frame - 1)}
@@ -171,8 +184,9 @@
 					<picture>
 						<source
 							media="(min-width:960px)"
-							srcset={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}>
-						<img src={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'} alt="">
+							srcset={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}
+						/>
+						<img src={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'} alt="" />
 					</picture>
 				</div>
 			{:else}
@@ -180,8 +194,9 @@
 					<picture>
 						<source
 							media="(min-width:960px)"
-							srcset={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}>
-						<img src={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'} alt="">
+							srcset={base + assets + '/frames/intro/medium/frame_' + frame + '_medium.jpg'}
+						/>
+						<img src={base + assets + '/frames/intro/small/frame_' + frame + '_small.jpg'} alt="" />
 					</picture>
 				</div>
 				<!-- <div
@@ -222,7 +237,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background-color: #3A3941;
+		background-color: #3a3941;
 	}
 	.out-of-view {
 		opacity: 0;
@@ -251,7 +266,7 @@
 		height: auto;
 		bottom: 0;
 		z-index: 0; */
-		
+
 		position: absolute;
 		pointer-events: none;
 		width: 100%;
@@ -263,7 +278,7 @@
 		background-position: bottom center;
 		background-size: auto 100%;
 		background-repeat: no-repeat;
-		background-color: #3A3941;
+		background-color: #3a3941;
 	}
 	.frame.active {
 		z-index: 1;

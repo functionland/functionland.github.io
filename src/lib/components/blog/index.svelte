@@ -3,8 +3,11 @@
 	import { initialValue, makeBlogStore } from '$lib/components/blog/store.svelte';
 	import Blog_placeholder from '$lib/components/blog/placeholder.svelte';
 	import BlogItem from '$lib/components/blog/item.svelte';
-	let someProp = 'something', store = makeBlogStore(someProp), unsubscribe, blogData = initialValue();
-	let innerWidth
+	let someProp = 'something',
+		store = makeBlogStore(someProp),
+		unsubscribe,
+		blogData = initialValue();
+	let innerWidth;
 	if (!unsubscribe) {
 		unsubscribe = store.subscribe(updateBlogData);
 	}
@@ -19,14 +22,15 @@
 	}
 	$: limit = innerWidth < 960 ? 3 : 9;
 </script>
-<svelte:window bind:innerWidth={innerWidth} />
+
+<svelte:window bind:innerWidth />
 <div class="wrapper">
 	<div class="grid">
 		{#if blogData.ready == true}
 			{#if blogData.items != undefined}
 				{#each blogData.items as post, index}
 					{#if index < limit}
-						<BlogItem post={post} />
+						<BlogItem {post} />
 					{/if}
 				{/each}
 			{/if}
@@ -41,6 +45,7 @@
 		{/if}
 	</div>
 </div>
+
 <style>
 	.grid {
 		display: grid;

@@ -1,17 +1,19 @@
 <script>
 	import Headline from '$lib/components/headline/index.svelte';
-	import {innerWidth, innerHeight} from 'svelte-window-stores/viewport'
+	import { innerWidth, innerHeight } from 'svelte-window-stores/viewport';
+	import { prefersColorScheme } from 'svelte-window-stores/appearance';
 	export let data;
 	export let title;
 </script>
+
 <section>
 	<div class="container">
-		<div class={(typeof title != "undefined" && $innerWidth > 960 ) ? "titled grid" : "grid"} >
-			{#if (title && $innerWidth > 960)} 
+		<div class={typeof title != 'undefined' && $innerWidth > 960 ? 'titled grid' : 'grid'}>
+			{#if title && $innerWidth > 960}
 				<h3>{@html title}</h3>
 			{/if}
-			{#each data as item,index}
-				<Headline {item} titled={title != undefined ? true : false} {index}/>
+			{#each data as item, index}
+				<Headline {item} titled={title != undefined ? true : false} {index} />
 			{/each}
 		</div>
 	</div>
@@ -29,7 +31,7 @@
 	.grid.titled {
 		padding: 0;
 		max-height: var(--section-min-height);
-		grid-template-rows: minmax(500px,1fr) auto 1fr ;
+		grid-template-rows: minmax(500px, 1fr) auto 1fr;
 	}
 	.grid.titled h3 {
 		grid-row: 1 / 2;

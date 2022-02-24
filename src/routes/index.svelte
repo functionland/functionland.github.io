@@ -20,10 +20,11 @@
 	<Frames />
 	<Hero />
 	<Headlines data={valuesData} />
-	<Headlines data={featuresData} title="Why <b>Box</b>?"/>
+	<Headlines data={featuresData} title="Why <b>Box</b>?" />
 	<Preorder />
 	<News />
 	<Partners />
 </main>
+
 <style>
 </style>

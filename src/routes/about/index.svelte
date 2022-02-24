@@ -2,8 +2,9 @@
 	export const hydrate = true;
 	export const prerender = true;
 </script>
+
 <script>
-	import { data as about} from '$lib/components/data-mocks/about-page.svelte';
+	import { data as about } from '$lib/components/data-mocks/about-page.svelte';
 	import Heading from '$lib/components/page-blocks/heading.svelte';
 	import Intro from '$lib/components/page-blocks/intro.svelte';
 	import Team from '$lib/components/page-blocks/team.svelte';
@@ -12,6 +13,7 @@
 	import Photos from '$lib/components/page-blocks/photos.svelte';
 	import Jobs from '$lib/components/page-blocks/jobs.svelte';
 </script>
+
 <svelte:head>
 	<title>About Us</title>
 </svelte:head>

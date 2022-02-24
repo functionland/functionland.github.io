@@ -1,46 +1,94 @@
 <script>
-    import { inview } from 'svelte-inview';
+	import { innerWidth } from 'svelte-window-stores/viewport';
+	import { fade } from 'svelte/transition';
+	import { inview } from 'svelte-inview';
 	import Videos from '$lib/components/headline/videos.svelte';
 	import Photos from '$lib/components/headline/images.svelte';
 	export let data;
-
-    let isInView, scrollDirection, innerWidth;
-    const handleChange = ({ detail }) => {
-        isInView = detail.inView;
-        scrollDirection = detail.scrollDirection.vertical;
-    };
+	const descView = {
+		inview: false,
+		options: {
+			threshold: 0.01,
+			unobserveOnEnter: false
+		},
+		scrollDirection: '',
+		fadeIn: {
+			reveal: [
+				{ duration: 400, delay: 300 },
+				{ duration: 400, delay: 600 },
+				{ duration: 400, delay: 900 },
+				{ duration: 400, delay: 1200 },
+				{ duration: 400, delay: 1400 },
+				{ duration: 400, delay: 1600 },
+				{ duration: 400, delay: 1800 },
+				{ duration: 400, delay: 1800 },
+			],
+			none: { duration: 0, delay: 0 }
+		},
+		change:({ detail }) => {
+			descView.inview = detail.inView;
+			descView.scrollDirection = detail.scrollDirection.vertical;
+		},
+	}
 </script>
-<svelte:window bind:innerWidth={innerWidth} />
+
 {#each data as item}
-	<section id={item.ref} use:inview on:change={handleChange}>
+	<section id={item.ref} use:inview={descView.options} on:change={descView.change}>
 		<div class="container">
 			<div class="wrapper {item.ref}">
-				{#if innerWidth >= 960} 
+				{#if $innerWidth >= 960}
 					{#if item.ref == 'plug-n-play'}
-					<h3
-						class:fade-in-right-delay={isInView}
-						class:fade-out-right-delay={!isInView}>{item.main_title}</h3>
-					<p
-						class:fade-in-right-delay={isInView}
-						class:fade-out-right-delay={!isInView}
-						class:animateHeadingFromTop={scrollDirection !== 'down'}>{item.main_desc}</p>
+						<h3
+							class:fade-in-right-delay={descView.inview}
+							class:fade-out-right-delay={!descView.inview}>
+							{item.main_title}
+						</h3>
+						<p
+							class:fade-in-right-delay={descView.inview}
+							class:fade-out-right-delay={!descView.inview}
+							class:animateHeadingFromTop={descView.scrollDirection !== 'down'}
+						>
+							{item.main_desc}
+						</p>
+					{:else}
+						{#if descView.inview}
+							<h3
+								in:fade={(descView.scrollDirection !== 'down') ? descView.fadeIn.reveal[1] : descView.fadeIn.none}
+							>{item.main_title}</h3>
+							<p
+								in:fade={(descView.scrollDirection !== 'down') ? descView.fadeIn.reveal[2] : descView.fadeIn.none}
+							>{item.main_desc}</p>
+						{:else}
+						<h3>{item.main_title}</h3>
+						<p>{item.main_desc}</p>
+						{/if}
+					{/if}
+				{:else}
+					{#if descView.inview}
+						<h3
+							in:fade={(descView.scrollDirection !== 'down') ? descView.fadeIn.reveal[0] : descView.fadeIn.none}
+						>{item.main_title}</h3>
+						<p
+							in:fade={(descView.scrollDirection !== 'down') ? descView.fadeIn.reveal[1] : descView.fadeIn.none}
+						>{item.main_desc}</p>
 					{:else}
 						<h3>{item.main_title}</h3>
 						<p>{item.main_desc}</p>
 					{/if}
-				{:else}
-					<h3>{item.main_title}</h3>
-					<p>{item.main_desc}</p>
 				{/if}
-				<Videos data={item} />
-				<Photos data={item} />
-			</div>
+				<Videos data={item} {descView}/>
+				<Photos data={item} {descView}/>
+			</div>	
 		</div>
 	</section>
 {/each}
 
 <style>
-	section, .wrapper {
+	.hidden {
+		opacity: 0;
+	}
+	section,
+	.wrapper {
 		min-height: var(--description-min-height);
 	}
 	.fade-in-right-delay {
@@ -48,7 +96,7 @@
 		animation-delay: 0.8s;
 	}
 	.fadeout-right-delay {
-		animation: fade-out-right 0.4s ease-in-out  normal both;
+		animation: fade-out-right 0.4s ease-in-out normal both;
 		animation-delay: 0.2s;
 	}
 	.wrapper {
@@ -66,7 +114,7 @@
 	}
 	.wrapper.earn-crypto {
 		color: white;
-    	background: #4c4d51;
+		background: #4c4d51;
 		grid-row-gap: 20px;
 	}
 	.wrapper.earn-crypto:before {
@@ -121,7 +169,8 @@
 		.wrapper.earn-crypto p {
 			max-width: 900px;
 		}
-		.wrapper.plug-n-play, .wrapper.customizable {
+		.wrapper.plug-n-play,
+		.wrapper.customizable {
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: 1fr max-content max-content 1fr;
 			align-items: center;
@@ -157,7 +206,7 @@
 			font-size: 52px;
 		}
 		section#earn-crypto {
-			padding-bottom: 0
+			padding-bottom: 0;
 		}
 		section#earn-crypto > .container {
 			padding: 0;

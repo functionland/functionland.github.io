@@ -1,58 +1,58 @@
 <script context="module">
-    export const main_nav = {
-        list: [
-            {
-                path: '/',
-                text: 'Home',
-                type: 'link',
-            },
-            {
-                path: '/blog',
-                text: 'Blog',
-                type: 'scroll',
-                refrence: 'blog',
-            },
-            {
-                path: '/about',
-                text: 'About Us',
-                type: 'link',
-            },
-            {
-                path: '/nft',
-                text: 'NFT',
-                type: 'scroll',
-                refrence: 'nft',
-            },
-            {
-                path: '/fula-protocol',
-                text: 'FULA Protocol',
-                type: 'link',
-            }
-        ],
-        cta: {
-            path: '/preorder',
-            text: 'Pre-Order',
-            type: 'scroll',
-            refrence: 'preorder',
-        }
-    };
-    export const copyright_nav = {
-        list: [
-            {
-                path: '/privacy',
-                text: 'Privacy Policy'
-            },
-            {
-                path: '/terms',
-                text: 'Terms and Conditions'
-            },
-            {
-                path: '/referral-guidelines',
-                text: 'Referral Guidelines'
-            }
-        ]
-    };
-    export const company_nav = {
+	export const main_nav = {
+		list: [
+			{
+				path: '/',
+				text: 'Home',
+				type: 'link'
+			},
+			{
+				path: '/blog',
+				text: 'Blog',
+				type: 'scroll',
+				refrence: 'blog'
+			},
+			{
+				path: '/about',
+				text: 'About Us',
+				type: 'link'
+			},
+			{
+				path: '/nft',
+				text: 'NFT',
+				type: 'scroll',
+				refrence: 'nft'
+			},
+			{
+				path: '/fula-protocol',
+				text: 'FULA Protocol',
+				type: 'link'
+			}
+		],
+		cta: {
+			path: '/preorder',
+			text: 'Pre-Order',
+			type: 'scroll',
+			refrence: 'preorder'
+		}
+	};
+	export const copyright_nav = {
+		list: [
+			{
+				path: '/privacy',
+				text: 'Privacy Policy'
+			},
+			{
+				path: '/terms',
+				text: 'Terms and Conditions'
+			},
+			{
+				path: '/referral-guidelines',
+				text: 'Referral Guidelines'
+			}
+		]
+	};
+	export const company_nav = {
 		title: 'Company',
 		items: [
 			{
@@ -68,8 +68,8 @@
 				text: 'NFT'
 			}
 		]
-    };
-    export const help_nav = {
+	};
+	export const help_nav = {
 		title: 'Get Help',
 		items: [
 			{
@@ -103,7 +103,7 @@
 			}
 		]
 	};
-    export const social_nav = [
+	export const social_nav = [
 		{
 			url: 'https://discord.gg/k9UybUBdBB',
 			name: 'Discord',

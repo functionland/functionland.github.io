@@ -2,30 +2,37 @@
 	import { data } from '$lib/components/data-mocks/partners.svelte';
 	import { Pagination } from 'swiper';
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
-	let innerWidth
+	let innerWidth;
 	$: perpage = innerWidth < 960 ? 8 : 8;
-	$: pages = data.length%perpage === 0 ? data.length/perpage : Math.floor(data.length/perpage) + 1;
+	$: pages =
+		data.length % perpage === 0 ? data.length / perpage : Math.floor(data.length / perpage) + 1;
 </script>
-<svelte:window bind:innerWidth={innerWidth} />
-<Swiper
-    modules={[Pagination]}
-    pagination={{ clickable: true }}>
-	{#each Array(pages) as slide,i}
+
+<svelte:window bind:innerWidth />
+<Swiper modules={[Pagination]} pagination={{ clickable: true }}>
+	{#each Array(pages) as slide, i}
 		<SwiperSlide>
 			<div class="page">
-				{#each data.slice(i*perpage, (i+1)*perpage) as item}
+				{#each data.slice(i * perpage, (i + 1) * perpage) as item}
 					<div class="partner">
 						<picture>
 							<source srcset={item.dark} media="(prefers-color-scheme: dark)" />
-							<img src={item.light} alt={item.title} loading="lazy" decoding="async" class="visible"/>
+							<img
+								src={item.light}
+								alt={item.title}
+								loading="lazy"
+								decoding="async"
+								class="visible"
+							/>
 						</picture>
-						<img src={item.main} alt={item.title} class="colored" loading="lazy" decoding="async"/>
+						<img src={item.main} alt={item.title} class="colored" loading="lazy" decoding="async" />
 					</div>
 				{/each}
 			</div>
 		</SwiperSlide>
-	{/each}	
+	{/each}
 </Swiper>
+
 <style>
 	.page {
 		display: grid;
@@ -63,7 +70,8 @@
 		justify-content: center;
 		justify-items: center;
 	}
-	.partner picture, .partner .colored {
+	.partner picture,
+	.partner .colored {
 		grid-column: 1/-1;
 		grid-row: 1/-1;
 		transition: opacity 0.4s, transform 0.4s;
@@ -89,7 +97,7 @@
 			background-color: var(--bkg);
 			mix-blend-mode: luminosity;
 		}
-		
+
 		:global(.swiper-slide:not(.swiper-slide-active) .page) {
 			opacity: 0;
 		}

@@ -2,6 +2,7 @@
 	import GetIcon from './getIcon.svelte';
 	import { social_nav as socials } from '$lib/components/data-mocks/navItems.svelte';
 </script>
+
 <nav>
 	<ul>
 		{#each socials as social}
@@ -13,6 +14,7 @@
 		{/each}
 	</ul>
 </nav>
+
 <style>
 	nav {
 		--social-padding: 40px 0;

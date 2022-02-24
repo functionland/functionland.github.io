@@ -1,4 +1,5 @@
 <svelte:options namespace="svg" />
+
 <script>
 	export let width;
 	export let height;

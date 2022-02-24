@@ -15,24 +15,25 @@
 		menuOpen = false;
 	};
 	const setNoTransition = () => {
-		notransitionClass = "no-transition";
+		notransitionClass = 'no-transition';
 		setTimeout(() => {
-			notransitionClass = "";
+			notransitionClass = '';
 		}, 800);
 	};
 	onMount(() => {
-		window.addEventListener('resize',setNoTransition);
+		window.addEventListener('resize', setNoTransition);
 	});
 
 	let notransitionClass = 'no-transition';
 	$: navClass = menuOpen === true ? `open` : `close`;
 </script>
+
 <svelte:window on:resize={setNoTransition} on:load={setNoTransition} />
 <!-- <svelte:window on:resize={setCloseOnMenu} /> -->
 <header>
 	<div class="wrapper">
 		<div class="{`overlay ${notransitionClass} ${navClass}`} " on:click={closeMenuOnClick} />
-		<div class="{`header-buttons ${notransitionClass} ${navClass}`}">
+		<div class={`header-buttons ${notransitionClass} ${navClass}`}>
 			<a
 				sveltekit:prefetch
 				href="/"
@@ -52,7 +53,7 @@
 			<ul>
 				{#each navItems as navItem}
 					<li class:active={$page.url.pathname === navItem.path}>
-						<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick} >{navItem.text}</a>
+						<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>
 					</li>
 				{/each}
 			</ul>
@@ -66,7 +67,6 @@
 </header>
 
 <style>
-
 	header {
 		position: fixed;
 		z-index: 10;

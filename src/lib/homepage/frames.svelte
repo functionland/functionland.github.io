@@ -1,17 +1,29 @@
 <script>
-	import {innerWidth, innerHeight} from 'svelte-window-stores/viewport'
+	import { innerWidth, innerHeight } from 'svelte-window-stores/viewport';
 	import { base, assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	let playInterval, heightSetInterval, outOfViewClass, scrollSpeed = 0, showSlogan = false, frames = [], lastScroll = 0, currentFrame = 1, introPlaying = true, scrollY, ready = false, introWrapper;
+	let playInterval,
+		heightSetInterval,
+		outOfViewClass,
+		scrollSpeed = 0,
+		showSlogan = false,
+		frames = [],
+		lastScroll = 0,
+		currentFrame = 1,
+		introPlaying = true,
+		scrollY,
+		ready = false,
+		introWrapper;
 
-	let isMobile = $innerWidth < 960
+	let isMobile = $innerWidth < 960;
 	let totalFrames = isMobile ? 66 : 59;
-	$: threshold = isMobile ? 45 : 41;
-	$: ratio = isMobile ? .25 : 0.34;
-	$: sloganHideFrame = (totalFrames + threshold) / 2;
-	$: framesToAdd = totalFrames * (scrollY / $innerHeight)
-	for (let i = 1; i < totalFrames+1; i++) {
+	let threshold = isMobile ? 36 : 33;
+	// $: ratio = isMobile ? 0.6 : 0.5;
+	$: ratio = (parseInt(totalFrames/10)) / 10;
+	$: sloganHideFrame = threshold + 5;
+	$: framesToAdd = totalFrames * (scrollY / $innerHeight);
+	for (let i = 1; i < totalFrames + 1; i++) {
 		frames.push(i);
 	}
 	const detectScroll = (event) => {
@@ -26,30 +38,34 @@
 				return;
 			}
 			if (scrollY > lastScroll) {
-				if (currentFrame >= (threshold - 2) && currentFrame <= (totalFrames - 1)) {
+				if (currentFrame >= threshold - 2 && currentFrame <= totalFrames - 1) {
 					if (introPlaying == true) {
 						if (event.cancelable == true) {
 							event.preventDefault();
 						}
 						return;
 					} else {
-						currentFrame = parseInt( (currentFrame + (( framesToAdd * ratio) + threshold)) /2)
+						currentFrame = parseInt((currentFrame + (framesToAdd * ratio + threshold)) / 2);
 						if (currentFrame > sloganHideFrame) {
 							showSlogan = false;
+						} else {
+							showSlogan = true;
 						}
 					}
 				}
 			} else {
-				if (currentFrame >= threshold && currentFrame <= (totalFrames + 30)) {
+				if (currentFrame >= threshold && currentFrame <= totalFrames + 30) {
 					if (introPlaying == true) {
 						if (event.cancelable == true) {
 							event.preventDefault();
 						}
 						return;
 					} else {
-						currentFrame = parseInt( (currentFrame + (( framesToAdd * ratio) + threshold)) /2)
+						currentFrame = parseInt((currentFrame + (framesToAdd * ratio + threshold)) / 2);
 						if (currentFrame < sloganHideFrame) {
 							showSlogan = true;
+						} else {
+							showSlogan = false;
 						}
 					}
 				}
@@ -63,17 +79,17 @@
 		lastScroll = scrollY;
 	};
 	onMount(() => {
-		const docReady = callbackFunc => {
+		const docReady = (callbackFunc) => {
 			if (document.readyState !== 'loading') {
-			callbackFunc();
-			} else if (document.addEventListener) {
-			document.addEventListener('DOMContentLoaded', callbackFunc);
-			} else {
-			document.attachEvent('onreadystatechange', function () {
-				if (document.readyState === 'complete') {
 				callbackFunc();
-				}
-			});
+			} else if (document.addEventListener) {
+				document.addEventListener('DOMContentLoaded', callbackFunc);
+			} else {
+				document.attachEvent('onreadystatechange', function () {
+					if (document.readyState === 'complete') {
+						callbackFunc();
+					}
+				});
 			}
 		};
 		const play = () => {
@@ -109,59 +125,101 @@
 </script>
 
 <svelte:window
-	bind:scrollY={scrollY}
+	bind:scrollY
 	on:mousewheel|nonpassive={preventWhilePlaying}
 	on:scroll|nonpassive={detectScroll}
 	on:touchmove|nonpassive={preventWhilePlaying}
 />
-<section on:mousewheel|nonpassive={mouseWheelEvent} on:touchmove|nonpassive={mouseWheelEvent} class={outOfViewClass} bind:this={introWrapper}>
+<section
+	on:mousewheel|nonpassive={mouseWheelEvent}
+	on:touchmove|nonpassive={mouseWheelEvent}
+	class={outOfViewClass}
+	bind:this={introWrapper}
+>
 	<div class="parallax-bg">
 		{#each frames as frame, index}
 			{#if parseInt(currentFrame) == frame}
 				<div class="frame active frame_{frame}">
 					<picture>
-						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.webp' } type="image/webp">
-						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } type="image/jpeg">
-						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.webp' } type="image/webp">
-						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.jpeg' } type="image/jpeg">
-						<img src={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } alt="">
+						<source
+							media="(min-width:960px)"
+							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.webp'}
+							type="image/webp" width="1920" height="1080"
+						/>
+						<source
+							media="(min-width:960px)"
+							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'}
+							type="image/jpeg" width="1920" height="1080"
+						/>
+						<source
+							media="(max-width:959px)"
+							srcset={assets + '/frames/intro/mobile/frame_' + frame + '.webp'}
+							type="image/webp" width="720" height="1080"
+						/>
+						<source
+							media="(max-width:959px)"
+							srcset={assets + '/frames/intro/mobile/frame_' + frame + '.jpeg'}
+							type="image/jpeg" width="720" height="1080"
+						/>
+						<img src={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'} alt="" />
 					</picture>
 				</div>
 			{:else}
 				<div class="frame frame_{frame}">
 					<picture>
-						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.webp' } type="image/webp">
-						<source media="(min-width:960px)" srcset={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } type="image/jpeg">
-						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.webp' } type="image/webp">
-						<source media="(max-width:959px)" srcset={ assets + '/frames/intro/mobile/frame_' + frame + '.jpeg' } type="image/jpeg">
-						<img src={ assets + '/frames/intro/desktop/frame_' + frame + '.jpeg' } alt="">
+						<source
+							media="(min-width:960px)"
+							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.webp'}
+							type="image/webp" width="1920" height="1080"
+						/>
+						<source
+							media="(min-width:960px)"
+							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'}
+							type="image/jpeg" width="1920" height="1080"
+						/>
+						<source
+							media="(max-width:959px)"
+							srcset={assets + '/frames/intro/mobile/frame_' + frame + '.webp'}
+							type="image/webp" width="720" height="1080"
+						/>
+						<source
+							media="(max-width:959px)"
+							srcset={assets + '/frames/intro/mobile/frame_' + frame + '.jpeg'}
+							type="image/jpeg" width="720" height="1080"
+						/>
+						<img src={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'} alt="" />
 					</picture>
 				</div>
 			{/if}
 		{/each}
 		<div class="slogan">
 			{#if showSlogan}
-				<p in:fly={{ delay: 100, y: 200, duration: 1699 }}
+				<p
+					in:fly={{ delay: 100, y: 200, duration: 1699 }}
 					out:fade={{ delay: 0, duration: 300 }}
-					class="slogan">
+					class="slogan"
+				>
 					A Piece of Blockchain on Your Desk
 				</p>
 			{/if}
 		</div>
 	</div>
 </section>
-
 <style>
 	section {
 		background-color: var(--bkg);
 		padding: 0;
 		height: var(--intro-height);
+		overflow: hidden;
 	}
 	.parallax-bg {
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: 1fr;
-		
+		height: 100%;
+		align-items: end;
+		align-content: end;
+		justify-content: center;
 	}
 	.frame {
 		width: 100%;
@@ -170,15 +228,29 @@
 		height: max-content;
 		visibility: hidden;
 		display: none;
+		height: 100%;
+		align-items: end;
+		align-content: end;
+		justify-content: center;
 	}
 	.frame.active {
 		visibility: visible;
-		display: block;
+		display: grid;
 		z-index: 1;
+	}
+	.frame picture {
+		display: grid;
+		align-content: end;
+		justify-content: center;
 	}
 	.frame img {
 		width: 100%;
 		height: auto;
+		object-fit: contain;
+		width: unset;
+		height: unset;
+		max-width: unset;
+		object-position: bottom;	
 	}
 	.out-of-view {
 		opacity: 0;
@@ -233,7 +305,7 @@
 			/* width: unset;
 			max-width: unset;
 			height: 100vh;     */
-			aspect-ratio:  1080/720 auto;
+			aspect-ratio: 1080/720 auto;
 			height: unset;
 			width: unset;
 			min-height: unset;
@@ -243,37 +315,9 @@
 			/* min-height: 100vh; */
 			display: block;
 			/* width: calc( (1080/720) * 100vw); */
-			min-height: calc( (1080/720) * 100vw);
+			min-height: calc((1080 / 720) * 100vw);
 			/* height: var(--intro-height); */
-			max-width: calc( (1080/720) * 100vw);
-		}
-		.frame_42 img,
-		.frame_43 img,
-		.frame_44 img,
-		.frame_45 img,
-		.frame_46 img,
-		.frame_47 img,
-		.frame_48 img,
-		.frame_49 img,
-		.frame_50 img,
-		.frame_51 img,
-		.frame_52 img,
-		.frame_53 img,
-		.frame_54 img,
-		.frame_55 img,
-		.frame_56 img,
-		.frame_57 img,
-		.frame_58 img,
-		.frame_59 img,
-		.frame_60 img,
-		.frame_61 img,
-		.frame_62 img,
-		.frame_63 img,
-		.frame_64 img,
-		.frame_65 img,
-		.frame_66 img {
-			/* height: auto;
-			aspect-ratio: 720/1080; */
+			max-width: calc((1080 / 720) * 100vw);
 		}
 	}
 	@media (min-width: 960px) {
