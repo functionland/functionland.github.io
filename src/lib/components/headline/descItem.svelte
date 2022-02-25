@@ -6,7 +6,7 @@
 	const heading = {
 		inview: false,
 		options: {
-			threshold: 0.1,
+			threshold: 0.3,
 			unobserveOnEnter: false
 		},
 		scrollDirection: '',
@@ -44,7 +44,7 @@
 </script>
 
 {#if !isMobile}
-    {#if item.ref == 'plug-n-play'}
+    {#if item.ref == 'plug-n-play' || item.ref == 'customizable'}
         <h3 use:inview={heading.options} on:change={heading.change}
             class={item.ref}>
             <span
@@ -65,7 +65,7 @@
         <h3 use:inview={heading.options} on:change={heading.change} class={item.ref}>
             {#if heading.inview}
                 <span
-                    in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
+                    in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}>
                     {item.main_title}
                 </span>
             {:else}
@@ -77,7 +77,7 @@
         <p use:inview={paragraph.options} on:change={paragraph.change} class={item.ref}>
             {#if paragraph.inview}
                 <span
-                    in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[2] : fadeIn.none}>
+                    in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
                     {item.main_desc}
                 </span>
             {:else}
@@ -167,7 +167,7 @@
 		z-index: 1;
 		margin: 0 auto;
 		position: relative;
-		/* max-width: var(--description-max-width); */
+		max-width: var(--description-max-width);
 		font-size: var(--description-desc-font-size);
 		line-height: var(--description-desc-line-height);
 	}
@@ -180,6 +180,7 @@
 	}
 	@media (min-width: 960px) {
 		p {
+			width: var(--description-max-width);
 			max-width: 900px;
 		}
 		p.earn-crypto {
@@ -188,9 +189,9 @@
 		h3.plug-n-play,
 		p.plug-n-play {
 			padding: 0;
-			text-align: start;
-			width: 100%;
-			max-width: 78%;
+            margin: unset;
+            /* width: auto; */
+            justify-self: start;
 		}
 		h3.customizable,
 		p.customizable {

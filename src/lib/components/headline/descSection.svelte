@@ -2,7 +2,7 @@
 	import { inview } from 'svelte-inview';
 	import DescriptionItem from '$lib/components/headline/descItem.svelte';
 	import Videos from '$lib/components/headline/videos.svelte';
-	import Photos from '$lib/components/headline/images.svelte';
+	import Photos from '$lib/components/headline/photos.svelte';
     
 	export let data;
 	const observer = {
@@ -35,8 +35,8 @@
     <div class="container">
         <div class="wrapper {data.ref}">
             <DescriptionItem item={data}/>
-            <Videos {data} {observer}/>
-            <Photos {data} {observer}/>
+            <Videos {data}/>
+            <Photos {data}/>
         </div>	
     </div>
 </section>
@@ -53,15 +53,13 @@
 		justify-items: center;
         align-items: center;
 		grid-template-rows: auto auto 1fr;
-		grid-row-gap: var(--description-row-gap);
+		/* grid-row-gap: var(--description-row-gap); */
+		gap: 0;
 	}
 	.wrapper.apps-without-ads,
 	.wrapper.design {
 		margin-bottom: 120px;
 	}
-    .wrapper.customizable {
-        overflow: unset;
-    }
 	.wrapper.earn-crypto {
 		color: white;
 		background: #4c4d51;
@@ -77,6 +75,9 @@
 		position: absolute;
 		z-index: 1;
 	}
+    #customizable .container, #customizable .wrapper, #customizable .video-wrapper{
+        /* overflow: unset; */
+    }
 	@media (min-width: 960px) {
         section#plug-n-play,section#customizable {
             height: var(--description-min-height);

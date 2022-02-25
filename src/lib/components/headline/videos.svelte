@@ -189,12 +189,15 @@
 		.video-wrapper.own-your-data {
 			aspect-ratio: 16/6;
 			align-self: start;
+			align-self: center;
 		}
 		.video-wrapper.earn-crypto {
 			background: #5F6067;
-			aspect-ratio: 16/9;
+			aspect-ratio: 16/7;
 			width: 100%;
 			height: unset;
+			position: relative;
+			overflow: unset;
 		}
 		.video-wrapper.customizable {
     		height: var(--description-min-height);
@@ -221,14 +224,20 @@
 	}
 	@media (min-width: 1900px) {
 		.video-wrapper.own-your-data {
-			aspect-ratio: 3/1.2;
+			aspect-ratio: 3/1.1;
+			height: 80%;
+			width: unset;
+			max-width: unset;
+			align-self: center;
 		}
 		.video-wrapper.own-your-data video.own-your-data {
 			max-width: 100%;
 			height: unset;
 		}
 		video.earn-crypto {
-			bottom: -42%;
+			max-width: unset;
+			width: 100%;
+			bottom: -43%;
 		}
 	}
 	@media (min-width: 1900px) and (min-height: 1000px) {

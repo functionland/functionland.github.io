@@ -35,7 +35,7 @@
 			mobile: assets + 'images/home/hero-image-mobile.jpg',
 		},
 		options: {
-			threshold: 0.01,
+			threshold: [0.5, 1],
 			unobserveOnEnter: false
 		},
 		inview: false,

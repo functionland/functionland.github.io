@@ -41,10 +41,14 @@
 		}
 		.grid.titled {
 			padding: 0;
-			max-height: var(--section-min-height);
 			grid-template-rows: 1fr 1fr 120px;
 			gap: var(--headlines-grid-gap);
 			grid-template-columns: 1fr 1fr 1fr;
+			padding: 0;
+			min-height: var(--section-min-height);
+			row-gap: 0;
+			padding-bottom: 40px;
+			max-height: unset;
 		}
 		.grid.titled h3 {
 			grid-row: 1 / 2;

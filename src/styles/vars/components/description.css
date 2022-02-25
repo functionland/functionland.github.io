@@ -1,5 +1,5 @@
 :root {
-	/* --description-max-width: calc(100% - 60px); */
+	--description-max-width: calc(100% - 60px);
 
 	--description-title-font-size: var(--section-title-font-size);
 	--description-title-line-height: var(--section-title-line-height);

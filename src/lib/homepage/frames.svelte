@@ -1,26 +1,21 @@
 <script>
 	import { innerWidth, innerHeight } from 'svelte-window-stores/viewport';
-	import { base, assets } from '$app/paths';
+	import { assets } from '$app/paths';
 	import { fade, fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	let playInterval,
-		heightSetInterval,
 		outOfViewClass,
-		scrollSpeed = 0,
 		showSlogan = false,
 		frames = [],
 		lastScroll = 0,
 		currentFrame = 1,
 		introPlaying = true,
-		scrollY,
-		ready = false,
-		introWrapper;
+		scrollY;
 
 	let isMobile = $innerWidth < 960;
 	let totalFrames = isMobile ? 66 : 59;
-	let threshold = isMobile ? 36 : 33;
-	// $: ratio = isMobile ? 0.6 : 0.5;
-	$: ratio = (parseInt(totalFrames/10)) / 10;
+	let threshold = isMobile ? 36 : 37;
+	$: ratio = (parseInt(totalFrames/12)) / 10;
 	$: sloganHideFrame = threshold + 5;
 	$: framesToAdd = totalFrames * (scrollY / $innerHeight);
 	for (let i = 1; i < totalFrames + 1; i++) {
@@ -134,7 +129,6 @@
 	on:mousewheel|nonpassive={mouseWheelEvent}
 	on:touchmove|nonpassive={mouseWheelEvent}
 	class={outOfViewClass}
-	bind:this={introWrapper}
 >
 	<div class="parallax-bg">
 		{#each frames as frame, index}
@@ -221,6 +215,17 @@
 		align-content: end;
 		justify-content: center;
 	}
+	.parallax-bg:after {
+		content: "";
+		position: absolute;
+		background-color: var(--b-o-4);
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		z-index: 2;
+    	mix-blend-mode: overlay;
+	}
 	.frame {
 		width: 100%;
 		grid-column: 1/-1;
@@ -271,19 +276,20 @@
 		align-items: center;
 	}
 	p {
+		color: #00D0D0;
 		pointer-events: none;
 		font-family: var(--roboto);
 		font-size: var(--slogan-font-size);
 		font-weight: var(--slogan-font-weight);
 		line-height: var(--slogan-line-height);
 		letter-spacing: var(--slogan-letter-spacing);
-		background: var(--slogan-gradient-webkit);
+		/* background: var(--slogan-gradient-webkit); */
 		text-align: center;
-		background-size: var(--slogan-background-size);
-		background-position: var(--slogan-background-position);
-		background-clip: text;
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
+		/* background-size: var(--slogan-background-size); */
+		/* background-position: var(--slogan-background-position); */
+		/* background-clip: text; */
+		/* -webkit-background-clip: text; */
+		/* -webkit-text-fill-color: transparent; */
 		max-width: var(--slogan-max-width);
 		margin: 0 auto;
 		word-break: break-word;

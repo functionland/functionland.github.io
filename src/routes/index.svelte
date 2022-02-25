@@ -11,6 +11,7 @@
 	import Partners from '$lib/homepage/partners.svelte';
 	import { data as valuesData } from '$lib/components/data-mocks/values.svelte';
 	import { data as featuresData } from '$lib/components/data-mocks/features.svelte';
+	import MouseMove from '$lib/homepage/mouseMove.svelte';
 </script>
 
 <svelte:head>
@@ -24,6 +25,7 @@
 	<Preorder />
 	<News />
 	<Partners />
+	<MouseMove />
 </main>
 
 <style>

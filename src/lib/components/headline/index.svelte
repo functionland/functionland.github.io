@@ -21,7 +21,7 @@
 <div class={`wrapper ${titled ? 'titled' : ''}`} use:inview={inViewOptions} on:change={handleChange}>
 	<div
 		class={`item ${titled ? 'titled' : ''}`}
-		style="animation-delay: {(index + 1) * 200}ms;"
+		style="animation-delay: {(index + 1) * 300}ms;"
 		class:animate={isInView}
 		class:animateFromBottom={scrollDirection === 'down'}
 		class:animateFromTop={scrollDirection !== 'down'}
@@ -50,7 +50,8 @@
 		padding-bottom: var(--headline-content-padding-bottom);
 	}
 	.wrapper {
-		height: 100%;
+		/* height: 100%; */
+		align-self: start;
 	}
 	.animate,
 	.animateFromTop,
@@ -63,7 +64,7 @@
 	.animate.animateFromTop {
 		-webkit-animation: fade-in-bottom 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
 		animation: fade-in-bottom 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
-		animation-delay: 0.2s;
+		animation-delay: 0.6s;
 	}
 	.animateToTop.animateFromTop:not(.animate),
 	.animate.animateFromBottom:not(.animateFromTop) {
