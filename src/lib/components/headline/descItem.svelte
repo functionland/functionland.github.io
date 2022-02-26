@@ -128,6 +128,9 @@
 		p.earn-crypto {
 			max-width: 900px;
 		}
+		h3.earn-crypto {
+			color: white;
+		}
 		h3.plug-n-play,
 		p.plug-n-play {
 			padding: 1rem 0;

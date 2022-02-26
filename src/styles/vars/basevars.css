@@ -16,7 +16,7 @@
 	--section-padding: 2rem 0;
 	--section-title-font-size: 38px;
 	--section-title-line-height: 42px;
-	--section-title-color: var(--black-1);
+	--section-title-color: var(--text-color);
 	--section-title-mix-blend-mode: unset;
 }
 
