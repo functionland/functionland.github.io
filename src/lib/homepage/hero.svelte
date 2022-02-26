@@ -13,14 +13,15 @@
 		scrollDirection: '',
 		fadeIn: {
 			reveal: [
-				{ duration: 400, delay: 300 },
-				{ duration: 400, delay: 600 },
-				{ duration: 400, delay: 900 },
-				{ duration: 400, delay: 1200 },
-				{ duration: 400, delay: 1400 },
-				{ duration: 400, delay: 1600 },
-				{ duration: 400, delay: 1800 },
-				{ duration: 400, delay: 1800 },
+				{ duration: 600, delay: 300 },
+				{ duration: 600, delay: 600 },
+				{ duration: 600, delay: 900 },
+				{ duration: 600, delay: 1200 },
+				{ duration: 600, delay: 1400 },
+				{ duration: 600, delay: 1600 },
+				{ duration: 600, delay: 1800 },
+				{ duration: 600, delay: 1800 },
+				{ duration: 600, delay: 1800 },
 			],
 			none: { duration: 0, delay: 0 }
 		},
@@ -35,7 +36,7 @@
 			mobile: assets + 'images/home/hero-image-mobile.jpg',
 		},
 		options: {
-			threshold: [0.5, 1],
+			threshold: 0.01,
 			unobserveOnEnter: false
 		},
 		inview: false,
@@ -57,76 +58,72 @@
 <section>
 	<div class="container">
 		<div class="wrapper">
-			<h1 class="hero" use:inview={title.options} on:change={title.change}>
-				{#if title.inview}
-					<span>
-						<span class="bold"
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[0] : title.fadeIn.none}
-						>Box </span>
+			<div class="hero-text">
+				
+				<h2 class="hero" use:inview={title.options} on:change={title.change}>
+					{#if title.inview}
 						<span
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[1] : title.fadeIn.none}
-						>by </span>
-						<span class="teal-text"
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[2] : title.fadeIn.none}
-						>Functionland </span>
-					</span>
-					<span
-						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[3] : title.fadeIn.none}
-					>The Private, </span>
-					<span
-						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[4] : title.fadeIn.none}
-					>Payless, </span>
-					<span
-						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[5] : title.fadeIn.none}
-					>Cloud Storage </span>
-					<span
-						in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[6] : title.fadeIn.none}
-					>Alternative</span>
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[3] : title.fadeIn.none}
+						>Save Money,</span>
+						<span
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[4] : title.fadeIn.none}
+						>Securely Store Data,</span>
+						<span
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[5] : title.fadeIn.none}
+						>Protect Your Privacy.</span>
+						<span class="one-liner"
+							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[6] : title.fadeIn.none}
+							>And more with <span class="teal-text" 
+								in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}>
+								Box
+							</span>, <span class="one-liner"
+								in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[8] : title.fadeIn.none}>
+								the first hardware/software solution built for Web3.0.
+							</span>
+						</span>
+					{:else}
+						<span class='hidden'>Save Money,</span>
+						<span class='hidden'>Securely Store Data,</span>
+						<span class='hidden'>Protect Your Privacy.</span>
+						<span class="one-liner hidden">And more with <span class="teal-text hidden" >Box</span>, <span class="one-liner hidden">the first hardware/software solution built for Web3.0.</span></span>
+					{/if}
+				</h2>
+			</div>
+			<div class="hero-image">
+				{#if isMobile}
+					<div class="hero-image-wrapper" use:inview={image.options} on:change={image.change}>
+						<picture id="hero">
+							<source srcset={image.src.desktop} media="(min-width: 960px)" />
+							{#if image.inview}
+								<img src={image.src.mobile} alt="" loading="eager"
+									in:fade={(image.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}
+								/>
+							{:else}
+								<img src={image.src.mobile} alt="" loading="lazy" class="hidden" />
+							{/if}
+						</picture>
+					</div>
 				{:else}
-					<span class='hidden'>
-						<span class="bold">Box </span>
-						<span>by </span>
-						<span class="teal-text">Functionland </span>
-					</span>
-					<span class='hidden'>The Private, </span>
-					<span class='hidden'>Payless, </span>
-					<span class='hidden'>Cloud Storage </span>
-					<span class='hidden'>Alternative</span>
-				{/if}
-			</h1>
-			{#if isMobile}
-				<div class="hero-image-wrapper" use:inview={image.options} on:change={image.change}>
-					<picture id="hero">
-						<source srcset={image.src.desktop} media="(min-width: 960px)" />
-						{#if image.inview}
-							<img src={image.src.mobile} alt="" loading="eager"
-								in:fade={(image.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}
-							/>
-						{:else}
-							<img src={image.src.mobile} alt="" loading="lazy" />
-						{/if}
-					</picture>
-				</div>
-			{:else}
-				<div class="hero-image-wrapper" use:inview={image.options} on:change={image.change}>
-					<picture id="hero"
-						class:animate={image.inview}
-						class:animateFromBottom={image.scrollDirection === 'down'}
-						class:animateFromTop={image.scrollDirection !== 'down'}
-						class:animateToBottom={image.scrollDirection === 'top'}
-						class:animateToTop={image.scrollDirection !== 'top'}
-					>
-						<source srcset={image.src.desktop} media="(min-width: 960px)" />
-						<img src={image.src.mobile} alt="" loading="eager"
+					<div class="hero-image-wrapper" use:inview={image.options} on:change={image.change}>
+						<picture id="hero"
 							class:animate={image.inview}
 							class:animateFromBottom={image.scrollDirection === 'down'}
 							class:animateFromTop={image.scrollDirection !== 'down'}
 							class:animateToBottom={image.scrollDirection === 'top'}
 							class:animateToTop={image.scrollDirection !== 'top'}
-							/>
-					</picture>
-				</div>
-			{/if}
+						>
+							<source srcset={image.src.desktop} media="(min-width: 960px)" />
+							<img src={image.src.mobile} alt="" loading="eager"
+								class:animate={image.inview}
+								class:animateFromBottom={image.scrollDirection === 'down'}
+								class:animateFromTop={image.scrollDirection !== 'down'}
+								class:animateToBottom={image.scrollDirection === 'top'}
+								class:animateToTop={image.scrollDirection !== 'top'}
+								/>
+						</picture>
+					</div>
+				{/if}
+			</div>
 		</div>
 	</div>
 </section>
@@ -143,20 +140,25 @@
 	.wrapper {
 		padding: var(--hero-section-padding);
 	}
-	h1 {
+	.one-liner {
+		display: block;
+	}
+	h2 {
 		font-family: var(--montserrat);
 		font-size: var(--hero-font-size);
 		font-weight: var(--hero-font-weight);
 		line-height: var(--hero-line-height);
 		letter-spacing: var(--letter-spacing);
 		margin: 0 auto;
-		max-width: var(--hero-max-width);
 		padding-bottom: var(--hero-padding-bottom);
 		aspect-ratio: 266/319;
 		width: 100%;
 	}
-	h1 > span {
+	h2 > span {
 		display: block;
+	}
+	h2 > span.one-liner {
+		padding-top: 1.5rem
 	}
 	img {
 		width: 100%;
@@ -169,24 +171,36 @@
 		width: 100%;
 	}
 	@media (max-width: 959px) {
-		h1 {
+		h2 {
 			padding-bottom: 0;
 		}
 		.wrapper {
 			padding: var(--hero-section-padding);
 			height: 100%;
+			display: grid;
+			gap: 1rem;
+			padding-bottom: 0;
 		}
 	}
 
 	@media (min-width: 960px) {
-		h1 {
+		.hero-text,
+		.hero-image {
+			min-height: var(--section-min-height);
+			align-items: center;
+			display: grid;
+			/* max-width: 80%; */
+			margin: 0 auto;
+		}
+		h2 {
 			text-align: var(--hero-text-align);
 			aspect-ratio: 827 / 300;
+			max-width: var(--hero-max-width);
 		}
-		h1 > span {
+		h2 > span {
 			display: inline-block;
 		}
-		h1 > span:nth-child(1) {
+		h2 > span:nth-child(1) {
 			display: block;
 		}
 		.hero-image-wrapper {
@@ -259,67 +273,5 @@
 			height: 100%;
 			animation-name: none;
 		}
-		/* .animate,
-		.animateFromTop,
-		.animateFromBottom,
-		.animateToBottom,
-		.animateToTop {
-			animation-name: none;
-		}
-		.animate.animateFromBottom {
-			animation-name: none;
-		} */
-		/* picture.animateFromTop {
-            -webkit-animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.7s;
-
-			
-			transform: translateX(-47%) translateY(-40%);
-			height: calc((947 / 1678) * 100vw);
-		} */
-
-		
-		/* picture.animate,
-		picture.animateFromTop,
-		picture.animateFromBottom,
-		picture.animateToBottom,
-		picture.animateToTop {
-			width: 400px;
-			height: 400px;
-			animation-name: none;
-		}
-		picture.animate.animateFromTop {
-            -webkit-animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: scale-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.7s;
-		}
-		picture.animate.animateToTop {
-			width: 100%;
-			height: 100%;
-			animation-name: none;
-		}
-		picture img.animate,
-		picture img.animateFromBottom,
-		picture img.animateToBottom,
-		picture img.animateToTop {
-			transform: translateX(-47%) translateY(-40%);
-			height: calc((947 / 1678) * 100vw);
-			animation-name: none;
-		} */
-		/* picture img.animateFromTop {
-			transform: translateX(-47%) translateY(-40%);
-			height: calc((947 / 1678) * 100vw);
-		} */
-		/* picture img.animate.animateFromTop {
-            -webkit-animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation: size-in 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) normal both;
-            animation-delay: 0.6s;
-		}
-		picture img.animateFromBottom, picture img.animateFromTop {
-			height: 100%;
-			transform: translateX(-50%) translateY(-50%);
-			animation-name: none;
-		} */
 	}
 </style>

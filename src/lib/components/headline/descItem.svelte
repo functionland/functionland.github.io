@@ -50,7 +50,7 @@
             <span
                 class:fade-in-right-delay={heading.inview}
                 class:fade-out-right-delay={!heading.inview}>
-                {item.main_title}
+                {@html item.main_title}
             </span>
         </h3>
         <p use:inview={paragraph.options} on:change={paragraph.change}
@@ -58,7 +58,7 @@
             <span
                 class:fade-in-right-delay={paragraph.inview}
                 class:fade-out-right-delay={!paragraph.inview}>
-                {item.main_desc}
+                {@html item.main_desc}
             </span>
         </p>
     {:else}
@@ -66,11 +66,11 @@
             {#if heading.inview}
                 <span
                     in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}>
-                    {item.main_title}
+                    {@html item.main_title}
                 </span>
             {:else}
                 <span class="hidden">
-                    {item.main_title}
+                    {@html item.main_title}
                 </span>
             {/if}
         </h3>
@@ -78,11 +78,11 @@
             {#if paragraph.inview}
                 <span
                     in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
-                    {item.main_desc}
+                    {@html item.main_desc}
                 </span>
             {:else}
                 <span class="hidden">
-                    {item.main_desc}
+                    {@html item.main_desc}
                 </span>
             {/if}
         </p>
@@ -167,9 +167,11 @@
 		z-index: 1;
 		margin: 0 auto;
 		position: relative;
-		max-width: var(--description-max-width);
-		font-size: var(--description-desc-font-size);
+		/* max-width: var(--description-max-width); */
+		padding: 0 1rem;
+		/* font-size: var(--description-desc-font-size); */
 		line-height: var(--description-desc-line-height);
+		padding-bottom: var(--description-desc-padding-bottom);
 	}
 	p.apps-without-ads {
 		text-align: center;
@@ -177,6 +179,7 @@
 	}
 	p.earn-crypto {
 		max-width: 90%;
+		padding: 0;
 	}
 	@media (min-width: 960px) {
 		p {
@@ -188,7 +191,7 @@
 		}
 		h3.plug-n-play,
 		p.plug-n-play {
-			padding: 0;
+			padding: 1rem 0;
             margin: unset;
             /* width: auto; */
             justify-self: start;
@@ -196,7 +199,7 @@
 		h3.customizable,
 		p.customizable {
 			grid-column: 2/3;
-			padding: 0;
+			padding: 1rem 0;
 			text-align: start;
 			width: 100%;
 			max-width: 78%;
@@ -212,7 +215,9 @@
 	}
 	@media (max-width: 959px) {
 		h3.earn-crypto {
-			font-size: 52px;
+			font-size: 42px;
+			line-height: 1.2;
+			padding: 2rem 1rem 1.5rem;
 		}
 		p.earn-crypto {
 			aspect-ratio: 228/220;

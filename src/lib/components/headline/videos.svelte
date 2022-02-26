@@ -1,6 +1,7 @@
 <script>
 	import { prefersColorScheme } from 'svelte-window-stores/appearance';
 	import { inview } from 'svelte-inview';
+	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	export let data;
 	let videos = data.videos ? (data.videos.length > 0 ? data.videos : false) : false;
@@ -13,109 +14,123 @@
 		rootMargin: '150px',
 		unobserveOnEnter: false
 	};
+    const fadeIn = {
+        reveal: [
+            { duration: 400, delay: 300 },
+            { duration: 400, delay: 600 },
+            { duration: 400, delay: 900 },
+            { duration: 400, delay: 1200 },
+            { duration: 400, delay: 1400 },
+            { duration: 400, delay: 1600 },
+            { duration: 400, delay: 1800 },
+            { duration: 400, delay: 1800 },
+        ],
+        none: { duration: 0, delay: 0 }
+    };
 	const handleChange = ({ detail }) => {
 		isInView = detail.inView;
 		scrollDirection = detail.scrollDirection.vertical;
-		// preloadTriggered = true;
 	};
-	onMount(() => {
-		const loadLazyVideos = () => {
-			var lazyVideos = [].slice.call(document.querySelectorAll('video.lazy'));
-			if ('IntersectionObserver' in window) {
-				var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
-					entries.forEach(function (video) {
-						if (video.isIntersecting) {
-							for (var source in video.target.children) {
-								var videoSource = video.target.children[source];
-								if (typeof videoSource.tagName === 'string' && videoSource.tagName === 'SOURCE') {
-									videoSource.src = videoSource.dataset.src;
-								}
-							}
-
-							video.target.load();
-							video.target.classList.remove('lazy');
-							lazyVideoObserver.unobserve(video.target);
-						}
-					});
-				});
-
-				lazyVideos.forEach(function (lazyVideo) {
-					lazyVideoObserver.observe(lazyVideo);
-				});
-			}
-		};
-		const docReady = (callbackFunc) => {
-			if (document.readyState !== 'loading') {
-				callbackFunc();
-			} else if (document.addEventListener) {
-				document.addEventListener('DOMContentLoaded', callbackFunc);
-			} else {
-				document.attachEvent('onreadystatechange', function () {
-					if (document.readyState === 'complete') {
-						callbackFunc();
-					}
-				});
-			}
-		};
-		docReady(loadLazyVideos);
-	});
-	// let preloadTriggered = false;
-	// $: loopClass = ended == true ? 'visible' : 'hidden';
+	const playVideo = event => {
+		if (event.target.paused) {
+			event.target.play();
+		}
+	}
+	const playWithDelay = event => {
+		setTimeout(() => {
+			event.target.play();
+		}, 1200);
+	}
+	let custCurrentTime, custDuration
+	const scaleOnTime = event => {
+		if (custCurrentTime > custCurrentTime / 3 && custCurrentTime < ((custDuration / 3) * 2)) {
+			event.target.style.transform = 'scale(1)';
+		} else {
+			event.target.style.transform = 'scale(2.2)';
+		}
+	}
 </script>
-
-<!-- <svelte:head>
-	{#if preloadTriggered}
-		{#if data.ref === 'earn-crypto'}
-			<link rel="preload" href={videos[0].src} as="video" type={videos[0].type} />
-		{:else}
-			{#each videos as video}
-				{#if preloadTriggered == true}
-					{#if video.scheme !== undefined}
-						{#if colorScheme === video.scheme}
-							<link rel="preload" href={video.src} type={video.type} as="video" media={`(preferes-color-scheme: ${colorScheme})`} />
-						{/if}
-					{:else}
-						<link rel="preload" href={video.src} type={video.type} as="video" media={`(preferes-color-scheme: ${colorScheme})`} />
-					{/if}
-				{/if}
-			{/each}
-		{/if}
-	{/if}
-</svelte:head> -->
 {#if videos}
 	<div class="{data.ref} de-contain video-wrapper" use:inview={options} on:change={handleChange}>
 		{#if data.ref === 'earn-crypto'}
-			<video bind:ended autoplay loop playsinline muted class={`${data.ref} ${data.ref}-main lazy`}>
-				<source data-src={videos[0].src} type={videos[0].type} decoding="async" />
-				{browserSupportText}
-			</video>
+			{#if isInView}
+				<video
+					in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[3] : fadeIn.none}
+					playsinline muted class={`${data.ref} ${data.ref}-main `} on:click={playVideo} on:loadedmetadata={playWithDelay}>
+					<source src={videos[0].src} type={videos[0].type} decoding="async" media="(max-width: 959px)"/>
+					<source src={videos[1].src} type={videos[1].type} decoding="async" media="(min-width: 960px)"/>
+					{browserSupportText}
+				</video>
+			{:else} 
+				<video playsinline muted class={`${data.ref} ${data.ref}-main hidden`}>
+					<source src={videos[0].src} type={videos[0].type} decoding="async" />
+					{browserSupportText}
+				</video>
+			{/if}
 		{:else}
 			{#each videos as video}
 				{#if video.scheme !== undefined}
 					{#if colorScheme === video.scheme}
-						{#if data.ref === 'customization'}
-							<video autoplay loop playsinline muted class={`${data.ref} lazy`} decoding="async">
-								<source data-src={video.src} type={video.type} />
-								{browserSupportText}
-							</video>
+						{#if data.ref === 'customizable'}
+							{#if isInView}
+								<video
+									in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
+									playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}
+								on:timeupdate={scaleOnTime} bind:currentTime={custCurrentTime} bind:duration={custDuration} style="transition: transform 0.7s; transform: scale(2.4); transform-origin: bottom;">
+									<source src={video.src} type={video.type} />
+									{browserSupportText}
+								</video>
+							{:else}
+								<video playsinline muted class={`${data.ref} hidden`} decoding="async">
+									<source src={video.src} type={video.type} />
+									{browserSupportText}
+								</video>
+							{/if}
 						{:else}
-							<video autoplay loop playsinline muted class={`${data.ref} lazy`} decoding="async">
-								<source data-src={video.src} type={video.type} />
-								{browserSupportText}
-							</video>
+							{#if isInView}
+								<video
+									in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
+									playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}>
+									<source src={video.src} type={video.type} />
+									{browserSupportText}
+								</video>
+							{:else}
+								<video playsinline muted class={`${data.ref} hidden`} decoding="async">
+									<source src={video.src} type={video.type} />
+									{browserSupportText}
+								</video>
+							{/if}
 						{/if}
 					{/if}
 				{:else}
-					{#if data.ref === 'customization'}
-						<video autoplay loop playsinline muted class={`${data.ref} lazy`} decoding="async">
-							<source data-src={video.src} type={video.type} />
-							{browserSupportText}
-						</video>
+					{#if data.ref === 'customizable'}
+						{#if isInView}
+							<video
+								in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
+								playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}>
+								<source src={video.src} type={video.type} />
+								{browserSupportText}
+							</video>
+						{:else}
+							<video muted class={`${data.ref} hidden`} decoding="async">
+								<source src={video.src} type={video.type} />
+								{browserSupportText}
+							</video>
+						{/if}
 					{:else}
-						<video autoplay loop playsinline muted class={`${data.ref} lazy`} decoding="async">
-							<source data-src={video.src} type={video.type} />
-							{browserSupportText}
-						</video>
+						{#if isInView}
+							<video
+								in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
+								playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}>
+								<source src={video.src} type={video.type} />
+								{browserSupportText}
+							</video>
+						{:else}
+							<video playsinline muted class={`${data.ref} hidden`} decoding="async">
+								<source src={video.src} type={video.type} />
+								{browserSupportText}
+							</video>
+						{/if}
 					{/if}
 				{/if}
 			{/each}
@@ -124,6 +139,98 @@
 {/if}
 
 <style>
+	.video-wrapper {
+		position: relative;
+		width: 100%;
+		text-align: center;
+		align-self: center;
+	}
+	video {
+		max-width: 100%;
+	}
+	.video-wrapper.earn-crypto {
+		/* position: absolute;
+		bottom: 0;
+		width: 100%;
+		height: 120%; */
+		position: relative;
+		bottom: 0;
+		width: 100%;
+    	z-index: 0;
+		padding-top: 80%;
+		margin-bottom: -15%;
+	}
+	.video-wrapper.earn-crypto:before {
+		/* content: '';
+		background: linear-gradient(180deg, #4c4d51 60.48%, rgba(79, 80, 85, 0) 92.22%);
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 30%;
+		position: absolute;
+		z-index: 2;
+		pointer-events: none; */
+
+		content: '';
+		background: linear-gradient(180deg, #4c4d51 60.48%, rgba(79, 80, 85, 0) 92.22%);
+		top: -80%;
+		left: 0;
+		width: 100%;
+		height: 20%;
+		position: absolute;
+		z-index: 1;
+		pointer-events: none;
+	}
+	video.earn-crypto {
+		/* max-width: 150%;
+		height: unset;
+		left: 50%;
+		bottom: 0%;
+		transform: translateX(-50%);
+		position: absolute; */
+		max-width: unset;
+		width: 150%;
+		left: 50%;
+    	bottom: -10%;
+		transform: translateX(-50%);
+		position: absolute;
+	}
+	@media (min-width: 960px) {
+		.video-wrapper {
+			position: relative;
+			width: 100%;
+			text-align: center;
+    		overflow: hidden;
+		}
+		.video-wrapper.customizable {
+			grid-row: 1/-1;
+		}
+		video {
+			max-width: 700px;
+			margin: 0 auto;
+		}
+		.video-wrapper.earn-crypto {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 0;
+			padding-top: 0;
+			margin: unset;
+			width: unset;
+		}
+		video.earn-crypto {
+			max-width: 100%;
+			width: unset;
+			left: 50%;
+    		bottom: -35%;
+			transform: translate(-50%, 0);
+			position: absolute;
+		}
+	}
+</style>
+<!-- <style>
 	.video-wrapper {
 		position: relative;
 		aspect-ratio: 1/1;
@@ -206,11 +313,6 @@
 			grid-row: 1/-1;
 		}
 		.video-wrapper.customizable video.customizable {
-			/* width: unset;
-			height: 100%;
-			top: unset;
-			bottom: 0;
-			transform: translateX(-45%); */
 		}
 		video.own-your-data {
 			width: 100%;
@@ -259,4 +361,4 @@
 			mix-blend-mode: multiply;
 		}
 	}
-</style>
+</style> -->

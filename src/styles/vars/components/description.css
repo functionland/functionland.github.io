@@ -4,7 +4,7 @@
 	--description-title-font-size: var(--section-title-font-size);
 	--description-title-line-height: var(--section-title-line-height);
 	--description-title-font-weight: 400;
-	--description-title-padding: 22px 0 0;
+	--description-title-padding: 1.5rem 0 2rem;
 	--description-min-height: var(--section-min-height);
 	--description-padding: var(--section-padding);
 	--description-row-gap: 40px;
@@ -14,11 +14,12 @@
 	--description-section-bg: white;
 	--description-section-padding: 44px;
 	--description-section-earn-crypto-bg: #46454a;
+	--description-desc-padding-bottom: 2rem
 }
 
 @media (min-width: 960px) {
 	:root {
-		--description-title-padding: 80px;
+		--description-title-padding: 2rem 0;
 		--description-row-gap: 40px;
 	}
 }

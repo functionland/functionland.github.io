@@ -33,6 +33,7 @@
 		"@lukeed/uuid": "^2.0.0",
 		"cookie": "^0.4.2",
 		"dotenv": "^16.0.0",
+		"just-throttle": "^4.0.1",
 		"rss-parser": "^3.12.0",
 		"rss-to-json": "^2.0.2",
 		"saos": "^1.2.0",

@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import { assets } from '$app/paths';
 	import { onMount } from 'svelte';
+	import { scrollto } from 'svelte-scrollto';
+	import * as animateScroll from 'svelte-scrollto';
 	import Logo from '$lib/components/Logo/index.svelte';
 	const menuIcon = assets + 'images/layout/menu.png';
 	import { main_nav } from '$lib/components/data-mocks/navItems.svelte';
@@ -14,6 +16,11 @@
 	const closeMenuOnClick = () => {
 		menuOpen = false;
 	};
+	const menuCtaClick = () => {
+		menuOpen = false;
+		let selector = `${ctaItem.path}`
+		document.querySelector('#preorder').scrollIntoView({ behavior: 'smooth', offset: -60 });
+	}
 	const setNoTransition = () => {
 		notransitionClass = 'no-transition';
 		setTimeout(() => {
@@ -58,9 +65,7 @@
 				{/each}
 			</ul>
 			<div class="cta">
-				<a class="btn btn-cta" sveltekit:prefetch href={ctaItem.path} on:click={closeMenuOnClick}
-					>{ctaItem.text}</a
-				>
+				<button on:click={menuCtaClick} class="btn btn-cta">{ctaItem.text}</button>
 			</div>
 		</nav>
 	</div>
@@ -330,8 +335,20 @@
 			background: var(--header-bg);
 			width: 100%;
 			height: 100%;
+			max-width: var(--container-max-width);
 		}
 		header::after {
+			content: '';
+			background: white;
+			left: 0;
+			right: 0;
+			top: 0;
+			position: fixed;
+			height: 60px;
+			z-index: 1;
+		}
+		
+		header::before {
 			content: '';
 			position: absolute;
 			top: 15px;
@@ -339,7 +356,7 @@
 			width: 100%;
 			left: 0;
 			right: 0;
-			z-index: 1;
+			z-index: 0;
 			box-shadow: 0 4px 30px 0 var(--text-color);
 		}
 	}

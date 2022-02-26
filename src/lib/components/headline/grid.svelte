@@ -13,7 +13,9 @@
 				<h3>{@html title}</h3>
 			{/if}
 			{#each data as item, index}
-				<Headline {item} titled={title != undefined ? true : false} {index} />
+				{#if item.show == true}
+					<Headline {item} titled={title != undefined ? true : false} {index} />
+					{/if}
 			{/each}
 		</div>
 	</div>
@@ -43,7 +45,7 @@
 			padding: 0;
 			grid-template-rows: 1fr 1fr 120px;
 			gap: var(--headlines-grid-gap);
-			grid-template-columns: 1fr 1fr 1fr;
+			grid-template-columns: 1fr 2fr;
 			padding: 0;
 			min-height: var(--section-min-height);
 			row-gap: 0;

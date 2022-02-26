@@ -29,9 +29,11 @@
 		class:animateToTop={scrollDirection !== 'top'}
 	>
 		<h2>{item.intro_title}</h2>
-		<p>{item.intro_desc}</p>
+		<p>{@html item.intro_desc}</p>
 		<!-- <button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button> -->
-		<button use:scrollto={`#${item.ref}`} class="btn btn-cta">{item.cta_text}</button>
+		{#if item.show_cta == true}
+			<button use:scrollto={`#${item.ref}`} class="btn btn-cta">{item.cta_text}</button>
+		{/if}
 	</div>
 </div>
 
@@ -50,7 +52,7 @@
 		padding-bottom: var(--headline-content-padding-bottom);
 	}
 	.wrapper {
-		/* height: 100%; */
+		height: 100%;
 		align-self: start;
 	}
 	.animate,

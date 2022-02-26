@@ -1,71 +1,160 @@
 <script>
+	import throttle from 'just-throttle';
+	import { innerWidth, innerHeight, scrollY } from 'svelte-window-stores/viewport';
+	import PreorderFramesForDesktop from './preorder-frames-for-desktop.svelte';
+	import { fade } from 'svelte/transition';
+	import { inview } from 'svelte-inview';
 	import { assets } from '$app/paths';
-	let src = assets + `videos/pre-order.mp4`;
-	let poster = assets + `images/home/preorder-poster.jpg`;
-	let browserSupportText = 'Your browser does not support the video element.';
-	import { onMount } from 'svelte';
-	let ended;
-	// let innerWidth;
-	onMount(() => {
-		const loadLazyVideos = () => {
-			var lazyVideos = [].slice.call(document.querySelectorAll('video.lazy'));
-			if ('IntersectionObserver' in window) {
-				var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
-					entries.forEach(function (video) {
-						if (video.isIntersecting) {
-							for (var source in video.target.children) {
-								var videoSource = video.target.children[source];
-								if (typeof videoSource.tagName === 'string' && videoSource.tagName === 'SOURCE') {
-									videoSource.src = videoSource.dataset.src;
-								}
-							}
+    import { onMount } from 'svelte';
+	const preorder = {
+		inview: false,
+		options: {
+			threshold: 0.01,
+			unobserveOnEnter: false
+		},
+		scrollDirection: '',
+		change:({ detail }) => {
+			preorder.inview = detail.inView;
+			preorder.scrollDirection = detail.scrollDirection.vertical;
+		},
+	};
+	const fadeIn = {
+		reveal: [
+			{ duration: 400, delay: 300 },
+			{ duration: 400, delay: 600 },
+			{ duration: 400, delay: 900 },
+			{ duration: 400, delay: 1200 },
+			{ duration: 400, delay: 1400 },
+			{ duration: 400, delay: 1600 },
+			{ duration: 400, delay: 1800 },
+			{ duration: 400, delay: 1800 },
+		],
+		none: { duration: 0, delay: 0 }
+	};
+	let src = assets + `videos/preorder.mp4`,
+		poster = assets + `images/home/preorder-poster.jpg`,
+		browserSupportText = 'Your browser does not support the video element.',
+		frames = [],
+		currentFrame = 0,
+		totalFrames = 179,
+		m = { x: 0, y: 0 },
+		handleMousemove,
+		ctaButtonRef,
+		distance;
+	if ($innerWidth >= 960) {
+		for (let i = 0; i < totalFrames; i++) {
+			frames.push(i);
+		}
+	}
+	onMount(()=>{
+		handleMousemove = event => {
+			if (preorder.inview) {
+				m.x = event.pageX;
+				m.y = event.pageY;
 
-							video.target.load();
-							video.target.classList.remove('lazy');
-							lazyVideoObserver.unobserve(video.target);
-						}
-					});
-				});
-
-				lazyVideos.forEach(function (lazyVideo) {
-					lazyVideoObserver.observe(lazyVideo);
-				});
+				function getDistance(elem) {
+					var rect = elem.getBoundingClientRect();
+					return Math.floor(Math.sqrt(Math.pow(m.x - ((window.pageXOffset + rect.left)+(rect.width/2)), 2) + Math.pow(m.y - ((window.pageYOffset + rect.top)+(rect.height/2)), 2)));
+				}
+				var distance =  getDistance(ctaButtonRef);
+				var distanceToFrames = distance / ($innerWidth / totalFrames);
+				var frame = totalFrames - Math.floor( ((( distanceToFrames / 100 ) * totalFrames ) / 100) * totalFrames );
+				if (frame < 0) {
+					currentFrame = 1;
+				} else if (frame > totalFrames - 2) {
+					currentFrame = totalFrames - 1;
+				} else {
+					currentFrame = frame;
+				}
 			}
-		};
-		const docReady = (callbackFunc) => {
-			if (document.readyState !== 'loading') {
-				callbackFunc();
-			} else if (document.addEventListener) {
-				document.addEventListener('DOMContentLoaded', callbackFunc);
-			} else {
-				document.attachEvent('onreadystatechange', function () {
-					if (document.readyState === 'complete') {
-						callbackFunc();
-					}
-				});
-			}
-		};
-		docReady(loadLazyVideos);
+		}
 	});
 </script>
-
-<section>
+<svelte:head>
+	{#if preorder.inview}
+		{#each frames as frame, index}
+			<link rel="preload" as="image" href={assets + '/frames/preorder/pre-order_' + frame + '.webp'} type="image/webp">
+			<link rel="preload" as="image" href={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} type="image/jpeg">
+		{/each}
+	{/if}
+</svelte:head>
+<svelte:window on:mousemove={(preorder.inview && $innerWidth >= 960) ? throttle(handleMousemove, 400) : ''}/>
+<section id="preorder" use:inview={preorder.options} on:change={preorder.change} >
 	<div class="container">
-		<div class="wrapper">
-			<video autoplay loop playsinline muted {poster} class="lazy" bind:ended>
-				<source data-src={src} type="video/mp4" />
-				{browserSupportText}
-			</video>
-			<p>Box is available now!</p>
-			<div class="cta">
-				<a class="btn btn-cta" sveltekit:prefetch href="/preorder">Pre-order</a>
+		<div class="wrapper" 
+			class:inviewclass={preorder.inview}>
+			{#if $innerWidth < 960} 
+				{#if preorder.inview}
+					<video autoplay playsinline muted {poster}>
+						<source src={src} type="video/mp4" />
+						{browserSupportText}
+					</video>
+				{:else}
+					<video playsinline muted {poster} class="hidden">
+						<source src={src} type="video/mp4" />
+						{browserSupportText}
+					</video>
+				{/if}
+			{:else}
+				<div class="parallax-bg">
+					{#each frames as frame, index}
+						{#if parseInt(currentFrame) == frame}
+							<div class="frame active frame_{frame}">
+								<picture>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.webp'}
+										type="image/webp" width="1920" height="1080"
+									/>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'}
+										type="image/jpeg" width="1920" height="1080"
+									/>
+									<img src={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} alt="" loading='lazy' class='lazy' />
+								</picture>
+							</div>
+						{:else}
+							<div class="frame frame_{frame}">
+								<picture>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.webp'}
+										type="image/webp" width="1920" height="1080"
+									/>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'}
+										type="image/jpeg" width="1920" height="1080"
+									/>
+									<img src={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} alt="" loading='lazy' class='lazy' />
+								</picture>
+							</div>
+						{/if}
+					{/each}
+				</div>
+			{/if}
+			<div class="actionWrapper" id="preordercta">
+				{#if preorder.inview}
+					<p in:fade={(preorder.scrollDirection !== 'down') ? fadeIn.reveal[2] : fadeIn.none}>Box is available now!</p>
+					<div class="cta" in:fade={(preorder.scrollDirection !== 'down') ? fadeIn.reveal[2] : fadeIn.none}>
+						<a class="btn btn-cta" sveltekit:prefetch href="/preorder" bind:this={ctaButtonRef}>Pre-order</a>
+					</div>
+				{:else}
+					<p class="hidden">Box is available now!</p>
+					<div class="cta hidden">
+						<a class="btn btn-cta" sveltekit:prefetch href="/preorder" bind:this={ctaButtonRef}>Pre-order</a>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>
 </section>
-
-<!-- <svelte:window bind:innerWidth={innerWidth} /> -->
 <style>
+	video::-webkit-media-controls,
+	video::-webkit-media-controls-play-button,
+	video::-webkit-media-controls-volume-slider,
+	video::-webkit-media-controls-mute-button,
+	video::-webkit-media-controls-timeline,
+	video::-webkit-media-controls-current-time-display {
+		display: none;
+	}
 	.wrapper {
 		position: relative;
 		height: var(--section-min-height);
@@ -86,7 +175,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		z-index: 0;
+		z-index: 1;
 	}
 	p,
 	.cta {
@@ -108,6 +197,34 @@
 		height: 56px;
 		width: 206px;
 	}
+	
+    .parallax-bg {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+    }
+    .frame {
+		visibility: hidden;
+		display: none;
+        width: 100%;
+    }
+	.frame.active {
+		visibility: visible;
+		z-index: 1;
+		display: block;
+	}
+    img {
+        height: auto;
+        width: 100%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 	@media (min-width: 960px) {
 		.wrapper {
 			max-width: 95%;

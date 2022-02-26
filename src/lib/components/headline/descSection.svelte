@@ -71,9 +71,10 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 50%;
+		height: 40%;
 		position: absolute;
 		z-index: 1;
+		pointer-events: none;
 	}
     #customizable .container, #customizable .wrapper, #customizable .video-wrapper{
         /* overflow: unset; */
@@ -85,6 +86,9 @@
 		#earn-crypto .wrapper {
 			border-radius: 20px;
 			overflow: hidden;
+		}
+		.wrapper.apps-without-ads {
+			overflow: unset;
 		}
 		.wrapper.plug-n-play,
 		.wrapper.customizable {

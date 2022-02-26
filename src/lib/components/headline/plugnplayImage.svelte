@@ -76,6 +76,10 @@
 {/if}
 
 <style>
+
+    .hidden {
+        opacity: 0;
+    }
     @media (min-width: 960px) {
 		.image-box {
 			position: absolute;

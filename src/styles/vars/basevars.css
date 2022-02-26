@@ -13,9 +13,9 @@
 	--container-padding: 0 16px;
 	--header-height: 60px;
 	--section-min-height: calc(100vh - var(--header-height));
-	--section-padding: 40px 0;
-	--section-title-font-size: 48px;
-	--section-title-line-height: 80px;
+	--section-padding: 2rem 0;
+	--section-title-font-size: 38px;
+	--section-title-line-height: 42px;
 }
 
 @media (min-width: 960px) {

@@ -30,7 +30,7 @@
 			}
 		],
 		cta: {
-			path: '/preorder',
+			path: '#preordercta',
 			text: 'Pre-Order',
 			type: 'scroll',
 			refrence: 'preorder'
