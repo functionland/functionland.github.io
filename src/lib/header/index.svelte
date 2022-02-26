@@ -339,7 +339,7 @@
 		}
 		header::after {
 			content: '';
-			background: white;
+			background: var(--header-bg);
 			left: 0;
 			right: 0;
 			top: 0;

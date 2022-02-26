@@ -1,40 +1,38 @@
 <script>
-	// import { scrollTo } from 'svelte-scrolling';
+	import FadeIn from '$lib/components/FadeIn.svelte';
 	import { scrollto } from 'svelte-scrollto';
 	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { inview } from 'svelte-inview';
-	let thresh = $innerWidth < 960 ? 0.2 : 0.3;
-	const inViewOptions = {
-		threshold: thresh,
-		unobserveOnEnter: false
-	};
-	let isInView, scrollDirection;
-	const handleChange = ({ detail }) => {
-		isInView = detail.inView;
-		scrollDirection = detail.scrollDirection.vertical;
-	};
 	export let item;
 	export let titled;
 	export let index;
+	const observer = {
+		inview: false,
+		options: {
+			threshold: $innerWidth < 960 ? 0.2 : 0.3,
+			unobserveOnEnter: false
+		},
+		scrollDirection: '',
+		change:({ detail }) => {
+			observer.inview = detail.inView;
+			observer.scrollDirection = detail.scrollDirection.vertical;
+		},
+	}
 </script>
 
-<div class={`wrapper ${titled ? 'titled' : ''}`} use:inview={inViewOptions} on:change={handleChange}>
-	<div
-		class={`item ${titled ? 'titled' : ''}`}
-		style="animation-delay: {(index + 1) * 300}ms;"
-		class:animate={isInView}
-		class:animateFromBottom={scrollDirection === 'down'}
-		class:animateFromTop={scrollDirection !== 'down'}
-		class:animateToBottom={scrollDirection === 'top'}
-		class:animateToTop={scrollDirection !== 'top'}
-	>
-		<h2>{item.intro_title}</h2>
-		<p>{@html item.intro_desc}</p>
-		<!-- <button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button> -->
-		{#if item.show_cta == true}
-			<button use:scrollto={`#${item.ref}`} class="btn btn-cta">{item.cta_text}</button>
-		{/if}
-	</div>
+<div class={`wrapper ${titled ? 'titled' : ''}`} use:inview={observer.options} on:change={observer.change}>
+	<FadeIn inview={observer} delay={(index+1) * .3} fh={true}>
+		<div
+			class={`item ${titled ? 'titled' : ''}`}>
+			<h2>{item.intro_title}</h2>
+			<p>{@html item.intro_desc}</p>
+			<!-- <button use:scrollTo={item.ref} class="btn btn-cta">{item.cta_text}</button> -->
+			{#if item.show_cta == true}
+				<button use:scrollto={`#${item.ref}`} class="btn btn-cta">{item.cta_text}</button>
+			{/if}
+			<div class="dark-bg"></div>
+		</div>
+	</FadeIn>
 </div>
 
 <style>
@@ -93,6 +91,31 @@
 	@media (max-width: 960px) {
 		.item {
 			padding: 0 15px;
+		}
+	}
+	@media (prefers-color-scheme: dark) {
+		.item {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			position: relative;
+			border-radius: 20px;
+		}
+		.dark-bg {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 20px;
+			z-index: -1;
+			background: var(--b-o-5);
+			/* mix-blend-mode: overlay; */
+		}
+	}
+	@media (prefers-color-scheme: dark) and (min-width: 960px){
+		.item {
+			padding: 1rem;
 		}
 	}
 </style>

@@ -45,6 +45,9 @@
 	.wrapper {
 		min-height: var(--description-min-height);
 	}
+	section#own-your-data {
+    	background: linear-gradient(to left, rgb(58 63 72) 0%,rgb(58 63 72) 100%);
+	}
 	.wrapper {
 		padding: 0;
 		display: grid;
@@ -59,6 +62,10 @@
 	.wrapper.apps-without-ads,
 	.wrapper.design {
 		margin-bottom: 120px;
+	}
+	section#earn-crypto,
+	.wrapper.earn-crypto {
+		min-height: unset;
 	}
 	.wrapper.earn-crypto {
 		color: white;
@@ -81,7 +88,8 @@
     }
 	@media (min-width: 960px) {
         section#plug-n-play,section#customizable {
-            height: var(--description-min-height);
+            /* height: var(--description-min-height); */
+			padding-bottom: 10rem;
         }
 		#earn-crypto .wrapper {
 			border-radius: 20px;
@@ -97,6 +105,9 @@
 			align-items: center;
 			justify-content: center;
 			align-content: center;
+		}
+		.wrapper.earn-crypto:before {
+			height: 10%;
 		}
 	}
 	@media (max-width: 959px) {

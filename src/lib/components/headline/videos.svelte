@@ -1,4 +1,6 @@
 <script>
+	import FadeIn from '$lib/components/FadeIn.svelte';
+	import { innerWidth } from 'svelte-window-stores/viewport';
 	import { prefersColorScheme } from 'svelte-window-stores/appearance';
 	import { inview } from 'svelte-inview';
 	import { fade } from 'svelte/transition';
@@ -7,30 +9,33 @@
 	let videos = data.videos ? (data.videos.length > 0 ? data.videos : false) : false;
 	let browserSupportText = 'Your browser does not support the video element.';
 	$: colorScheme = $prefersColorScheme === 0 ? 'light' : 'dark';
-	let ended;
-	let isInView;
-	let scrollDirection;
-	const options = {
-		rootMargin: '150px',
-		unobserveOnEnter: false
-	};
-    const fadeIn = {
-        reveal: [
-            { duration: 400, delay: 300 },
-            { duration: 400, delay: 600 },
-            { duration: 400, delay: 900 },
-            { duration: 400, delay: 1200 },
-            { duration: 400, delay: 1400 },
-            { duration: 400, delay: 1600 },
-            { duration: 400, delay: 1800 },
-            { duration: 400, delay: 1800 },
-        ],
-        none: { duration: 0, delay: 0 }
-    };
-	const handleChange = ({ detail }) => {
-		isInView = detail.inView;
-		scrollDirection = detail.scrollDirection.vertical;
-	};
+	const observer = {
+		inview: false,
+		options: {
+			rootMargin: '150px',
+			unobserveOnEnter: false
+		},
+		scrollDirection: '',
+		change:({ detail }) => {
+			observer.inview = detail.inView;
+			observer.scrollDirection = detail.scrollDirection.vertical;
+			if (detail.inView == true) {
+				let video = detail.node.querySelector('video')
+				if (data.ref === 'earn-crypto') {
+					if ($innerWidth < 960) {
+						detail.node.querySelector('video.mobile-video')
+					} else {
+						detail.node.querySelector('video.desktop-video')
+					}
+				}
+				if (video.paused) {
+					setTimeout(() => {
+						video.play();
+					}, 1200);
+				}
+			}
+		},
+	}
 	const playVideo = event => {
 		if (event.target.paused) {
 			event.target.play();
@@ -51,86 +56,59 @@
 	}
 </script>
 {#if videos}
-	<div class="{data.ref} de-contain video-wrapper" use:inview={options} on:change={handleChange}>
+	<div class="{data.ref} de-contain video-wrapper" use:inview={observer.options} on:change={observer.change}
+        class:animate={observer.inview && data.ref === 'customizable'}
+        class:animateFromBottom={observer.scrollDirection === 'down' && data.ref === 'customizable'}
+        class:animateFromTop={observer.scrollDirection !== 'down' && data.ref === 'customizable'}>
 		{#if data.ref === 'earn-crypto'}
-			{#if isInView}
-				<video
-					in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[3] : fadeIn.none}
-					playsinline muted class={`${data.ref} ${data.ref}-main `} on:click={playVideo} on:loadedmetadata={playWithDelay}>
+			<FadeIn inview={observer} delay={1.2} inheritbg={true}>
+				<video src={videos[1].src} type={videos[1].type} decoding="async" playsinline muted class={`${data.ref} ${data.ref}-main desktop-video`} on:click={playVideo} on:loadedmetadata={playWithDelay}>
 					<source src={videos[0].src} type={videos[0].type} decoding="async" media="(max-width: 959px)"/>
-					<source src={videos[1].src} type={videos[1].type} decoding="async" media="(min-width: 960px)"/>
 					{browserSupportText}
 				</video>
-			{:else} 
-				<video playsinline muted class={`${data.ref} ${data.ref}-main hidden`}>
-					<source src={videos[0].src} type={videos[0].type} decoding="async" />
+				<video src={videos[0].src} type={videos[0].type} decoding="async" playsinline muted class={`${data.ref} ${data.ref}-main mobile-video`} on:click={playVideo} on:loadedmetadata={playWithDelay}>
 					{browserSupportText}
 				</video>
-			{/if}
+			</FadeIn>
 		{:else}
 			{#each videos as video}
 				{#if video.scheme !== undefined}
 					{#if colorScheme === video.scheme}
 						{#if data.ref === 'customizable'}
-							{#if isInView}
-								<video
-									in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
-									playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}
+							<FadeIn inview={observer} delay={.3} inheritbg={true}>
+								<video playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}
 								on:timeupdate={scaleOnTime} bind:currentTime={custCurrentTime} bind:duration={custDuration} style="transition: transform 0.7s; transform: scale(2.4); transform-origin: bottom;">
 									<source src={video.src} type={video.type} />
 									{browserSupportText}
 								</video>
-							{:else}
-								<video playsinline muted class={`${data.ref} hidden`} decoding="async">
-									<source src={video.src} type={video.type} />
-									{browserSupportText}
-								</video>
-							{/if}
+							</FadeIn>
 						{:else}
-							{#if isInView}
+							<FadeIn inview={observer} delay={0.9} inheritbg={true}>
 								<video
-									in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
 									playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}>
 									<source src={video.src} type={video.type} />
 									{browserSupportText}
 								</video>
-							{:else}
-								<video playsinline muted class={`${data.ref} hidden`} decoding="async">
-									<source src={video.src} type={video.type} />
-									{browserSupportText}
-								</video>
-							{/if}
+							</FadeIn>
 						{/if}
 					{/if}
 				{:else}
 					{#if data.ref === 'customizable'}
-						{#if isInView}
+						<FadeIn inview={observer} delay={.3} inheritbg={true}>
 							<video
-								in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
 								playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}>
 								<source src={video.src} type={video.type} />
 								{browserSupportText}
 							</video>
-						{:else}
-							<video muted class={`${data.ref} hidden`} decoding="async">
-								<source src={video.src} type={video.type} />
-								{browserSupportText}
-							</video>
-						{/if}
+						</FadeIn>
 					{:else}
-						{#if isInView}
+						<FadeIn inview={observer} delay={.6} inheritbg={true}>
 							<video
-								in:fade={(scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
 								playsinline muted class={`${data.ref} `} decoding="async" on:click={playVideo} on:loadedmetadata={playWithDelay}>
 								<source src={video.src} type={video.type} />
 								{browserSupportText}
 							</video>
-						{:else}
-							<video playsinline muted class={`${data.ref} hidden`} decoding="async">
-								<source src={video.src} type={video.type} />
-								{browserSupportText}
-							</video>
-						{/if}
+						</FadeIn>
 					{/if}
 				{/if}
 			{/each}
@@ -139,6 +117,9 @@
 {/if}
 
 <style>
+	.desktop-video {
+		display: none;
+	}
 	.video-wrapper {
 		position: relative;
 		width: 100%;
@@ -149,10 +130,6 @@
 		max-width: 100%;
 	}
 	.video-wrapper.earn-crypto {
-		/* position: absolute;
-		bottom: 0;
-		width: 100%;
-		height: 120%; */
 		position: relative;
 		bottom: 0;
 		width: 100%;
@@ -161,16 +138,6 @@
 		margin-bottom: -15%;
 	}
 	.video-wrapper.earn-crypto:before {
-		/* content: '';
-		background: linear-gradient(180deg, #4c4d51 60.48%, rgba(79, 80, 85, 0) 92.22%);
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 30%;
-		position: absolute;
-		z-index: 2;
-		pointer-events: none; */
-
 		content: '';
 		background: linear-gradient(180deg, #4c4d51 60.48%, rgba(79, 80, 85, 0) 92.22%);
 		top: -80%;
@@ -182,12 +149,6 @@
 		pointer-events: none;
 	}
 	video.earn-crypto {
-		/* max-width: 150%;
-		height: unset;
-		left: 50%;
-		bottom: 0%;
-		transform: translateX(-50%);
-		position: absolute; */
 		max-width: unset;
 		width: 150%;
 		left: 50%;
@@ -195,7 +156,17 @@
 		transform: translateX(-50%);
 		position: absolute;
 	}
+	.video-wrapper.video-wrapper.customizable {
+		background: #3a3f48;
+		border-radius: 20px;
+	}
 	@media (min-width: 960px) {
+		.mobile-video {
+			display: none;
+		}
+		.desktop-video {
+			display: block;
+		}
 		.video-wrapper {
 			position: relative;
 			width: 100%;
@@ -204,29 +175,66 @@
 		}
 		.video-wrapper.customizable {
 			grid-row: 1/-1;
+			grid-column: 1/-1;
+    		border-radius: 20px;
+			overflow: hidden;
+			z-index: 1;
 		}
 		video {
-			max-width: 700px;
+			max-width: 600px;
+			display: block;
 			margin: 0 auto;
 		}
 		.video-wrapper.earn-crypto {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			z-index: 0;
+			position: relative;
 			padding-top: 0;
 			margin: unset;
 			width: unset;
+			height: unset;
+			margin-top: -20vh;
 		}
 		video.earn-crypto {
 			max-width: 100%;
 			width: unset;
 			left: 50%;
-    		bottom: -35%;
+			bottom: 0;
 			transform: translate(-50%, 0);
+			position: relative;
+		}
+		
+		.video-wrapper.earn-crypto:before {
+    		top: -10%;
+		}
+		.video-wrapper.customizable {
+			transform-origin: start;
+			justify-self: start;
 			position: absolute;
+			left: 0;
+			z-index: 1;
+			top: 0;
+			transform-origin: center;
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+			align-items: center;
+			display: grid;
+		}
+		.video-wrapper.customizable.animateFromTop {
+			-webkit-animation: expand-to-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
+			animation: expand-to-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
+			animation-delay: 0.2s;
+		}
+		.video-wrapper.customizable.animateFromBottom {
+			-webkit-animation: expand-to-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
+			animation: expand-to-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
+			animation-delay: 0.2s;
+		}
+		.video-wrapper.customizable.animate {
+			-webkit-animation: collapse-from-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
+			animation: collapse-from-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
+			animation-delay: 0.2s;
 		}
 	}
 </style>

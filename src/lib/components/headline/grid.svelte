@@ -1,8 +1,7 @@
 <script>
 	import Headline from '$lib/components/headline/index.svelte';
-	import { fade } from 'svelte/transition';
-	import { innerWidth, innerHeight } from 'svelte-window-stores/viewport';
-	import { prefersColorScheme } from 'svelte-window-stores/appearance';
+	import FadeIn from '$lib/components/FadeIn.svelte';
+	import { innerWidth,  } from 'svelte-window-stores/viewport';
 	import { inview } from 'svelte-inview';
 	const section = {
 		inview: false,
@@ -16,23 +15,10 @@
 			section.scrollDirection = detail.scrollDirection.vertical;
 		},
 	}
-    const fadeIn = {
-        reveal: [
-            { duration: 400, delay: 300 },
-            { duration: 400, delay: 600 },
-            { duration: 400, delay: 900 },
-            { duration: 400, delay: 1200 },
-            { duration: 400, delay: 1400 },
-            { duration: 400, delay: 1600 },
-            { duration: 400, delay: 1800 },
-            { duration: 400, delay: 1800 },
-        ],
-        none: { duration: 0, delay: 0 }
-    };
 	export let data;
 	export let title;
 	export let presection;
-	let sectionClass, wrapperClass = 'grid wrapper', prsTitle, prsImage, prsDesc;
+	let sectionClass, wrapperClass = 'grid wrapper';
 	if (typeof title != 'undefined' && $innerWidth > 960) {
 		wrapperClass += ' has-headline';
 		sectionClass = 'has-headline';
@@ -56,36 +42,27 @@
 				<h3>{@html title}</h3>
 			{/if}
 			{#if typeof presection != 'undefined'}
-				{#if section.inview}
-					<div class="pre-section" >
-						{#if presection.title.length > 0}
-							<h3 
-								in:fade={(section.scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}
-								>{@html presection.title}</h3>
-						{/if}
-						{#if presection.desc.length > 0}
-							<p 
-								in:fade={(section.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}
-								>{@html presection.desc}</p>
-						{/if}
-						{#if presection.image.src.length > 0}
-							<img src={presection.image.src} alt="" type="{presection.image.type}" loading="lazy" 
-								in:fade={(section.scrollDirection !== 'down') ? fadeIn.reveal[2] : fadeIn.none}>
-						{/if}
-					</div>
-				{:else}
-					<div class="pre-section">
-						{#if presection.title.length > 0}
-							<h2 class="hidden">{@html presection.title}</h2>
-						{/if}
-						{#if presection.desc.length > 0}
-							<p class="hidden">{@html presection.desc}</p>
-						{/if}
-						{#if presection.image.src.length > 0}
-							<img class="hidden" src={presection.image.src} alt="" type="{presection.image.type}" loading="lazy">
-						{/if}
-					</div>
-				{/if}
+				<div class="pre-section" >
+					{#if presection.title.length > 0}
+						<h3>
+							<FadeIn inview={section}>
+								{@html presection.title}
+							</FadeIn>
+						</h3>
+					{/if}
+					{#if presection.desc.length > 0}
+						<p>
+							<FadeIn inview={section}>
+								{@html presection.desc}
+							</FadeIn>
+						</p>
+					{/if}
+					{#if presection.image.src.length > 0}
+						<FadeIn inview={section}>
+							<img src={presection.image.src} alt="" type="{presection.image.type}" loading="lazy">
+						</FadeIn>
+					{/if}
+				</div>
 			{/if}
 			{#each data as item, index}
 				{#if item.show == true}
@@ -118,10 +95,15 @@
 		align-items: center;
 	}
 	.grid.has-pre-section h3 {
-		color: #00D0D0;
+		color: var(--actionColor);
 		font-size: 20px;
-		font-weight: 600;
-		mix-blend-mode: multiply;
+		font-weight: 500;
+    	mix-blend-mode: screen;
+	}
+	@media (prefers-color-scheme: dark) {
+		.grid.has-pre-section h3 {
+			mix-blend-mode: screen;
+		}
 	}
 	@media (min-width: 960px) {
 		.grid {
@@ -151,16 +133,20 @@
 			justify-items: center;
 		}
 		.grid.has-headline h3 {
+			color: var(--actionColor);
+			font-size: 20px;
+			font-weight: 500;
 			grid-row: 1 / 2;
-			grid-column: 1 / 5;
+			grid-column: 1 / 4;
 			align-self: center;
 			justify-self: center;
 			font-size: 80px;
 			padding: 120px 0;
+    		mix-blend-mode: screen;
 		}
 		.grid.has-pre-section .pre-section {
 			grid-row: 1 / 2;
-			grid-column: 1 / 5;
+			grid-column: 1 / 4;
 			text-align: center;
 			display: grid;
 			row-gap: 1rem;

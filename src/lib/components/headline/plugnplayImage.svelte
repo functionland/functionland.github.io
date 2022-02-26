@@ -76,7 +76,6 @@
 {/if}
 
 <style>
-
     .hidden {
         opacity: 0;
     }
@@ -90,6 +89,8 @@
 			height: 100%;
 			width: 100%;
 			overflow: hidden;
+            border-radius: 20px;
+            overflow: hidden;
 		}
 		.image-box.animateFromTop {
 			-webkit-animation: expand-to-left 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
@@ -115,6 +116,8 @@
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
+            border-radius: 20px;
+            overflow: hidden;
 		}
     }
 </style>

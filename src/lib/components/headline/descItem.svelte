@@ -1,6 +1,6 @@
 <script>
+	import FadeIn from '$lib/components/FadeIn.svelte';
 	import { innerWidth } from 'svelte-window-stores/viewport';
-	import { fade } from 'svelte/transition';
 	import { inview } from 'svelte-inview';
 	export let item;
 	const heading = {
@@ -27,19 +27,6 @@
 			paragraph.scrollDirection = detail.scrollDirection.vertical;
 		},
 	}
-    const fadeIn = {
-        reveal: [
-            { duration: 400, delay: 300 },
-            { duration: 400, delay: 600 },
-            { duration: 400, delay: 900 },
-            { duration: 400, delay: 1200 },
-            { duration: 400, delay: 1400 },
-            { duration: 400, delay: 1600 },
-            { duration: 400, delay: 1800 },
-            { duration: 400, delay: 1800 },
-        ],
-        none: { duration: 0, delay: 0 }
-    };
     $: isMobile = $innerWidth < 960
 </script>
 
@@ -47,91 +34,38 @@
     {#if item.ref == 'plug-n-play' || item.ref == 'customizable'}
         <h3 use:inview={heading.options} on:change={heading.change}
             class={item.ref}>
-            <span
-                class:fade-in-right-delay={heading.inview}
-                class:fade-out-right-delay={!heading.inview}>
-                {@html item.main_title}
-            </span>
+			<FadeIn inview={heading} >
+				{@html item.main_title}
+			</FadeIn>
         </h3>
         <p use:inview={paragraph.options} on:change={paragraph.change}
             class={item.ref}>
-            <span
-                class:fade-in-right-delay={paragraph.inview}
-                class:fade-out-right-delay={!paragraph.inview}>
-                {@html item.main_desc}
-            </span>
+			<FadeIn inview={paragraph}>
+				{@html item.main_desc}
+			</FadeIn>
         </p>
     {:else}
         <h3 use:inview={heading.options} on:change={heading.change} class={item.ref}>
-            {#if heading.inview}
-                <span
-                    in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}>
-                    {@html item.main_title}
-                </span>
-            {:else}
-                <span class="hidden">
-                    {@html item.main_title}
-                </span>
-            {/if}
+			<FadeIn inview={heading}>
+				{@html item.main_title}
+			</FadeIn>
         </h3>
         <p use:inview={paragraph.options} on:change={paragraph.change} class={item.ref}>
-            {#if paragraph.inview}
-                <span
-                    in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
-                    {@html item.main_desc}
-                </span>
-            {:else}
-                <span class="hidden">
-                    {@html item.main_desc}
-                </span>
-            {/if}
+			<FadeIn inview={paragraph}>
+				{@html item.main_desc}
+			</FadeIn>
         </p>
-        <!-- {#if parentObserver.inview}
-        {:else}
-            <h3 use:inview={heading.options} on:change={heading.change}
-                class={data.ref}>
-                {#if heading.inview}
-                    <span
-                        in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
-                        {data.main_title}
-                    </span>
-                {/if}
-            </h3>
-            <p use:inview={paragraph.options} on:change={paragraph.change}
-                class={data.ref}>
-                {#if paragraph.inview}
-                    <span
-                        in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[2] : fadeIn.none}>
-                        {data.main_desc}
-                    </span>
-                {/if}
-            </p>
-        {/if} -->
     {/if}
 {:else}
     <h3 use:inview={heading.options} on:change={heading.change} class={item.ref}>
-        {#if heading.inview}
-            <span
-                in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}>
-                {item.main_title}
-            </span>
-        {:else}
-            <span class="hidden">
-                {item.main_title}
-            </span>
-        {/if}
+		<FadeIn inview={heading}>
+			{@html item.main_title}
+		</FadeIn>
     </h3>
     <p use:inview={paragraph.options} on:change={paragraph.change} class={item.ref}>
-        {#if paragraph.inview}
-            <span
-                in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
-                {item.main_desc}
-            </span>
-        {:else}
-            <span class="hidden">
-                {item.main_desc}
-            </span>
-        {/if}
+		<FadeIn inview={paragraph}>
+			{@html item.main_desc}
+		</FadeIn>
     </p>
 {/if}
 
@@ -139,13 +73,17 @@
 	.hidden {
 		opacity: 0;
 	}
-	.fade-in-right-delay {
+	.fade-in-right,
+	.fade-in-rightFromBottom,
+	.fade-in-rightFromTop {
+		animation-name: none;
+	}
+	.fade-in-rightFromTop {
 		animation: fade-in-right 1s ease-in-out normal both;
 		animation-delay: 0.8s;
 	}
-	.fade-out-right-delay {
-		animation: fade-out-right 0.4s ease-in-out normal both;
-		animation-delay: 0.5s;
+	.fade-in-rightFromBottom {
+		animation-name: none;
 	}
 	h3 {
 		z-index: 1;
@@ -157,9 +95,10 @@
 		font-size: var(--description-title-font-size);
 		line-height: var(--description-title-line-height);
 		font-weight: var(--description-title-font-weight);
+		color: var(--section-title-color);
+		mix-blend-mode: var(--section-title-mix-blend-mode);
 	}
     h3.earn-crypto {
-		color: white;
 		grid-row-gap: 20px;
 		padding-bottom: 0;
 	}

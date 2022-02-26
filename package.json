@@ -29,6 +29,7 @@
 	"dependencies": {
 		"@fontsource/inter": "^4.5.4",
 		"@fontsource/montserrat": "^4.5.4",
+		"@fontsource/raleway": "^4.5.3",
 		"@fontsource/roboto": "^4.5.3",
 		"@lukeed/uuid": "^2.0.0",
 		"cookie": "^0.4.2",

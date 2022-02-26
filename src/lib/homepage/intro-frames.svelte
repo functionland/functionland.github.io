@@ -131,7 +131,11 @@
 		none: { duration: 0, delay: 0 }
 	}
 </script>
-
+<svelte:head>
+	{#each frames as frame, index}
+		<link rel="preload" as="image" href={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'} type="image/jpeg">
+	{/each}
+</svelte:head>
 <svelte:window
 	bind:scrollY
 	on:mousewheel|nonpassive={preventWhilePlaying}
@@ -150,18 +154,8 @@
 					<picture>
 						<source
 							media="(min-width:960px)"
-							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.webp'}
-							type="image/webp" width="1920" height="1080"
-						/>
-						<source
-							media="(min-width:960px)"
 							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'}
 							type="image/jpeg" width="1920" height="1080"
-						/>
-						<source
-							media="(max-width:959px)"
-							srcset={assets + '/frames/intro/mobile/frame_' + frame + '.webp'}
-							type="image/webp" width="720" height="1080"
 						/>
 						<source
 							media="(max-width:959px)"
@@ -176,18 +170,8 @@
 					<picture>
 						<source
 							media="(min-width:960px)"
-							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.webp'}
-							type="image/webp" width="1920" height="1080"
-						/>
-						<source
-							media="(min-width:960px)"
 							srcset={assets + '/frames/intro/desktop/frame_' + frame + '.jpeg'}
 							type="image/jpeg" width="1920" height="1080"
-						/>
-						<source
-							media="(max-width:959px)"
-							srcset={assets + '/frames/intro/mobile/frame_' + frame + '.webp'}
-							type="image/webp" width="720" height="1080"
 						/>
 						<source
 							media="(max-width:959px)"
@@ -326,7 +310,7 @@
 		max-width: var(--container-max-width);
 	}
 	h1 {
-		color: #00d0d0;
+		color: var(--actionColor);
 		pointer-events: none;
 		font-family: var(--roboto);
 		font-size: var(--slogan-font-size);
@@ -335,6 +319,7 @@
 		letter-spacing: var(--slogan-letter-spacing);
 		text-align: center;
 		max-width: var(--slogan-max-width);
+		font-family: var(--raleway);
 		margin: 0 auto;
 		word-break: break-word;
 		position: relative;
