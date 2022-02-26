@@ -16,6 +16,8 @@
 	--section-padding: 2rem 0;
 	--section-title-font-size: 38px;
 	--section-title-line-height: 42px;
+	--section-title-color: #00D0D0;
+	--section-title-mix-blend-mode: unset;
 }
 
 @media (min-width: 960px) {
@@ -23,6 +25,9 @@
 		--max-width: 1530px;
 		--container-max-width: 1530px;
 		--container-padding: 0 20px;
+		--section-title-font-size: 56px;
+		--section-title-line-height: 60px;
+		--section-title-padding: 3rem 0 2.5rem;
 	}
 }
 @media (min-width: 1600px) {
@@ -30,5 +35,11 @@
 		--max-width: 1640px;
 		--container-max-width: 1640px;
 		--container-padding: 0 20px;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--section-title-mix-blend-mode: color-dodge;
 	}
 }

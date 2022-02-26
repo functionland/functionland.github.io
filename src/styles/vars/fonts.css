@@ -7,12 +7,15 @@
 @import '@fontsource/roboto/700.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/700.css';
+@import '@fontsource/raleway/400.css';
 
 :root {
-	--montserrat: Montserrat, Inter, Roboto, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+	--montserrat: montserrat, Inter, Roboto, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI',
 		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--roboto: Roboto, Montserrat, Inter, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
 		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-	--inter: Inter, Montserrat, Roboto, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
+	--inter: inter, Montserrat, Roboto, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
+		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--raleway: raleway, Montserrat, Roboto, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
 		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
