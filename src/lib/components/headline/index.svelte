@@ -78,7 +78,7 @@
 			grid-row: 2;
 		}
 		button {
-			align-self: bottom;
+			align-self: end;
 		}
 		.item {
 			height: 100%;

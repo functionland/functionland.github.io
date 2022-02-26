@@ -29,7 +29,6 @@
         if (preorder.inview)
 		m.x = event.clientX;
 		m.y = event.clientY;
-        console.log(m)
 	}
 </script>
 <style>

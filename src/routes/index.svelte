@@ -13,6 +13,7 @@
 	import Partners from '$lib/homepage/partners.svelte';
 	import MouseMove from '$lib/homepage/mouseMove.svelte';
 	import LazyLoadVideos from '$lib/homepage/lazyloadVideos.svelte';
+	import { data as meetBoxData } from '$lib/components/data-mocks/meetBox.svelte';
 </script>
 
 <svelte:head>
@@ -21,7 +22,7 @@
 <main>
 	<Frames />
 	<Hero />
-	<Headlines data={valuesData} />
+	<Headlines data={valuesData} presection={meetBoxData}/>
 	<Headlines data={featuresData} title="Pros in a nutshell" />
 	<Preorder />
 	<News />

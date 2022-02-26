@@ -14,8 +14,8 @@
 
 	let isMobile = $innerWidth < 960;
 	let totalFrames = isMobile ? 66 : 59;
-	let threshold = isMobile ? 36 : 37;
-	$: ratio = (parseInt(totalFrames/12)) / 10;
+	let threshold = isMobile ? 43 : 37;
+	$: ratio = (parseInt(totalFrames/12)) / 15;
 	$: sloganHideFrame = threshold + ((totalFrames - threshold) / 2);
 	$: framesToAdd = totalFrames * (scrollY / $innerHeight);
 	for (let i = 1; i < totalFrames + 1; i++) {
@@ -220,12 +220,14 @@
 				<span
 					in:fade={ fadeIn.reveal[4] }
 				>Payless, </span>
-				<span class='m-one-liner'
-					in:fade={ fadeIn.reveal[5] }
-				>Cloud Storage </span>
-				<span
-					in:fade={ fadeIn.reveal[6] }
-				>Alternative</span>
+				<span class='l-one-liner'>
+					<span class='m-one-liner'
+						in:fade={ fadeIn.reveal[5] }
+					>Cloud Storage </span>
+					<span
+						in:fade={ fadeIn.reveal[6] }
+					>Alternative</span>
+				</span>
 			{:else}
 				<span class="one-liner hidden">
 					<span class="bold">Box </span>
@@ -340,6 +342,9 @@
     	mix-blend-mode: screen;
 	}
 	@media (max-width: 959px) {
+		.m-one-liner {
+			display: block;
+		}
 		picture {
 			display: grid;
 			align-items: end;
@@ -368,17 +373,15 @@
 			/* height: var(--intro-height); */
 			max-width: calc((1080 / 720) * 100vw);
 		}
-		.m-one-liner {
-			display: block;
-		}
 	}
 	@media (min-width: 960px) {
 		h1 {
 			word-break: unset;
 		}
-		.one-liner {
+		.one-liner, .l-one-liner {
 			display: block;
 		}
+		
 	}
 	@media (prefers-color-scheme: dark) {
 		/* .frame {

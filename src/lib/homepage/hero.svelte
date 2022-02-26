@@ -130,7 +130,6 @@
 
 <style>
 	.hidden {
-		position: absolute;
 		opacity: 0;
 		user-select: none;
 	}
@@ -186,7 +185,7 @@
 	@media (min-width: 960px) {
 		.hero-text,
 		.hero-image {
-			min-height: var(--section-min-height);
+			min-height: 50vh;
 			align-items: center;
 			display: grid;
 			/* max-width: 80%; */

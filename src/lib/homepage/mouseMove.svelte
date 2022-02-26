@@ -36,9 +36,9 @@
                         var xDistance = getXdistance(element);
                         var yDistance = getYdistance(element);
                         var maxDistance = calculateMaxDistance(element);
-                        if (index == 0) {
-                            console.log(xDistance, yDistance, maxDistance);
-                        }
+                        // if (index == 0) {
+                        //     console.log(xDistance, yDistance, maxDistance);
+                        // }
                         window.requestAnimationFrame(function(){
                             element.style.transform = 'translate3d(' + calculateMaxTransform(xDistance, maxDistance) + 'px, ' + calculateMaxTransform(yDistance, maxDistance) + 'px, 0)';
                         });

@@ -112,7 +112,7 @@
     <h3 use:inview={heading.options} on:change={heading.change} class={item.ref}>
         {#if heading.inview}
             <span
-                in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
+                in:fade={(heading.scrollDirection !== 'down') ? fadeIn.reveal[0] : fadeIn.none}>
                 {item.main_title}
             </span>
         {:else}
@@ -124,7 +124,7 @@
     <p use:inview={paragraph.options} on:change={paragraph.change} class={item.ref}>
         {#if paragraph.inview}
             <span
-                in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[2] : fadeIn.none}>
+                in:fade={(paragraph.scrollDirection !== 'down') ? fadeIn.reveal[1] : fadeIn.none}>
                 {item.main_desc}
             </span>
         {:else}

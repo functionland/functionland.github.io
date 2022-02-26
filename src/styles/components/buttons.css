@@ -20,4 +20,7 @@
 	.btn {
 		min-width: 130px;
 	}
+	.btn:hover {
+		cursor: pointer;
+	}
 }

@@ -1,7 +1,6 @@
 <script>
 	import throttle from 'just-throttle';
 	import { innerWidth, innerHeight, scrollY } from 'svelte-window-stores/viewport';
-	import PreorderFramesForDesktop from './preorder-frames-for-desktop.svelte';
 	import { fade } from 'svelte/transition';
 	import { inview } from 'svelte-inview';
 	import { assets } from '$app/paths';
