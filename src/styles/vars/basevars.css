@@ -16,7 +16,7 @@
 	--section-padding: 2rem 0;
 	--section-title-font-size: 38px;
 	--section-title-line-height: 42px;
-	--section-title-color: #00D0D0;
+	--section-title-color: var(--black-1);
 	--section-title-mix-blend-mode: unset;
 }
 
@@ -41,5 +41,6 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--section-title-mix-blend-mode: color-dodge;
+		--section-title-color: var(--actionColor);
 	}
 }

@@ -45,9 +45,6 @@
 	.wrapper {
 		min-height: var(--description-min-height);
 	}
-	section#own-your-data {
-    	background: linear-gradient(to left, rgb(58 63 72) 0%,rgb(58 63 72) 100%);
-	}
 	.wrapper {
 		padding: 0;
 		display: grid;
@@ -116,6 +113,11 @@
 		}
 		section#earn-crypto > .container {
 			padding: 0;
+		}
+	}
+	@media (prefers-color-scheme: dark) {
+		section#own-your-data {
+			background: linear-gradient(to left, rgb(58 63 72) 0%,rgb(58 63 72) 100%);
 		}
 	}
 </style>

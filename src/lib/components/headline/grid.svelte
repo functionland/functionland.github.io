@@ -95,15 +95,8 @@
 		align-items: center;
 	}
 	.grid.has-pre-section h3 {
-		color: var(--actionColor);
 		font-size: 20px;
 		font-weight: 500;
-    	mix-blend-mode: screen;
-	}
-	@media (prefers-color-scheme: dark) {
-		.grid.has-pre-section h3 {
-			mix-blend-mode: screen;
-		}
 	}
 	@media (min-width: 960px) {
 		.grid {
@@ -133,7 +126,6 @@
 			justify-items: center;
 		}
 		.grid.has-headline h3 {
-			color: var(--actionColor);
 			font-size: 20px;
 			font-weight: 500;
 			grid-row: 1 / 2;
@@ -142,7 +134,6 @@
 			justify-self: center;
 			font-size: 80px;
 			padding: 120px 0;
-    		mix-blend-mode: screen;
 		}
 		.grid.has-pre-section .pre-section {
 			grid-row: 1 / 2;
@@ -163,6 +154,13 @@
 		}
 		:global(.grid.has-headline h3 b, .grid.has-pre-section h3 b) {
 			font-weight: bold;
+		}
+	}
+	@media (prefers-color-scheme: dark) {
+		.grid.has-pre-section h3,
+		.grid.has-headline h3 {
+			mix-blend-mode: screen;
+			color: var(--actionColor);
 		}
 	}
 </style>

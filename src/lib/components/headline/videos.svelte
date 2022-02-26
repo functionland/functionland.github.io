@@ -157,7 +157,6 @@
 		position: absolute;
 	}
 	.video-wrapper.video-wrapper.customizable {
-		background: #3a3f48;
 		border-radius: 20px;
 	}
 	@media (min-width: 960px) {
@@ -235,6 +234,11 @@
 			-webkit-animation: collapse-from-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
 			animation: collapse-from-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) normal both;
 			animation-delay: 0.2s;
+		}
+	}
+	@media (prefers-color-scheme: dark) {
+		.video-wrapper.customizable {
+			background: #3a3f48;
 		}
 	}
 </style>
