@@ -158,6 +158,7 @@
 	}
 	.video-wrapper.video-wrapper.customizable {
 		border-radius: 20px;
+    	overflow: hidden;
 	}
 	@media (min-width: 960px) {
 		.mobile-video {

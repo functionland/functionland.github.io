@@ -98,7 +98,8 @@
 		color: var(--section-title-color);
 		mix-blend-mode: var(--section-title-mix-blend-mode);
 	}
-    h3.earn-crypto {
+	h3.earn-crypto {
+		color: white;
 		grid-row-gap: 20px;
 		padding-bottom: 0;
 	}
@@ -127,9 +128,6 @@
 		}
 		p.earn-crypto {
 			max-width: 900px;
-		}
-		h3.earn-crypto {
-			color: white;
 		}
 		h3.plug-n-play,
 		p.plug-n-play {
@@ -165,6 +163,12 @@
 			aspect-ratio: 228/220;
 			width: 100%;
 			max-width: 75%;
+		}
+	}
+	@media (prefers-color-scheme: dark) {
+		
+		h3.earn-crypto {
+			color: var(--section-title-color);
 		}
 	}
 </style>

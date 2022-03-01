@@ -45,6 +45,7 @@
 			frames.push(i);
 		}
 	}
+	// $: blur = 10 - ((currentFrame * 10 )/ totalFrames);
 	onMount(()=>{
 		handleMousemove = event => {
 			if (preorder.inview) {
@@ -72,12 +73,17 @@
 <svelte:head>
 	{#if preorder.inview}
 		{#each frames as frame, index}
-			<link rel="preload" as="image" href={assets + '/frames/preorder/pre-order_' + frame + '.webp'} type="image/webp">
 			<link rel="preload" as="image" href={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} type="image/jpeg">
+		{/each}
+	{:else}
+		{#each frames as frame, index}
+			{#if index < 30}
+			<link rel="preload" as="image" href={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} type="image/jpeg">
+			{/if}
 		{/each}
 	{/if}
 </svelte:head>
-<svelte:window on:mousemove={(preorder.inview && $innerWidth >= 960) ? throttle(handleMousemove, 400) : ''}/>
+<svelte:window on:mousemove={(preorder.inview && $innerWidth >= 960) ? throttle(handleMousemove, 400) : ''} />
 <section id="preorder" use:inview={preorder.options} on:change={preorder.change} >
 	<div class="container">
 		<div class="wrapper" 
@@ -101,10 +107,6 @@
 							<div class="frame active frame_{frame}">
 								<picture>
 									<source
-										srcset={assets + '/frames/preorder/pre-order_' + frame + '.webp'}
-										type="image/webp" width="1920" height="1080"
-									/>
-									<source
 										srcset={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'}
 										type="image/jpeg" width="1920" height="1080"
 									/>
@@ -114,10 +116,6 @@
 						{:else}
 							<div class="frame frame_{frame}">
 								<picture>
-									<source
-										srcset={assets + '/frames/preorder/pre-order_' + frame + '.webp'}
-										type="image/webp" width="1920" height="1080"
-									/>
 									<source
 										srcset={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'}
 										type="image/jpeg" width="1920" height="1080"
@@ -210,6 +208,9 @@
 		visibility: hidden;
 		display: none;
         width: 100%;
+		/* filter: blur(var(--blur));
+		transition: filter 0.3s;
+		will-change: filter; */
     }
 	.frame.active {
 		visibility: visible;
@@ -226,7 +227,7 @@
     }
 	@media (min-width: 960px) {
 		.wrapper {
-			max-width: 95%;
+			/* max-width: 95%; */
 			margin: 0 auto;
 		}
 	}

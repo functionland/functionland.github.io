@@ -329,7 +329,7 @@
 		.wrapper {
 			position: relative;
 			z-index: 2;
-			padding: 0 3rem;
+			padding: 0 20px;
 			margin: 0 auto;
 			z-index: 2;
 			background: var(--header-bg);

@@ -38,7 +38,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=https"
       - "traefik.http.routers.traefik.rule=Host(`monitor.example.domain`)"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=fxadmin:$$apr1$$I8dLqP5C$$j990YdLmnoLU7LpJiyDq31" #generated with 
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=fxadmin:$$apr1$$I8dLqP5C$$j990YdLmnoLU7LpJiyDq31" #replace generated password with your own 
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
       - "traefik.http.routers.traefik.service=api@internal"
 
@@ -56,10 +56,9 @@ services:
       - "traefik.http.routers.fxland.entrypoints=https"
       - "traefik.http.routers.fxland.rule=Host(`example.domain`)"
       - "traefik.http.services.fxland.loadbalancer.server.port=3000"
-      - "traefik.http.middlewares.fxland-auth.basicauth.users=fxland:$$apr1$$PgKn6LCV$$MPUbn1rEw96J1iNZa2Arb." #generated with `echo $(htpasswd -nb user password) | sed -e s/\\$/\\$\\$/g`
+      - "traefik.http.middlewares.fxland-auth.basicauth.users=fxland:$$apr1$$PgKn6LCV$$MPUbn1rEw96J1iNZa2Arb." #replace generated password with your own 
       - "traefik.http.routers.fxland.middlewares=fxland-auth"
       - "traefik.docker.network=proxy"
-      # - "traefik.docker.network=proxy"
   
 networks:
   proxy:
