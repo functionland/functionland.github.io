@@ -14,7 +14,7 @@
 
 	let isMobile = $innerWidth < 960;
 	let totalFrames = isMobile ? 66 : 59;
-	let threshold = isMobile ? 43 : 37;
+	$: threshold = isMobile ? 43 : 37;
 	$: ratio = (parseInt(totalFrames/12)) / 15;
 	$: sloganHideFrame = threshold + ((totalFrames - threshold) / 2);
 	$: framesToAdd = totalFrames * (scrollY / $innerHeight);
@@ -23,21 +23,21 @@
 	}
 	const detectScroll = (event) => {
 		if (scrollY < $innerHeight) {
-			if (currentFrame < 46) {
+			if (currentFrame < threshold) {
 				event.preventDefault();
 			}
 			if (introPlaying == true) {
-				if (event.cancelable == true) {
-					event.preventDefault();
-				}
+				// if (event.cancelable == true) {
+				// 	event.preventDefault();
+				// }
 				return;
 			}
 			if (scrollY > lastScroll) {
 				if (currentFrame >= threshold - 2 && currentFrame <= totalFrames - 1) {
 					if (introPlaying == true) {
-						if (event.cancelable == true) {
-							event.preventDefault();
-						}
+						// if (event.cancelable == true) {
+						// 	event.preventDefault();
+						// }
 						return;
 					} else {
 						currentFrame = parseInt((currentFrame + (framesToAdd * ratio + threshold)) / 2);
@@ -51,9 +51,9 @@
 			} else {
 				if (currentFrame >= threshold && currentFrame <= totalFrames + 30) {
 					if (introPlaying == true) {
-						if (event.cancelable == true) {
-							event.preventDefault();
-						}
+						// if (event.cancelable == true) {
+						// 	event.preventDefault();
+						// }
 						return;
 					} else {
 						currentFrame = parseInt((currentFrame + (framesToAdd * ratio + threshold)) / 2);
@@ -101,22 +101,22 @@
 		docReady(play);
 		showSlogan = true;
 	});
-	const preventWhilePlaying = (event) => {
-		if (introPlaying == true) {
-			if (event.cancelable == true) {
-				event.preventDefault();
-			}
-			return;
-		}
-	};
-	const mouseWheelEvent = (event) => {
-		if (introPlaying == true) {
-			if (event.cancelable == true) {
-				event.preventDefault();
-			}
-			return;
-		}
-	};
+	// const preventWhilePlaying = (event) => {
+	// 	if (introPlaying == true) {
+	// 		// if (event.cancelable == true) {
+	// 		// 	event.preventDefault();
+	// 		// }
+	// 		return;
+	// 	}
+	// };
+	// const mouseWheelEvent = (event) => {
+	// 	if (introPlaying == true) {
+	// 		if (event.cancelable == true) {
+	// 			event.preventDefault();
+	// 		}
+	// 		return;
+	// 	}
+	// };
 	const fadeIn = {
 		reveal: [
 			{ duration: 400, delay: 300 },
@@ -138,15 +138,13 @@
 </svelte:head>
 <svelte:window
 	bind:scrollY
-	on:mousewheel|nonpassive={preventWhilePlaying}
 	on:scroll|nonpassive={detectScroll}
-	on:touchmove|nonpassive={preventWhilePlaying}
-/>
-<section
-	on:mousewheel|nonpassive={mouseWheelEvent}
-	on:touchmove|nonpassive={mouseWheelEvent}
-	class={outOfViewClass}
->
+	/>
+	<!-- on:mousewheel|nonpassive={preventWhilePlaying}
+	on:touchmove|nonpassive={preventWhilePlaying} -->
+<section class={outOfViewClass}>
+<!-- on:mousewheel|nonpassive={mouseWheelEvent}
+on:touchmove|nonpassive={mouseWheelEvent} -->
 	<div class="parallax-bg">
 		{#each frames as frame, index}
 			{#if parseInt(currentFrame) == frame}

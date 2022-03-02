@@ -5,7 +5,8 @@
 <script>
 	import { data as valuesData } from '$lib/components/data-mocks/values.svelte';
 	import { data as featuresData } from '$lib/components/data-mocks/features.svelte';
-	import Frames from '$lib/homepage/intro-frames.svelte';
+	import Parallax from '$lib/homepage/intro-parallax.svelte';
+	// import Frames from '$lib/homepage/intro-frames.svelte';
 	import Hero from '$lib/homepage/hero.svelte';
 	import Headlines from '$lib/homepage/headlines.svelte';
 	import Preorder from '$lib/homepage/preorder.svelte';
@@ -20,7 +21,8 @@
 	<title>FunctionLand</title>
 </svelte:head>
 <main>
-	<Frames />
+	<!-- <Frames /> -->
+	<Parallax />
 	<Hero />
 	<Headlines data={valuesData} presection={meetBoxData}/>
 	<Headlines data={featuresData} title="Pros in a nutshell" />

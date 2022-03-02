@@ -39,35 +39,72 @@
 		m = { x: 0, y: 0 },
 		handleMousemove,
 		ctaButtonRef,
-		distance;
-	if ($innerWidth >= 960) {
-		for (let i = 0; i < totalFrames; i++) {
-			frames.push(i);
-		}
+		distance,
+		parallax;
+	for (let i = 0; i < totalFrames; i++) {
+		frames.push(i);
 	}
-	// $: blur = 10 - ((currentFrame * 10 )/ totalFrames);
-	onMount(()=>{
-		handleMousemove = event => {
-			if (preorder.inview) {
-				m.x = event.pageX;
-				m.y = event.pageY;
+	let detectScroll
+	if ($innerWidth >= 960) {
+		onMount(()=>{
+			handleMousemove = event => {
+				if (preorder.inview) {
+					m.x = event.pageX;
+					m.y = event.pageY;
 
-				function getDistance(elem) {
-					var rect = elem.getBoundingClientRect();
-					return Math.floor(Math.sqrt(Math.pow(m.x - ((window.pageXOffset + rect.left)+(rect.width/2)), 2) + Math.pow(m.y - ((window.pageYOffset + rect.top)+(rect.height/2)), 2)));
-				}
-				var distance =  getDistance(ctaButtonRef);
-				var distanceToFrames = distance / ($innerWidth / totalFrames);
-				var frame = totalFrames - Math.floor( ((( distanceToFrames / 100 ) * totalFrames ) / 100) * totalFrames );
-				if (frame < 0) {
-					currentFrame = 1;
-				} else if (frame > totalFrames - 2) {
-					currentFrame = totalFrames - 1;
-				} else {
-					currentFrame = frame;
+					function getDistance(elem) {
+						var rect = elem.getBoundingClientRect();
+						return Math.floor(Math.sqrt(Math.pow(m.x - ((window.pageXOffset + rect.left)+(rect.width/2)), 2) + Math.pow(m.y - ((window.pageYOffset + rect.top)+(rect.height/2)), 2)));
+					}
+					var distance =  getDistance(ctaButtonRef);
+					var distanceToFrames = distance / ($innerWidth / totalFrames);
+					var frame = totalFrames - Math.floor( ((( distanceToFrames / 100 ) * totalFrames ) / 100) * totalFrames );
+					if (frame < 0) {
+						currentFrame = 1;
+					} else if (frame > totalFrames - 2) {
+						currentFrame = totalFrames - 1;
+					} else {
+						currentFrame = frame;
+					}
 				}
 			}
-		}
+		});
+	} else {
+		currentFrame = 3;
+	}
+	$: onMount(()=>{
+		let parallaxHeight = parallax.offsetHeight;
+		let scroll = $scrollY;
+		detectScroll = (event) => {
+			if ( $innerWidth < 960 && preorder.inview == true ) {
+				let framesToAdd = ((Math.round( (($scrollY / ($innerHeight / totalFrames)) / totalFrames) / ( (($innerHeight * 1.5) / totalFrames) / 100  )) * 100) / totalFrames) / 100;
+				if ($scrollY > lastScroll) {
+					let scrollDiff = $scrollY - lastScroll;
+					let scrollDiffPercentage = scrollDiff / parallaxHeight;
+					// let framesToAdd = Math.round(scrollDiffPercentage * totalFrames);
+					if (currentFrame < totalFrames&& currentFrame < totalFrames - 2) {
+						// currentFrame = currentFrame + ( ((($scrollY / $innerHeight) / totalFrames) / ($innerHeight / 2.5) * (( ($scrollY / paralalax.offsetHeight) / totalFrames) / 10)) * ratio );
+						// currentFrame =  currentFrame + (( (( ($scrollY / (window.pageYOffset + paralalax.offsetTop) ) * (window.pageYOffset + paralalax.offsetTop)) / totalFrames) / 100) * ratio );
+						if (currentFrame + (framesToAdd * 3) > totalFrames) {
+							currentFrame = totalFrames -1;
+						} else {
+							currentFrame = currentFrame + (framesToAdd * 2.3);
+						}
+					}
+				} else {
+					if (currentFrame > 2 && currentFrame < totalFrames + 2) {
+						// currentFrame = currentFrame - ( ((($scrollY / $innerHeight) / totalFrames) / ($innerHeight / 2.5) * (( ($scrollY / paralalax.offsetHeight) / totalFrames) / 10)) * ratio );
+						// currentFrame =  currentFrame - (( (( ($scrollY / (window.pageYOffset + paralalax.offsetTop) ) * (window.pageYOffset + paralalax.offsetTop)) / totalFrames) / 100) * ratio );
+						if (currentFrame - (framesToAdd * 3) < 0) {
+							currentFrame = 0;
+						} else {
+							currentFrame = currentFrame - (framesToAdd * 2.5);
+						}
+					}
+				}
+				lastScroll = $scrollY;
+			}
+		};
 	});
 </script>
 <svelte:head>
@@ -89,7 +126,40 @@
 		<div class="wrapper" 
 			class:inviewclass={preorder.inview}>
 			{#if $innerWidth < 960} 
-				{#if preorder.inview}
+				<div class="parallax-bg" on:mousemove={handleMousemove} bind:this={parallax} >
+					{#each frames as frame, index}
+						{#if parseInt(currentFrame) == frame}
+							<div class="frame active frame_{frame}">
+								<picture>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.webp'}
+										type="image/webp" width="1920" height="1080"
+									/>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'}
+										type="image/jpeg" width="1920" height="1080"
+									/>
+									<img src={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} alt="" />
+								</picture>
+							</div>
+						{:else}
+							<div class="frame frame_{frame}">
+								<picture>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.webp'}
+										type="image/webp" width="1920" height="1080"
+									/>
+									<source
+										srcset={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'}
+										type="image/jpeg" width="1920" height="1080"
+									/>
+									<img src={assets + '/frames/preorder/pre-order_' + frame + '.jpeg'} alt="" />
+								</picture>
+							</div>
+						{/if}
+					{/each}
+				</div>
+				<!-- {#if preorder.inview}
 					<video autoplay playsinline muted {poster}>
 						<source src={src} type="video/mp4" />
 						{browserSupportText}
@@ -99,7 +169,7 @@
 						<source src={src} type="video/mp4" />
 						{browserSupportText}
 					</video>
-				{/if}
+				{/if} -->
 			{:else}
 				<div class="parallax-bg">
 					{#each frames as frame, index}
@@ -144,14 +214,14 @@
 	</div>
 </section>
 <style>
-	video::-webkit-media-controls,
+	/* video::-webkit-media-controls,
 	video::-webkit-media-controls-play-button,
 	video::-webkit-media-controls-volume-slider,
 	video::-webkit-media-controls-mute-button,
 	video::-webkit-media-controls-timeline,
 	video::-webkit-media-controls-current-time-display {
 		display: none;
-	}
+	} */
 	.wrapper {
 		position: relative;
 		height: var(--section-min-height);
@@ -165,7 +235,7 @@
 		border-radius: 20px;
 		overflow: hidden;
 	}
-	video {
+	/* video {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -173,7 +243,7 @@
 		height: 100%;
 		object-fit: cover;
 		z-index: 1;
-	}
+	} */
 	p,
 	.cta {
 		height: 80px;

@@ -32,7 +32,7 @@
 	let frames = [],
 		lastScroll = 0,
 		currentFrame = 3,
-		paralalax;
+		parallax;
 	let totalFrames = 179;
 	for (let i = 0; i < totalFrames; i++) {
 		frames.push(i);
@@ -45,7 +45,7 @@
 	}
 	let detectScroll
     $: onMount(()=>{
-			let parallaxHeight = paralalax.offsetHeight;
+			let parallaxHeight = parallax.offsetHeight;
 			let scroll = $scrollY;
         detectScroll = (event) => {
             if ( $innerWidth < 960 && preorder.inview == true ) {
@@ -84,7 +84,7 @@
 	<div class="container">
 		<div class="wrapper" 
 			class:inviewclass={preorder.inview}>
-			<div class="parallax-bg" on:mousemove={handleMousemove} bind:this={paralalax} >
+			<div class="parallax-bg" on:mousemove={handleMousemove} bind:this={parallax} >
 				{#each frames as frame, index}
 					{#if parseInt(currentFrame) == frame}
 						<div class="frame active frame_{frame}">
