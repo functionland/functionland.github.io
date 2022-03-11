@@ -8,10 +8,10 @@
 				internal: true
 			},
 			{
-				path: '/blog',
+				path: 'https://blog.fx.land/',
 				text: 'Blog',
-				type: 'scroll',
-				refrence: 'blog'
+				type: 'link',
+				internal: true
 			},
 			{
 				path: '/about',
