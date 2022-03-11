@@ -43,15 +43,21 @@
 		list: [
 			{
 				path: '/privacy',
-				text: 'Privacy Policy'
+				text: 'Privacy Policy',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/terms',
-				text: 'Terms and Conditions'
+				text: 'Terms and Conditions',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/referral-guidelines',
-				text: 'Referral Guidelines'
+				text: 'Referral Guidelines',
+				type: 'link',
+				internal: false
 			}
 		]
 	};
@@ -60,15 +66,21 @@
 		items: [
 			{
 				path: '/about',
-				text: 'About Us'
+				text: 'About Us',
+				type: 'link',
+				internal: true
 			},
 			{
 				path: '/contact',
-				text: 'Contact Us'
+				text: 'Contact Us',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/nft',
-				text: 'NFT'
+				text: 'NFT',
+				type: 'link',
+				internal: false
 			}
 		]
 	};
@@ -77,15 +89,21 @@
 		items: [
 			{
 				path: '/faq',
-				text: 'Frequently Asked Questions'
+				text: 'Frequently Asked Questions',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/support',
-				text: 'Support'
+				text: 'Support',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/wishlist',
-				text: 'Wishlist'
+				text: 'Wishlist',
+				type: 'link',
+				internal: false
 			}
 		]
 	};
@@ -94,15 +112,21 @@
 		items: [
 			{
 				path: '/whitepaper',
-				text: 'Whitepaper'
+				text: 'Whitepaper',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/branding-guidelines',
-				text: 'Branding Guidelines'
+				text: 'Branding Guidelines',
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/fula-protocol',
-				text: 'FULA Protocol'
+				text: 'FULA Protocol',
+				type: 'link',
+				internal: false
 			}
 		]
 	};

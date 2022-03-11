@@ -10,7 +10,11 @@
 <ul>
 	{#each items as item}
 		<li class:active={$page.url.pathname === item.path}>
-			<a sveltekit:prefetch href={item.path}>{item.text}</a>
+			{#if item.internal === true}
+				<a sveltekit:prefetch href={item.path}>{item.text}</a>
+			{:else if item.internal === false} 
+				<a href={item.path} >{item.text}</a>
+			{/if}
 		</li>
 	{/each}
 </ul>
