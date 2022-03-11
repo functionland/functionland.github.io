@@ -115,7 +115,7 @@
 		}
 		.grid.has-headline {
 			grid-template-rows: 1fr 1fr 120px;
-			grid-template-columns: 1fr 2fr;
+			grid-template-columns: 1fr 1fr 1fr;
 			min-height: var(--section-min-height);
 		}
 		.grid.has-pre-section {

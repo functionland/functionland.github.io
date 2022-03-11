@@ -2,10 +2,10 @@
 	"name": "functionland",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev --port 4040 --host",
+		"dev": "svelte-kit dev --port 3000 --host",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
-		"preview": "svelte-kit preview --port 4040 --host",
+		"preview": "svelte-kit preview --port 3000 --host",
 		"lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},

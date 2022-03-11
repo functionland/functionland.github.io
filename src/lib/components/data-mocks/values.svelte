@@ -8,9 +8,9 @@
 			type: 'value',
 			ref: 'own-your-data',
 			intro_title: 'Own Your Data',
-			intro_desc: 'Box is built from the ground up. It was designed to put the power back into YOUR hands. Your data is your property, and yours alone. Your photos, files, and data are fully encrypted. Nobody else has a key. Only you can access your data. Only you can share it.',
-			main_title: 'Green From the Get-Go',
-			main_desc: 'Box is built on energy-efficient, open-source architecture. The projected energy bill for a Box Tower running as a normal storage server for one year? Less than $15!',
+			intro_desc: 'Box is built from the ground up. It was designed to put the power back into YOUR hands. Your data is your property, and yours alone. Your photos, files, and data are fully encrypted. Nobody else has a key.',
+			main_title: 'Own Your Data',
+			main_desc: 'Get a peace of mind with Box. Our proprietary AES-256 encryption software hacker-proofs your data. Even if the world’s most talented hacker were able to bring the power of all world’s computers to bear on your Box,  it would still take (literally!) billions of years to break into your files. Only you can access your data. Only you can share it.',
 			show_cta: true,
 			cta_text: 'Learn more',
 			videos: [
@@ -21,7 +21,7 @@
 					poster: assets + 'images/home-page/own-your-data-b.jpg'
 				},
 				{
-					src: assets + 'videos/own_your_data.mp4',
+					src: assets + 'videos/own_your_data_light.mp4',
 					type: 'video/mp4',
 					scheme: 'light',
 					poster: assets + 'images/home-page/own-your-data-w.jpg'
@@ -34,7 +34,7 @@
 			type: 'value',
 			ref: 'apps-without-ads',
 			intro_title: 'Apps Without Ads or Subscription',
-			intro_desc: 'Box gives you private cloud storage. No ads. No tracking. No subscription fees. <br> No kidding. ',
+			intro_desc: 'Box gives you private cloud storage. No ads. No tracking. No subscription fees. It is designed to be a self-sustainable ecosystem for both users and developers. <br> No kidding. ',
 			main_title: 'Start with Box Photos! ',
 			main_desc: 'Our app Photos - recognized by GitHub as in the top 3% of open-source apps worldwide - is a polished, forever-free application that works seamlessly on any device. It provides fast, easy access and sharing from anywhere, across any device.',
 			show_cta: true,
@@ -123,9 +123,9 @@
 			type: 'value',
 			ref: 'earn-crypto',
 			intro_title: 'Earn Crypto',
-			intro_desc: 'Box quietly earns tokens by providing backups and resources to others on the network. When you make backups or use cloud services, Box pays. So you never have to. When you use apps or services, Box quietly compensates the open-source developers, UX designers,',
-			main_title: 'By the People, For the People',
-			main_desc: 'Box was developed by people just like you: people who are tired of being forced to pay forever  for storage and certain services, tired of seeing terms and conditions change at the drop of a hat. So we marshalled our software and hardware skills and went to work building a better way: a device designed to save people money, protect privacy, safely store data and securely share photos, files, backups and more.',
+			intro_desc: 'Box quietly earns tokens by providing backups and resources to others on the network. When you make backups, take advantage of cloud services or use apps,  Box compensates the open-source developers, UX designers, and contributors who built them for you.',
+			main_title: 'Earn Crypto',
+			main_desc: 'Thanks to BAS, our Blockchain-Attached Storage solution, Box lets you share storage and CPU power with others while quietly mining FULA tokens in the background.',
 			show_cta: true,
 			cta_text: 'Learn more',
 			videos: [

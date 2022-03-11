@@ -56,8 +56,8 @@
 		font-weight: 500;
 	}
 	.name {
-		font-size: 1.5rem;
-		font-weight: 500;
+		font-size: 1.1rem;
+		font-weight: 600;
 	}
 	.image-wrapper {
 		background: #f1f1f3;

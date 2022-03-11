@@ -1,5 +1,6 @@
 <script>
 	import Submit from '$lib/components/email/submit.svelte';
+	import MailerLite from '$lib/components/email/mailerLite.svelte';
 	import Logo from '$lib/components/Logo/index.svelte';
 	import FooterNav from '$lib/components/navs/footer/FooterNav.svelte';
 	import Social from '$lib/components/navs/social/Social.svelte';
@@ -8,7 +9,8 @@
 
 <footer>
 	<div class="container">
-		<Submit />
+		<!-- <Submit /> -->
+		<MailerLite />
 		<div class="d-container">
 			<a sveltekit:prefetch href="/" class="logo-link" title="FunctionLand">
 				<Logo type="portrait" />

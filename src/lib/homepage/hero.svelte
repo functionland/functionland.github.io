@@ -11,7 +11,12 @@
 			unobserveOnEnter: false
 		},
 		scrollDirection: '',
-		fadeIn: {
+		change:({ detail }) => {
+			title.inview = detail.inView;
+			title.scrollDirection = detail.scrollDirection.vertical;
+		},
+	}
+	const fadeIn = {
 			reveal: [
 				{ duration: 600, delay: 300 },
 				{ duration: 600, delay: 600 },
@@ -24,12 +29,7 @@
 				{ duration: 600, delay: 1800 },
 			],
 			none: { duration: 0, delay: 0 }
-		},
-		change:({ detail }) => {
-			title.inview = detail.inView;
-			title.scrollDirection = detail.scrollDirection.vertical;
-		},
-	}
+	};
 	const image = {
 		src : {
 			desktop: assets + 'images/home/hero-image-desktop.png',
@@ -62,30 +62,43 @@
 				
 				<h2 class="hero" use:inview={title.options} on:change={title.change}>
 					{#if title.inview}
-						<span
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[3] : title.fadeIn.none}
-						>Save Money,</span>
-						<span
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[4] : title.fadeIn.none}
-						>Securely Store Data,</span>
-						<span
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[5] : title.fadeIn.none}
-						>Protect Your Privacy.</span>
-						<span class="one-liner"
-							in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[6] : title.fadeIn.none}
-							>And more with <span class="teal-text" 
-								in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}>
-								Box
-							</span>, <span class="one-liner"
-								in:fade={(title.scrollDirection !== 'down') ? title.fadeIn.reveal[8] : title.fadeIn.none}>
-								the first hardware/software solution built for Web3.0.
-							</span>
+						<span class="one-liner">
+							<span class="bold"
+								in:fade={ fadeIn.reveal[0] }
+							>Box </span>
+							<span
+								in:fade={ fadeIn.reveal[1] }
+							>by </span>
+							<span class="teal-text"
+								in:fade={ fadeIn.reveal[2] }
+							>Functionland </span>
 						</span>
+						<span class="one-liner">
+							<span
+								in:fade={(title.scrollDirection !== 'down') ? fadeIn.reveal[3] : fadeIn.none}
+							>The first </span>
+							<span
+								in:fade={(title.scrollDirection !== 'down') ? fadeIn.reveal[4] : fadeIn.none}
+							>Blockchain-Attached Storage solution</span>
+						</span>
+						<span 
+							in:fade={(title.scrollDirection !== 'down') ? fadeIn.reveal[5] : fadeIn.none}
+						>By the People, </span>
+						<span 
+							in:fade={(title.scrollDirection !== 'down') ? fadeIn.reveal[5] : fadeIn.none}
+						>For the People. </span>
 					{:else}
-						<span class='hidden'>Save Money,</span>
-						<span class='hidden'>Securely Store Data,</span>
-						<span class='hidden'>Protect Your Privacy.</span>
-						<span class="one-liner hidden">And more with <span class="teal-text hidden" >Box</span>, <span class="one-liner hidden">the first hardware/software solution built for Web3.0.</span></span>
+						<span class="one-liner hidden">
+							<span class="bold">Box </span>
+							<span>by </span>
+							<span class="teal-text">Functionland </span>
+						</span>
+						<span class="one-liner hidden">
+							<span>The first </span>
+							<span>Blockchain-Attached Storage solution</span>
+						</span>
+						<span class="hidden">By the People, </span>
+						<span class="hidden">For the People. </span>
 					{/if}
 				</h2>
 			</div>
@@ -96,7 +109,7 @@
 							<source srcset={image.src.desktop} media="(min-width: 960px)" />
 							{#if image.inview}
 								<img src={image.src.mobile} alt="" loading="eager"
-									in:fade={(image.scrollDirection !== 'down') ? title.fadeIn.reveal[7] : title.fadeIn.none}
+									in:fade={(image.scrollDirection !== 'down') ? fadeIn.reveal[7] : fadeIn.none}
 								/>
 							{:else}
 								<img src={image.src.mobile} alt="" loading="lazy" class="hidden" />

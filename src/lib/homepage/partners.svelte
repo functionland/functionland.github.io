@@ -7,8 +7,7 @@
 		<div class="wrapper">
 			<h5>Our Partners</h5>
 			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-				labore
+				Functionland is backed by the biggest names in Web3 and investment world
 			</p>
 			<Slider />
 		</div>

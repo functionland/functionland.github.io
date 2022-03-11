@@ -1,10 +1,9 @@
 <script>
 	import { innerWidth, innerHeight } from 'svelte-window-stores/viewport';
 	import { assets } from '$app/paths';
-	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import Slogan from '$lib/homepage/slogan.svelte';
 	let playInterval,
-		showSlogan = false,
 		frames = [],
 		introPlaying = false,
 		lastScroll,
@@ -65,22 +64,8 @@
 	};
 	onMount(() => {
 		docReady(play);
-		showSlogan = true;
 	});
 	$: heightVar = currentFrame <= threshold ? 'calc( 100vh - 60px)' : 'auto';
-	const fadeIn = {
-		reveal: [
-			{ duration: 400, delay: 300 },
-			{ duration: 400, delay: 600 },
-			{ duration: 400, delay: 900 },
-			{ duration: 400, delay: 1200 },
-			{ duration: 400, delay: 1400 },
-			{ duration: 400, delay: 1600 },
-			{ duration: 400, delay: 1800 },
-			{ duration: 400, delay: 1800 },
-		],
-		none: { duration: 0, delay: 0 }
-	}
 </script>
 <svelte:head>
 	{#each frames as frame, index}
@@ -92,7 +77,7 @@
 	{/each}
 </svelte:head>
 <svelte:window bind:scrollY={scrollY} on:scroll={detectScroll}/>
-<b>currentFrame {currentFrame}</b>
+<!-- <b>currentFrame {currentFrame}</b> -->
 <section>
 	<div class="parallax-container">
 		{#each frames as frame}
@@ -133,50 +118,10 @@
 		<div class="frame frame_{frames.length+1}">
 		</div>
 	</div>
-	<div class="slogan-wrapper" style="opacity: {1 - Math.max(0, scrollY / 40)}">
-		<h1 class="slogan">
-			{#if showSlogan}
-				<span class="one-liner">
-					<span class="bold"
-						in:fade={ fadeIn.reveal[0] }
-					>Box </span>
-					<span
-						in:fade={ fadeIn.reveal[1] }
-					>by </span>
-					<span class="teal-text"
-						in:fade={ fadeIn.reveal[2] }
-					>Functionland </span>
-				</span>
-				<span
-					in:fade={ fadeIn.reveal[3] }
-				>The Private, </span>
-				<span
-					in:fade={ fadeIn.reveal[4] }
-				>Payless, </span>
-				<span class='l-one-liner'>
-					<span class='m-one-liner'
-						in:fade={ fadeIn.reveal[5] }
-					>Cloud Storage </span>
-					<span
-						in:fade={ fadeIn.reveal[6] }
-					>Alternative</span>
-				</span>
-			{:else}
-				<span class="one-liner hidden">
-					<span class="bold">Box </span>
-					<span>by </span>
-					<span class="teal-text">Functionland </span>
-				</span>
-				<span class='hidden'>The Private, </span>
-				<span class='hidden'>Payless, </span>
-				<span class='hidden'>Cloud Storage </span>
-				<span class='hidden'>Alternative</span>
-			{/if}
-		</h1>
-	</div>
+	<Slogan />
 </section>
 <style>
-	b {
+	/* b {
 		position: fixed;
 		top: 550px;
 		left: 50%;
@@ -185,7 +130,7 @@
 		font-size: 1.5em;
 		color: #fff;
 		background: #000;
-	}
+	} */
 	.hidden {
 		opacity: 0;
 		user-select: none;
@@ -234,9 +179,10 @@
 		margin: 0 auto;
 		width: 100%;
 		height: fit-content;
-		max-width: var(--container-max-width);
+		/* max-width: var(--container-max-width); */
 		/* overflow: hidden; */
 		width: -webkit-fill-available;
+		grid-template-columns: 100vw;
 	}
 	.frame.active {
 		visibility: visible;
@@ -250,8 +196,11 @@
 		align-items: end;
 		justify-content: center;
 		height: 100%;
-		width: 100%;
-		max-width: var(--container-max-width);
+		width: 100vw;
+		/* max-width: var(--container-max-width); */
+		grid-template-columns: 100vw;
+		overflow: hidden;
+		justify-items: center;
 	}
 	.frame img {
 		position: relative;
@@ -339,9 +288,9 @@
 			margin: 0 auto;
 			width: 100%;
 			height: fit-content;
-			max-width: var(--container-max-width);
+			/* max-width: var(--container-max-width); */
 			/* overflow: hidden; */
-			width: -webkit-fill-available;
+			/* width: -webkit-fill-available; */
 		}
 		.frame.active {
 			visibility: visible;
@@ -356,7 +305,7 @@
 			justify-content: center;
 			height: 100%;
 			width: 100%;
-			max-width: var(--container-max-width);
+			/* max-width: var(--container-max-width); */
 		}
 		.frame img {
 			position: relative;
@@ -366,9 +315,9 @@
 			transition: height 0.3s;
 			left: unset;
 			transform: translateY(-20%);
-			max-height: calc( ( (1920 / 1080) * 100vh ) - 360px);
+			max-height: calc( ( (1920 / 1080) * 100vh ) - 300px);
 			/* max-height: calc( ( (1920 / 1080) * 100vh ) - 360px); */
-			max-width: calc( ( (1920 / 1920) * 100% ) - 1px);
+			max-width: calc( ( (1920 / 1920) * 100% ) + 60px);
 		}
 		
 	}

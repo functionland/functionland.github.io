@@ -6,15 +6,21 @@
 	<div class="container">
 		<div class="wrapper">
 			<h4>Latest News</h4>
-			<p>Access your favourite apps without the need to pay!</p>
+			<p>Checkout what is new about Functionland</p>
 			<Blog />
 		</div>
 	</div>
 </section>
 
 <style>
+	section {
+		min-height: unset;
+		height: unset;
+		max-width: 100vw;
+		overflow: hidden;
+	}
 	.wrapper {
-		min-height: var(--section-min-height);
+		/* min-height: var(--section-min-height); */
 		padding: 40px 0 80px;
 	}
 	h4 {

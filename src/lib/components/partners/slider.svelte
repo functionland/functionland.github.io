@@ -1,6 +1,6 @@
 <script>
 	import { data } from '$lib/components/data-mocks/partners.svelte';
-	import { Pagination } from 'swiper';
+	import { Autoplay, Pagination } from 'swiper';
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
 	let innerWidth;
 	$: perpage = innerWidth < 960 ? 8 : 8;
@@ -9,7 +9,10 @@
 </script>
 
 <svelte:window bind:innerWidth />
-<Swiper modules={[Pagination]} pagination={{ clickable: true }}>
+<Swiper modules={[Pagination, Autoplay]} autoHeight pagination={{ clickable: true }} autoplay={{
+            delay: 1000,
+            disableOnInteraction: true
+        }}  loop={ {enabled: true}}>
 	{#each Array(pages) as slide, i}
 		<SwiperSlide>
 			<div class="page">
@@ -84,7 +87,7 @@
 		}
 		.partner:hover picture {
 			opacity: 0;
-			transform: scale(1.5);
+			transform: scale(1.1);
 		}
 		.partner:hover {
 			overflow: visible;
@@ -93,9 +96,8 @@
 		}
 		.partner:hover .colored {
 			opacity: 1;
-			transform: scale(1.5);
+			transform: scale(1.1);
 			background-color: var(--bkg);
-			mix-blend-mode: luminosity;
 		}
 
 		:global(.swiper-slide:not(.swiper-slide-active) .page) {

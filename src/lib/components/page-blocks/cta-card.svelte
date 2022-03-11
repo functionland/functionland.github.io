@@ -10,6 +10,7 @@
 
 <style>
 	.card {
+		margin: 0 auto;
 		font-family: var(--inter);
 		line-height: 30px;
 		font-size: 20px;

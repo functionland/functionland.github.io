@@ -73,14 +73,13 @@
 		currentFrame = 3;
 	}
 	$: onMount(()=>{
-		let parallaxHeight = parallax.offsetHeight;
 		let scroll = $scrollY;
 		detectScroll = (event) => {
 			if ( $innerWidth < 960 && preorder.inview == true ) {
 				let framesToAdd = ((Math.round( (($scrollY / ($innerHeight / totalFrames)) / totalFrames) / ( (($innerHeight * 1.5) / totalFrames) / 100  )) * 100) / totalFrames) / 100;
 				if ($scrollY > lastScroll) {
 					let scrollDiff = $scrollY - lastScroll;
-					let scrollDiffPercentage = scrollDiff / parallaxHeight;
+					let scrollDiffPercentage = scrollDiff / parallax.offsetHeight;
 					// let framesToAdd = Math.round(scrollDiffPercentage * totalFrames);
 					if (currentFrame < totalFrames&& currentFrame < totalFrames - 2) {
 						// currentFrame = currentFrame + ( ((($scrollY / $innerHeight) / totalFrames) / ($innerHeight / 2.5) * (( ($scrollY / paralalax.offsetHeight) / totalFrames) / 10)) * ratio );
@@ -126,7 +125,7 @@
 		<div class="wrapper" 
 			class:inviewclass={preorder.inview}>
 			{#if $innerWidth < 960} 
-				<div class="parallax-bg" on:mousemove={handleMousemove} bind:this={parallax} >
+				<!-- <div class="parallax-bg" on:mousemove={handleMousemove} bind:this={parallax} >
 					{#each frames as frame, index}
 						{#if parseInt(currentFrame) == frame}
 							<div class="frame active frame_{frame}">
@@ -158,8 +157,8 @@
 							</div>
 						{/if}
 					{/each}
-				</div>
-				<!-- {#if preorder.inview}
+				</div> -->
+				{#if preorder.inview}
 					<video autoplay playsinline muted {poster}>
 						<source src={src} type="video/mp4" />
 						{browserSupportText}
@@ -169,7 +168,7 @@
 						<source src={src} type="video/mp4" />
 						{browserSupportText}
 					</video>
-				{/if} -->
+				{/if}
 			{:else}
 				<div class="parallax-bg">
 					{#each frames as frame, index}
@@ -235,7 +234,7 @@
 		border-radius: 20px;
 		overflow: hidden;
 	}
-	/* video {
+	video {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -243,7 +242,7 @@
 		height: 100%;
 		object-fit: cover;
 		z-index: 1;
-	} */
+	}
 	p,
 	.cta {
 		height: 80px;

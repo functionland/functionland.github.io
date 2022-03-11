@@ -1,7 +1,20 @@
 <script>
+	import { onMount } from 'svelte';
 	import Card from '$lib/components/page-blocks/cta-card.svelte';
 	export let data;
+	import { Navigation } from 'swiper';
+	import { Swiper, SwiperSlide } from 'swiper/svelte';
+    import 'swiper/css/navigation';
+	let innerWidth;
+	let ready;
+	onMount(()=>{
+		ready = true;
+	})
 </script>
+
+<svelte:window bind:innerWidth />
+
+
 
 <section>
 	<div class="container">
@@ -12,11 +25,25 @@
 			<div class="title">{data.title}</div>
 			<p>{data.description}</p>
 		</div>
-		<div class="grid">
-			{#each data.cta_items as card}
-				<Card {card} />
-			{/each}
-		</div>
+		{#if ready === true} 
+			{#if innerWidth > 721}
+				<div class="grid">
+					{#each data.cta_items as card}
+						<Card {card} />
+					{/each}
+				</div>
+			{:else}
+				<div class="slider">
+					<Swiper modules={[Navigation]} navigation autoHeight centeredSlides autoplay={ { enabled: true }} loop={ {enabled: false}} spaceBetween={50}>
+						{#each data.cta_items as card}
+							<SwiperSlide>
+								<Card {card} />
+							</SwiperSlide>
+						{/each}
+					</Swiper>
+				</div>
+			{/if}
+		{/if}
 	</div>
 </section>
 
@@ -61,4 +88,7 @@
 			margin: 0 auto;
 		}
 	}
+    :global(.swiper-button-prev, .swiper-rtl .swiper-button-next,.swiper-button-next, .swiper-rtl .swiper-button-prev) {
+        filter: grayscale(1)
+    }
 </style>
