@@ -20,13 +20,13 @@
 				internal: true
 			},
 			{
-				path: '/nft',
+				path: 'https://old.fx.land/nft/',
 				text: 'NFT',
 				type: 'link',
 				internal: false
 			},
 			{
-				path: '/fula-protocol',
+				path: 'https://old.fx.land/mine/',
 				text: 'FULA Protocol',
 				type: 'link',
 				internal: false
@@ -77,7 +77,7 @@
 				internal: false
 			},
 			{
-				path: '/nft',
+				path: 'https://old.fx.land/nft/',
 				text: 'NFT',
 				type: 'link',
 				internal: false
@@ -123,7 +123,7 @@
 				internal: false
 			},
 			{
-				path: '/fula-protocol',
+				path: 'https://old.fx.land/mine/',
 				text: 'FULA Protocol',
 				type: 'link',
 				internal: false
