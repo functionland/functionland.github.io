@@ -19,14 +19,16 @@
 	<div class="image-wrapper">
 		{#if isInView}
 			<img src={item.image} alt="" width="400" height="400" class="main" loading="lazy" />
-			<img
-				src={`${assets}images/team/artwork.jpg`}
-				alt=""
-				class="artwork"
-				width="400"
-				height="400"
-				loading="lazy"
-			/>
+			{#if item.artwork !== undefined}
+				<img
+					src={item.artwork}
+					alt=""
+					class="artwork"
+					width="400"
+					height="400"
+					loading="lazy"
+				/>
+			{/if}
 		{/if}
 	</div>
 	<div class="info-wrapper">
