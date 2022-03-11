@@ -60,7 +60,11 @@
 			<ul>
 				{#each navItems as navItem}
 					<li class:active={$page.url.pathname === navItem.path}>
-						<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>
+						{#if navItem.internal === true}
+							<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>	
+						{:else if navItem.internal === false} 
+							<a href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>
+						{/if}
 					</li>
 				{/each}
 			</ul>

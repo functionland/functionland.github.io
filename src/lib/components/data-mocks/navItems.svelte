@@ -4,7 +4,8 @@
 			{
 				path: '/',
 				text: 'Home',
-				type: 'link'
+				type: 'link',
+				internal: true
 			},
 			{
 				path: '/blog',
@@ -15,18 +16,20 @@
 			{
 				path: '/about',
 				text: 'About Us',
-				type: 'link'
+				type: 'link',
+				internal: true
 			},
 			{
 				path: '/nft',
 				text: 'NFT',
-				type: 'scroll',
-				refrence: 'nft'
+				type: 'link',
+				internal: false
 			},
 			{
 				path: '/fula-protocol',
 				text: 'FULA Protocol',
-				type: 'link'
+				type: 'link',
+				internal: false
 			}
 		],
 		cta: {
