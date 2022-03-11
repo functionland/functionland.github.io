@@ -1,0 +1,8 @@
+:root {
+	--btn-min-width: 94px;
+	--btn-height: 40px;
+	--cta-bg: var(--actionColor);
+	--cta-txt-color: var(--white);
+	--btn-cta-padding: 0 10px;
+	--btn-cta-font-weight: 500;
+}

@@ -1,0 +1,34 @@
+:root {
+	--bkg: var(--white);
+	--heading-color: var(--black);
+	--text-color: var(--gray-4);
+	--light-heading-color: var(--white);
+	--light-text-color: var(--white);
+	--menu-item-color: var(--gray-3);
+	--menu-item-hover-color: var(--b-o-5);
+	--active-menu-border-color: var(--gray-3);
+	--hover-menu-border-color: var(--b-o-5);
+	--header-bg: var(--white);
+	--card-bg: var(--card-gradient);
+	--svg-soc-fill: var(--black-1);
+	--svg-soc-hover: var(--black-3);
+	--body-bg: var(--body-white);
+	--footer-nav-border-color: var(--b-o-7);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--header-bg: var(--black-3);
+		--bkg: var(--body-gradient);
+		--menu-item-color: var(--white);
+		--menu-item-hover-color: var(--w-o-7);
+		--active-menu-border-color: var(--white);
+		--hover-menu-border-color: var(--w-o-7);
+		--heading-color: var(--white);
+		--text-color: var(--white);
+		--svg-soc-fill: var(--white);
+		--svg-soc-hover: var(--gray-2);
+		--body-bg: var(--body-gradient);
+		--footer-nav-border-color: var(--w-o-6);
+	}
+}

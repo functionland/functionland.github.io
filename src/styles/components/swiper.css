@@ -1,0 +1,47 @@
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+	bottom: unset;
+}
+
+.swiper-pagination {
+	position: relative;
+	bottom: unset;
+	top: unset;
+	height: 50px;
+	line-height: 50px;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 20px 20px 20px;
+	gap: 1rem;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+}
+.swiper-pagination-bullet {
+	width: 10px;
+	height: 10px;
+	border-radius: 0;
+	vertical-align: middle;
+	transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.swiper-pagination-bullet-active {
+	background-color: #0acf83;
+	transform: scale(1.5);
+}
+
+@media (min-width: 960px) {
+	.swiper-pagination {
+		margin: 1rem 0;
+	}
+	.swiper.swiper-initialized.swiper-horizontal.swiper-pointer-events.swiper-backface-hidden,
+	.swiper-wrapper,
+	.swiper-slide.swiper-slide-active {
+		overflow: visible;
+	}
+}

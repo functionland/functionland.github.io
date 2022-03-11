@@ -1,0 +1,29 @@
+.teal-text {
+	color: var(--actionColor);
+}
+
+.p-large {
+	font-size: var(--p-large-f-size);
+	line-height: var(--p-large-l-height);
+	font-weight: var(--p-large-f-weight);
+	font-style: normal;
+}
+
+.container {
+	margin: 0 auto;
+	max-width: var(--container-max-width);
+	padding: var(--container-padding);
+	width: 100%;
+}
+.no-transition {
+	transition: none;
+	-webkit-transition: none;
+	-moz-transition: none;
+}
+
+@media (max-width: 959px) {
+	.de-contain {
+		margin: 0 -20px;
+		width: 100vw;
+	}
+}

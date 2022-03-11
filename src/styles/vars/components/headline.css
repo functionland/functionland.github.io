@@ -1,0 +1,21 @@
+:root {
+	--headlines-grid-gap: 50px;
+	--headlines-padding: 40px 0 40px;
+
+	--headline-title-font-size: 24px;
+	--headline-title-line-height: 36px;
+	--headline-title-font-weight: 700;
+	--headline-letter-spacing: -1.5%;
+	--headline-title-padding-bottom: 13px;
+
+	--headline-content-font-size: 18px;
+	--headline-content-line-height: 30px;
+	--headline-content-font-weight: 400;
+	--headline-content-padding-bottom: 40px;
+}
+
+@media (min-width: 960px) {
+	:root {
+		--headlines-padding: 40px 4% 90px;
+	}
+}

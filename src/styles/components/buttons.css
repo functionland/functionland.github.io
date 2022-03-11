@@ -1,0 +1,26 @@
+.btn {
+	min-width: var(--btn-min-width);
+	height: var(--btn-height);
+	border-radius: var(--border-radius);
+}
+
+.btn-cta {
+	background: var(--cta-bg);
+	color: var(--cta-txt-color);
+	display: inline-grid;
+	align-content: center;
+	justify-content: center;
+	padding: var(--btn-cta-padding);
+	width: max-content;
+	font-weight: var(--btn-cta-font-weight);
+	font-style: normal;
+}
+
+@media (min-width: 960px) {
+	.btn {
+		min-width: 130px;
+	}
+	.btn:hover {
+		cursor: pointer;
+	}
+}

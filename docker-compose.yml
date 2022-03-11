@@ -1,0 +1,65 @@
+version: '3.7'
+
+services:
+
+  cloudflare-companion:
+    image: tiredofit/traefik-cloudflare-companion
+    container_name: cloudflare-companion
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    env_file:
+      - .env
+    networks:
+      - proxy
+
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    env_file:
+      - .env
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - cloudflare-companion
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./configs/traefik.yml:/traefik.yml:ro
+      - ./configs/acme.json:/acme.json
+      - ./configs/config.yml:/config.yml:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.rule=Host(`monitor.example.domain`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=fxadmin:$$apr1$$I8dLqP5C$$j990YdLmnoLU7LpJiyDq31" #replace generated password with your own 
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+  fxland:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./build:/usr/src/app/
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fxland.entrypoints=https"
+      - "traefik.http.routers.fxland.rule=Host(`example.domain`)"
+      - "traefik.http.services.fxland.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.fxland-auth.basicauth.users=fxland:$$apr1$$PgKn6LCV$$MPUbn1rEw96J1iNZa2Arb." #replace generated password with your own 
+      - "traefik.http.routers.fxland.middlewares=fxland-auth"
+      - "traefik.docker.network=proxy"
+  
+networks:
+  proxy:
+   external: true

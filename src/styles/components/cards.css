@@ -1,0 +1,4 @@
+.cta-card {
+	background: var(--card-gradient);
+	color: var(--cta-txt-color);
+}
