@@ -13,7 +13,9 @@
 			{#if item.internal === true}
 				<a sveltekit:prefetch href={item.path}>{item.text}</a>
 			{:else if item.internal === false} 
-				<a href={item.path} >{item.text}</a>
+				<a href={item.path} rel="external" >{item.text}</a>
+			{:else} 
+				<a href={item.path}>{item.text}</a>
 			{/if}
 		</li>
 	{/each}

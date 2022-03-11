@@ -63,6 +63,8 @@
 						{#if navItem.internal === true}
 							<a sveltekit:prefetch href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>	
 						{:else if navItem.internal === false} 
+							<a href={navItem.path} rel="external" on:click={closeMenuOnClick}>{navItem.text}</a>
+						{:else}
 							<a href={navItem.path} on:click={closeMenuOnClick}>{navItem.text}</a>
 						{/if}
 					</li>
